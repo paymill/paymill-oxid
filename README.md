@@ -23,7 +23,6 @@ Afterwards merge the contents of the Paymill-Oxid-Module directory with your Oxi
 - Reload the admin page
 - In the main menu goto **Paymill -> Konfiguration** 
 - Enter your Paymill Test- or Livekeys and click on **Speichern**
-- Click on **Installiere Tpl-Blöcke** and on **Zahlungsart installieren**
 - The field **Paymill API URL** should contain https://api.paymill.de/v2/
 - The field **Paymill Bridge URL** should contain https://bridge.paymill.de/
 
@@ -42,7 +41,7 @@ To activate Paymill payment follow these steps:
 
 # Support for other templates than Azure
 
-Adapt the template structure within the out/azure diretory to your custom theme.
+Adapt the template structure within the modules/paymill/views/azure directory to your custom theme.
 
 # Error handling
 
