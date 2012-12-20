@@ -3,7 +3,7 @@ Paymill-Oxid
 
 Paymill extension (credit card and direct debit) for Oxid (Version 4.6.x). Tested on Community Edition. Supports Azure template.
 
-![Paymill creditcard payment form](https://raw.github.com/Paymill/Paymill-Oxid/master/Paymill-Oxid-Module/modules/paymill/paymill_form_de.png)
+![Paymill creditcard payment form](https://raw.github.com/Paymill/Paymill-Oxid-4.7/master/Paymill-Oxid-Module/modules/paymill/paymill_form_de.png)
 
 # Installation
 
@@ -11,7 +11,7 @@ Paymill extension (credit card and direct debit) for Oxid (Version 4.6.x). Teste
 
 Use the following command to clone the complete repository including the submodules:
     
-    git clone --recursive https://github.com/Paymill/Paymill-Oxid.git
+    git clone --recursive https://github.com/Paymill/Paymill-Oxid-4.7.git
 
 Afterwards merge the contents of the Paymill-Oxid-Module directory with your Oxid installation. 
 
