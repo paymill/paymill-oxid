@@ -1,7 +1,7 @@
 Paymill-Oxid
 ====================
 
-Paymill extension (credit card and direct debit) for Oxid (Version 4.6.x). Tested on Community Edition. Supports Azure template.
+Paymill extension (credit card and direct debit) for OXID (Version 4.7.x). Tested on Community Edition. Supports Azure template.
 
 ![Paymill creditcard payment form](https://raw.github.com/Paymill/Paymill-Oxid-4.7/master/Paymill-Oxid-Module/modules/paymill/paymill_form_de.png)
 
