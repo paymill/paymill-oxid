@@ -1,17 +1,19 @@
 [{assign var="oxConfig" value=$oView->getConfig()}]
 <link rel="stylesheet" type="text/css" href="[{ $oViewConf->getBaseDir() }]/modules/paymill/paymill_styles.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script type="text/javascript">
-
-</script>
 <dl>
     <dt>
         <input id="payment_[{$sPaymentID}]" type="radio" name="paymentid" value="[{$sPaymentID}]" [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]>
         <label for="payment_[{$sPaymentID}]"><b>[{ $paymentmethod->oxpayments__oxdesc->value}]</b></label>
     </dt>
     <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
-
         <ul class="form">
+            [{php}]if (oxSession::hasVar('paymill_error')):[{/php}]
+            <div class="status error" style="width:100%;">
+                [{php}]echo oxSession::getVar('paymill_error');[{/php}]
+            </div>
+            [{php}]oxSession::deleteVar('paymill_error');[{/php}]
+            [{php}]endif;[{/php}]
             <li>
                 <img src="[{ $oViewConf->getBaseDir() }]/modules/paymill/icon_elv.png" />
             </li>

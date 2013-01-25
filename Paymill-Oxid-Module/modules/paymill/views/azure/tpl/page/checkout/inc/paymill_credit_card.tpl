@@ -7,8 +7,13 @@
         <label for="payment_[{$sPaymentID}]"><b>[{ $paymentmethod->oxpayments__oxdesc->value}]</b></label>
     </dt>
     <dd class="[{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]activePayment[{/if}]">
-
         <ul class="form">
+            [{php}]if (oxSession::hasVar('paymill_error')):[{/php}]
+            <div class="status error" style="width:100%;">
+                [{php}]echo oxSession::getVar('paymill_error');[{/php}]
+            </div>
+            [{php}]oxSession::deleteVar('paymill_error');[{/php}]
+            [{php}]endif;[{/php}]
             <li>
                 <img src="[{ $oViewConf->getBaseDir() }]/modules/paymill/icon_mastercard.png" />
                 <img src="[{ $oViewConf->getBaseDir() }]/modules/paymill/icon_visa.png" />
@@ -30,7 +35,7 @@
             <li>
                 <label>[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_VALIDUNTIL" }]</label>
                 <select id="paymill_exp_month">
-                    <option >01</option>
+                    <option>01</option>
                     <option>02</option>
                     <option>03</option>
                     <option>04</option>
