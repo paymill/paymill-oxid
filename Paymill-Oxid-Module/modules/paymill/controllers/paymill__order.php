@@ -6,16 +6,8 @@ class paymill__order extends paymill__order_parent
     /**
      * @overload
      */
-    protected function paymillPayment($orderState)
+    protected function paymillPayment()
     {
-
-        $order = oxNew('oxorder');
-        $order->load(oxSession::getVar('sess_challenge'));
-
-        if (!$order->isLoaded()) {
-            return parent::_getNextStep($orderState);
-        }
-
         // build amount
         $amount = oxSession::getInstance()->getBasket()->getPrice()->getBruttoPrice();
         $amount = round($amount * 100);
@@ -46,7 +38,6 @@ class paymill__order extends paymill__order_parent
             $this->getSession()->setVar("paymill_error", "No transaction code was provided");
             return 'payment';
         }
-
         // process the payment
         $result = $this->processPayment(array(
             'libVersion' => oxConfig::getInstance()->getShopConfVar('paymill_lib_version'),
@@ -59,8 +50,7 @@ class paymill__order extends paymill__order_parent
             'description' => 'Order ' . $basket->getOrderId() . '; ' . $name,
             'libBase' => $libBase,
             'privateKey' => oxConfig::getInstance()->getShopConfVar('paymill_private_key'),
-            'apiUrl' => oxConfig::getInstance()->getShopConfVar('paymill_api_url'),
-            'loggerCallback' => array('paymill__order', 'logAction')
+            'apiUrl' => oxConfig::getInstance()->getShopConfVar('paymill_api_url')
                 ));
 
         // finish the order of payment was successfully processed
@@ -133,10 +123,7 @@ class paymill__order extends paymill__order_parent
      */
     private function processPayment($params)
     {
-
-        // setup the logger
-        $logger = $params['loggerCallback'];
-
+        $this->log("TEST");
         // setup client params
         $clientParams = array(
             'email' => $params['email'],
@@ -178,30 +165,30 @@ class paymill__order extends paymill__order_parent
 
             $client = $clientsObject->create($clientParams);
             if (!isset($client['id'])) {
-                call_user_func_array($logger, array("No client created" . var_export($client, true)));
+                $this->log("No client created" . var_export($client, true));
                 return false;
             } else {
-                call_user_func_array($logger, array("Client created: " . $client['id']));
+                $this->log("Client created: " . $client['id']);
             }
 
             // create card
             $paymentParams['client'] = $client['id'];
             $payment = $paymentsObject->create($paymentParams);
             if (!isset($payment['id'])) {
-                call_user_func_array($logger, array("No payment (credit card) created: " . var_export($payment, true) . " with params " . var_export($paymentParams, true)));
+                $this->log("No payment created: " . var_export($payment, true) . " with params " . var_export($paymentParams, true));
                 return false;
             } else {
-                call_user_func_array($logger, array("Payment (credit card) created: " . $payment['id']));
+                $this->log("Payment created: " . $payment['id']);
             }
 
             // create transaction
             $transactionParams['payment'] = $payment['id'];
             $transaction = $transactionsObject->create($transactionParams);
             if (!isset($transaction['id'])) {
-                call_user_func_array($logger, array("No transaction created" . var_export($transaction, true)));
+                $this->log("No transaction created" . var_export($transaction, true));
                 return false;
             } else {
-                call_user_func_array($logger, array("Transaction created: " . $transaction['id']));
+                $this->log("Transaction created: " . $transaction['id']);
             }
 
             // check result
@@ -211,28 +198,28 @@ class paymill__order extends paymill__order_parent
                     return true;
                 } elseif ($transaction['status'] == "open") {
                     // transaction was issued but status is open for any reason
-                    call_user_func_array($logger, array("Status is open."));
+                    $this->log("Status is open.");
                     return false;
                 } else {
                     // another error occured
-                    call_user_func_array($logger, array("Unknown error." . var_export($transaction, true)));
+                    $this->log("Unknown error." . var_export($transaction, true));
                     return false;
                 }
             } else {
                 // another error occured
-                call_user_func_array($logger, array("Transaction could not be issued."));
+                $this->log("Transaction could not be issued.");
                 return false;
             }
         } catch (Services_Paymill_Exception $ex) {
             // paymill wrapper threw an exception
-            call_user_func_array($logger, array("Exception thrown from paymill wrapper: " . $ex->getMessage()));
+            $this->log("Exception thrown from paymill wrapper: " . $ex->getMessage());
             return false;
         }
 
         return true;
     }
 
-    public static function logAction($message)
+    public function log($message)
     {
         $logfile = dirname(dirname(__FILE__)) . '/log.txt';
         if (oxConfig::getInstance()->getShopConfVar('paymill_private_key') == "1" && is_writable($logfile)) {
