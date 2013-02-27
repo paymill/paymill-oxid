@@ -182,6 +182,11 @@ class paymill__order extends paymill__order_parent
             // create transaction
             $transactionParams['payment'] = $payment['id'];
             $transaction = $transactionsObject->create($transactionParams);
+            if(isset($transaction['data']['response_code'])){
+                $this->log("An Error occured: " . var_export($transaction, true));
+                return false;
+            }
+
             if (!isset($transaction['id'])) {
                 $this->log("No transaction created" . var_export($transaction, true));
                 return false;
