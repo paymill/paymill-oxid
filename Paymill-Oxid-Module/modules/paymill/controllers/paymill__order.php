@@ -36,7 +36,7 @@ class paymill__order extends paymill__order_parent
             $type = 'debit';
         } else {
             $this->getSession()->setVar("paymill_error", "No transaction code was provided");
-            return 'payment';
+            return false;
         }
         // process the payment
         $result = $this->processPayment(array(
