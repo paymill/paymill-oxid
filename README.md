@@ -1,30 +1,14 @@
-Paymill-Oxid
-====================
+Paymill-Oxid 4.7
+==================
 
-Paymill extension (credit card and direct debit) for OXID (Version 4.7.x). Tested on Community Edition. Supports Azure template.
+Payment plugin for Oxid Version 4.7
 
-![Paymill creditcard payment form](https://raw.github.com/Paymill/Paymill-Oxid-4.7/master/Paymill-Oxid-Module/modules/paymill/paymill_form_de.png)
+Download the module here: https://github.com/Paymill/Paymill-Oxid-4.7/archive/master.zip
 
-# Installation
-
-## Installation from this git repository 
-
-Use the following command to clone the complete repository including the submodules:
-    
-    git clone --recursive https://github.com/Paymill/Paymill-Oxid-4.7.git
-
-Afterwards merge the contents of the Paymill-Oxid-Module directory with your Oxid installation. 
-
-# Configuration
-
-- Clean your cache and refresh your administration backend.
-- In the main menu goto **Erweiterungen -> Module**
-- Select module "Paymill" and choose **Aktivieren**
-- Reload the admin page
-- In the main menu goto **Paymill -> Konfiguration** 
-- Enter your Paymill Test- or Livekeys and click on **Speichern**
-- The field **Paymill API URL** should contain https://api.paymill.de/v2/
-- The field **Paymill Bridge URL** should contain https://bridge.paymill.de/
+- Merge the content with your Oxid installation.
+- Import the install.sql to your database.
+- In your administration backend activate the Paymill plugin.
+- Go to the configuration section where you can insert your private and public key (that you can find in your Paymill cockpit [https://app.paymill.de/](https://app.paymill.de/ "Paymill cockpit")).
 
 # Activate Paymill Payment
 
@@ -35,17 +19,24 @@ To activate Paymill payment follow these steps:
 - Click on **Benutzergruppen zuordnen** and assign the right user groups
 - Go to tab **Länder**, click on **Länder zuordnen**, and assign the right countries
 - In the main menu goto **Shopeinstellungen > Versandarten**
-- Choose a shipping type (e.g. **Standard**) and go to tab **Zahlungsarten** 
+- Choose a shipping type (e.g. **Standard**) and go to tab **Zahlungsarten**
 - Click on **Zahlungsarten zuordnen** and assign the payment method
 - Repeat last 2 steps for other shipping types
 
-# Support for other templates than Azure
+# Template-Support
 
-Adapt the template structure within the modules/paymill/views/azure directory to your custom theme.
+- Azure-template is supported by default.
+- To support a custom template adapt the template structure within the out/azure diretory to your custom theme.
 
 # Error handling
 
-In case of any errors turn on the debug mode in the Paymill payment method configuration. Open the javascript console in your browser and check what's being logged during the checkout process. Additionally you can check the logfile in modules/paymill/log.txt.
+In case of any errors turn on the debug mode in the Paymill payment method configuration.
+Open the javascript console in your browser and check what's being logged during the checkout process.
+
+# Logging
+
+- If you enable logging in the plugin configuration make sure that log.txt inside the plugin directory is writable. Otherwise logging information will not be stored to the logfile.
+- You can access the Logging with your shop-backend under Paymill -> Log
 
 # Notes about the payment process
 
