@@ -11,7 +11,7 @@ $aModule = array(
     'email'        => 'support@paymill.de',
     'extend'       => array(
         'payment' => 'paymill/controllers/paymill_payment',
-        'order' => 'paymill/controllers/paymill_order'
+        'oxpaymentgateway' => 'paymill/controllers/paymill_paymentgateway'
     ),
     'files' => array(
         'PaymentProcessor' => 'paymill/lib/Services/PaymentProcessor.php',
