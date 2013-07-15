@@ -5,7 +5,7 @@ $aModule = array(
     'title'        => 'Paymill',
     'description'  => 'Paymill Payment',
     'thumbnail'    => 'image/logo.png',
-    'version'      => '2.0',
+    'version'      => '2.1',
     'author'       => 'Paymill GmbH',
     'url'          => 'http://www.paymill.de',
     'email'        => 'support@paymill.de',
@@ -14,7 +14,9 @@ $aModule = array(
         'oxpaymentgateway' => 'paymill/controllers/paymill_paymentgateway'
     ),
     'files' => array(
-        'PaymentProcessor' => 'paymill/lib/Services/PaymentProcessor.php',
+        'Services_Paymill_PaymentProcessor' => 'paymill/lib/Services/Paymill/PaymentProcessor.php',
+        'Services_Paymill_LoggingInterface' => 'paymill/lib/Services/Paymill/LoggingInterface.php',
+        'paymill_fastcheckout' => 'paymill/core/paymill_fastcheckout.php',
         'paymill_log' => 'paymill/controllers/admin/paymill_log.php'
     ),
     'blocks' => array(
@@ -31,6 +33,7 @@ $aModule = array(
         array( 'group' => 'main','name' => 'PAYMILL_PUBLICKEY', 'type' => 'str', 'value' => ''),
         array( 'group' => 'main','name' => 'PAYMILL_ACTIVATE_DEBUG', 'type' => 'bool', 'value' => 'false'),
         array( 'group' => 'main','name' => 'PAYMILL_ACTIVATE_LOGGING', 'type' => 'bool', 'value' => 'false'),
+        array( 'group' => 'main','name' => 'PAYMILL_ACTIVATE_DIFFERENTAMOUNT', 'type' => 'str', 'value' => 0),
         array( 'group' => 'main','name' => 'PAYMILL_ACTIVATE_FASTCHECKOUT', 'type' => 'bool', 'value' => 'false'),
         array( 'group' => 'main','name' => 'PAYMILL_SHOW_LABEL', 'type' => 'bool', 'value' => 'true'),
     )
