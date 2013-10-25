@@ -32,4 +32,3 @@ $aLang = array(
     'PAYMILL_CC_POWERED_TEXT' => 'Sichere Kreditkartenzahlung powered by',
     'PAYMILL_ELV_POWERED_TEXT' => 'ELV powered by'
 );
-?>
