@@ -2,6 +2,7 @@
 
 $sLangName = "Deutsch";
 $aLang = array(
+    'charset' => 'UTF-8',
     'PAGE_CHECKOUT_PAYMENT_NUMBER' => 'Kreditkarte',
     'PAGE_CHECKOUT_PAYMENT_SECURITYCODE' => 'CVC',
     'PAGE_CHECKOUT_PAYMENT_HOLDERNAME' => 'Karteninhaber',
@@ -28,7 +29,6 @@ $aLang = array(
     'PAYMILL_VALIDATION_CVC' => 'Bitte geben Sie einen gültigen CVC-Code ein.',
     'PAYMILL_VALIDATION_CARDHOLDER' => 'Bitte geben Sie den Karteninhaber ein',
     'PAYMILL_VALIDATION_ACCOUNTHOLDER' => 'Bitte geben Sie den Kontoinhaber ein',
-    'charset' => 'UTF-8',
     'PAYMILL_CC_POWERED_TEXT' => 'Sichere Kreditkartenzahlung powered by',
     'PAYMILL_ELV_POWERED_TEXT' => 'ELV powered by'
 );
