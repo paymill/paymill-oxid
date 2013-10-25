@@ -16,13 +16,17 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
     
     private $_fastCheckoutData;
     
+    private $_clients;
+    
+    private $_payment;
+    
     /**
      * @overload
      */
     public function executePayment($dAmount, &$oOrder)
     {
         if (!in_array($oOrder->oxorder__oxpaymenttype->rawValue, array("paymill_cc", "paymill_elv"))) {
-            return parent::executePayment($dAmount, & $oOrder);
+            return parent::executePayment($dAmount, $oOrder);
         }
 
         $this->_iLastErrorNo = null;
@@ -36,38 +40,61 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         $prop = 'paymill_fastcheckout__paymentid_' + $this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue);
         
         $this->_loadFastCheckoutData();
+        $this->_existingClientHandling($oOrder);
+        
         if (!oxSession::getVar('paymillShowForm_' . $this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue))) {
             $this->_paymentProcessor->setPaymentId(
                 $this->_fastCheckoutData->$prop->rawValue
             );
-            
-            $this->_paymentProcessor->setClientId(
-                $this->_fastcheckoutData->paymill_fastcheckout__clientid->rawValue
-            );
         }
-
+        
         $result = $this->_paymentProcessor->processPayment();
         
         $this->log($result ? 'Payment results in success' : 'Payment results in failure', null);
-        if (oxConfig::getInstance()->getShopConfVar('PAYMILL_ACTIVATE_FASTCHECKOUT') == "1" && $result) {
-            $paymentColumn = 'paymentID_' . strtoupper($this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue));
-            //insert new data
-            $this->_fastcheckoutData->assign(
-                array(
-                    'oxid' => $oOrder->oxorder__oxuserid->rawValue,
-                    'clientid' => $this->_paymentProcessor->getClientId(),
-                    $paymentColumn => $this->_paymentProcessor->getPaymentId()
-                )
-            );
-        }
         
-        $this->_fastcheckoutData->save();
+        if ($result) {
+            $saveData = array(
+                'oxid' => $oOrder->oxorder__oxuserid->rawValue,
+                'clientid' => $this->_paymentProcessor->getClientId()
+            );
+            
+            if (oxConfig::getInstance()->getShopConfVar('PAYMILL_ACTIVATE_FASTCHECKOUT')) {
+                $paymentColumn = 'paymentID_' . strtoupper($this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue));
+                $saveData[$paymentColumn] = $this->_paymentProcessor->getPaymentId();
+            }
+            
+            $this->_fastcheckoutData->assign($saveData);
+            $this->_fastcheckoutData->save();
+        }
         
         if (oxConfig::getInstance()->getShopConfVar('PAYMILL_SET_PAYMENTDATE')) {
             $this->_setPaymentDate($oOrder);
         }
         
         return $result;
+    }
+    
+    private function _existingClientHandling($oOrder)
+    {
+        $clientId = $this->_fastcheckoutData->paymill_fastcheckout__clientid->rawValue;
+        if (!empty($clientId)) {
+            $this->_clients = new Services_Paymill_Clients(
+                trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PRIVATEKEY')),
+                $this->_apiUrl
+            );
+            
+            $client = $this->_clients->getOne($clientId);
+            if ($oOrder->oxorder__oxbillemail->value !== $client['email']) {
+                $this->_clients->update(
+                    array(
+                        'id' => $clientId,
+                        'email' => $oOrder->oxorder__oxbillemail->value
+                    )
+                );
+            }
+            
+            $this->_paymentProcessor->setClientId($clientId);
+        }
     }
     
     private function _initializePaymentProcessor($dAmount, $oOrder)
@@ -112,7 +139,6 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
     private function _getPaymentShortCode($paymentCode)
     {
         $paymentType = split('_', $paymentCode);
-        
         return $paymentType[1];
     }
 
@@ -133,9 +159,6 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         return $modul->getInfo('version') . '_oxid_' . oxConfig::getInstance()->getVersion();
     }
     
-    
-    
-
     /**
      * log the gien message
      *

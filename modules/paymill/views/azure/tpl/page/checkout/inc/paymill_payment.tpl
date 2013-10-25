@@ -1,4 +1,5 @@
 [{assign var="oxConfig" value=$oView->getConfig()}]
+[{if !$paymillHidePayments}]
 <dl>
     <dt>
     <input id="payment_[{$sPaymentID}]" type="radio" name="paymentid" value="[{$sPaymentID}]" [{if $oView->getCheckedPaymentId() == $paymentmethod->oxpayments__oxid->value}]checked[{/if}]>
@@ -25,22 +26,20 @@
                     <div class="controls controls-row">
                         <label class="card-expiry-label">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_VALIDUNTIL" }]:</label>
                         <select id="paymillCardExpiryMonth" class="card-expiry-month span1" />
-                        <option>01</option>
-                        <option>02</option>
-                        <option>03</option>
-                        <option>04</option>
-                        <option>05</option>
-                        <option>06</option>
-                        <option>07</option>
-                        <option>08</option>
-                        <option>09</option>
-                        <option>10</option>
-                        <option>11</option>
-                        <option>12</option>
+                        <option value="1">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_MONTH_JAN" }]</option>
+                        <option value="2">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_MONTH_FEB" }]</option>
+                        <option value="3">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_MONTH_MAR" }]</option>
+                        <option value="4">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_MONTH_APR" }]</option>
+                        <option value="5">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_MONTH_MAY" }]</option>
+                        <option value="6">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_MONTH_JUN" }]</option>
+                        <option value="7">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_MONTH_JUL" }]</option>
+                        <option value="8">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_MONTH_AUG" }]</option>
+                        <option value="9">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_MONTH_SEP" }]</option>
+                        <option value="10">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_MONTH_OCT" }]</option>
+                        <option value="11">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_MONTH_NOV" }]</option>
+                        <option value="12">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_MONTH_DEC" }]</option>
                         </select>
-
                         <span> / </span>
-
                         <select id="paymillCardExpiryYear" class="card-expiry-year span1" />
                         [{foreach from=$oView->getCreditYears() item=year}]
                         <option>[{$year}]</option>
@@ -66,7 +65,7 @@
                 </div>
                 [{/if}]
             </li>
-            [{if $oxConfig->getShopConfVar('PAYMILL_SHOW_LABEL') }]
+            [{if $oxConfig->getShopConfVar('PAYMILL_SHOW_LABEL')}]
             <li>
                 <div class="paymill_powered">
                     <div class="paymill_credits">
@@ -83,5 +82,5 @@
         </ul>
     </dd>
     [{/if}]
-
 </dl>
+[{/if}]

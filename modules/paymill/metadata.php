@@ -17,6 +17,7 @@ $aModule = array(
     'files' => array(
         'Services_Paymill_PaymentProcessor' => 'paymill/lib/Services/Paymill/PaymentProcessor.php',
         'Services_Paymill_LoggingInterface' => 'paymill/lib/Services/Paymill/LoggingInterface.php',
+        'Services_Paymill_Clients' => 'paymill/lib/Services/Paymill/Clients.php',
         'paymill_fastcheckout' => 'paymill/core/paymill_fastcheckout.php',
         'paymill_log' => 'paymill/controllers/admin/paymill_log.php'
     ),
