@@ -9,105 +9,132 @@
 class paymill_paymentgateway extends paymill_paymentgateway_parent implements Services_Paymill_LoggingInterface
 {
 
+    
+    private $_apiUrl = "https://api.paymill.com/v2/";
+    
+    private $_paymentProcessor;
+    
+    private $_fastCheckoutData;
+    
     /**
      * @overload
      */
-    public function executePayment($dAmount, & $oOrder)
+    public function executePayment($dAmount, &$oOrder)
     {
-        $this->_iLastErrorNo = null;
-        $this->_sLastError = null;
-
         if (!in_array($oOrder->oxorder__oxpaymenttype->rawValue, array("paymill_cc", "paymill_elv"))) {
             return parent::executePayment($dAmount, & $oOrder);
         }
 
-        $privateKey = trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PRIVATEKEY'));
-        $fastCheckout = oxConfig::getInstance()->getShopConfVar('PAYMILL_ACTIVATE_FASTCHECKOUT');
-        $apiUrl = "https://api.paymill.com/v2/";
+        $this->_iLastErrorNo = null;
+        $this->_sLastError = null;
+        
+        $this->_initializePaymentProcessor($dAmount, $oOrder);
+        if ($this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue) === 'cc') {
+            $this->_paymentProcessor->setPreAuthAmount((int) oxSession::getVar('paymill_authorized_amount'));
+        }
+        
+        $prop = 'paymill_fastcheckout__paymentid_' + $this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue);
+        
+        $this->_loadFastCheckoutData();
+        if (!oxSession::getVar('paymillShowForm_' . $this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue))) {
+            $this->_paymentProcessor->setPaymentId(
+                $this->_fastCheckoutData->$prop->rawValue
+            );
+            
+            $this->_paymentProcessor->setClientId(
+                $this->_fastcheckoutData->paymill_fastcheckout__clientid->rawValue
+            );
+        }
 
-        $paymillShowForm_cc = oxSession::getVar('paymillShowForm_cc');
-        $paymillShowForm_elv = oxSession::getVar('paymillShowForm_elv');
-        $userId = $oOrder->oxorder__oxuserid->rawValue;
-
-        $amount = round($dAmount * 100);
-        $name = $oOrder->oxorder__oxbilllname->value . ', ' . $oOrder->oxorder__oxbillfname->value;
-        $utf8Name = $this->convertToUtf($name, oxConfig::getInstance()->isUtf());
-        if (oxSession::getVar('paymill_token') != null) {
+        $result = $this->_paymentProcessor->processPayment();
+        
+        $this->log($result ? 'Payment results in success' : 'Payment results in failure', null);
+        if (oxConfig::getInstance()->getShopConfVar('PAYMILL_ACTIVATE_FASTCHECKOUT') == "1" && $result) {
+            $paymentColumn = 'paymentID_' . strtoupper($this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue));
+            //insert new data
+            $this->_fastcheckoutData->assign(
+                array(
+                    'oxid' => $oOrder->oxorder__oxuserid->rawValue,
+                    'clientid' => $this->_paymentProcessor->getClientId(),
+                    $paymentColumn => $this->_paymentProcessor->getPaymentId()
+                )
+            );
+        }
+        
+        $this->_fastcheckoutData->save();
+        
+        if (oxConfig::getInstance()->getShopConfVar('PAYMILL_SET_PAYMENTDATE')) {
+            $this->_setPaymentDate($oOrder);
+        }
+        
+        return $result;
+    }
+    
+    private function _initializePaymentProcessor($dAmount, $oOrder)
+    {
+        if (!is_null(oxSession::getVar('paymill_token'))) {
             $token = oxSession::getVar('paymill_token');
-            $paymentType = oxSession::getVar('paymill_payment');
         } else {
             $oOrder->getSession()->setVar("paymill_error", "No Token was provided");
             return false;
         }
+        
+        $utf8Name = $this->convertToUtf(
+            $oOrder->oxorder__oxbilllname->value . ', ' . $oOrder->oxorder__oxbillfname->value, 
+            oxConfig::getInstance()->isUtf()
+        );
+        
+        $this->_paymentProcessor = new Services_Paymill_PaymentProcessor(
+            trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PRIVATEKEY')), 
+            $this->_apiUrl, 
+            null, 
+            array(
+                'token' => $token,
+                'amount' => (int) round($dAmount * 100),
+                'currency' => strtoupper($oOrder->oxorder__oxcurrency->rawValue),
+                'name' => $utf8Name,
+                'email' => $oOrder->oxorder__oxbillemail->value,
+                'description' => 'OrderID: ' . $oOrder->oxorder__oxid . ' - ' . $utf8Name
+            ), 
+            $this
+        );
+        
+        $this->_paymentProcessor->setSource($this->_getSourceInfo());
+        
+    }
+    
+    private function _loadFastCheckoutData()
+    {        
+        $this->_fastcheckoutData = oxNew('paymill_fastcheckout');
+        $this->_fastcheckoutData->load($this->getUser()->getId());
+    }
 
-        $shopversion = oxConfig::getInstance()->getVersion();
+    private function _getPaymentShortCode($paymentCode)
+    {
+        $paymentType = split('_', $paymentCode);
+        
+        return $paymentType[1];
+    }
+
+    private function _setPaymentDate($oOrder)
+    {
+        $oDb = oxDb::getDb();
+        $sDate = date('Y-m-d H:i:s', oxUtilsDate::getInstance()->getTime());
+        $sQ = 'update oxorder set oxpaid=\'' . $sDate . '\' where oxid=' . $oDb->quote($oOrder->getId());
+        $oOrder->oxorder__oxorderdate = new oxField($sDate, oxField::T_RAW);
+        $oDb->execute($sQ);
+    }
+    
+    private function _getSourceInfo()
+    {
         $modul = oxNew('oxModule');
         $modul->load('paymill');
-
-        $parameter = array(
-            'token' => $token,
-            'amount' => (int) $amount,
-            'currency' => strtoupper($oOrder->oxorder__oxcurrency->rawValue),
-            'name' => $utf8Name,
-            'email' => $oOrder->oxorder__oxbillemail->value,
-            'description' => 'OrderID: ' . $oOrder->oxorder__oxid . ' - ' . $utf8Name
-        );
-        $paymentProcessor = new Services_Paymill_PaymentProcessor($privateKey, $apiUrl, null, $parameter, $this);
-        $paymentProcessor->setSource($modul->getInfo('version') . '_oxid_' . $shopversion);
-        if ($paymentType == 'cc') {
-            $paymentProcessor->setPreAuthAmount((int) oxSession::getVar('paymill_authorized_amount'));
-        }
-
-        $fastcheckoutData = oxNew('paymill_fastcheckout');
-        if ($fastCheckout == "1") {
-            // Be sure Data is aviable
-            $fastcheckoutData->load($this->getUser()->getId());
-            $fastdata_cc = $fastcheckoutData->paymill_fastcheckout__paymentid_cc->rawValue;
-            $fastdata_elv = $fastcheckoutData->paymill_fastcheckout__paymentid_elv->rawValue;
-            $fastdata_client = $fastcheckoutData->paymill_fastcheckout__clientid->rawValue;
-            if (!$paymillShowForm_cc && $paymentType == "cc" || !$paymillShowForm_elv && $paymentType == "elv") {
-                $paymentProcessor->setPaymentId($paymentType == "cc" ? $fastdata_cc : $fastdata_elv);
-            }
-            if (!$paymillShowForm_cc || !$paymillShowForm_elv) {
-                $paymentProcessor->setClientId($fastdata_client);
-            }
-        }
-
-        $result = $paymentProcessor->processPayment();
-        $this->log($result ? 'Payment results in success' : 'Payment results in failure', null);
-        if ($fastCheckout == "1" && $result === true) {
-            $paymentColumn = $paymentType == "cc" ? 'paymentID_CC' : 'paymentID_ELV';
-            if (!$paymillShowForm_cc || !$paymillShowForm_elv) {
-                //update existing data
-                $newPaymentId = $paymentType == "cc" ? $fastdata_cc : $fastdata_elv;
-                if ($newPaymentId == null) {
-                    $newPaymentId = $paymentProcessor->getPaymentId();
-                }
-                $fastcheckoutData->assign(array(
-                    'oxid' => $userId,
-                    $paymentColumn => $newPaymentId
-                ));
-                $fastcheckoutData->save();
-            } else {
-                //insert new data
-                $fastcheckoutData->assign(array(
-                    'oxid' => $userId,
-                    'clientid' => $paymentProcessor->getClientId(),
-                    $paymentColumn => $paymentProcessor->getPaymentId()
-                ));
-                $fastcheckoutData->save();
-            }
-        }
-        if (oxConfig::getInstance()->getShopConfVar('PAYMILL_SET_PAYMENTDATE')) {
-            $oDb = oxDb::getDb();
-            $sDate = date('Y-m-d H:i:s', oxUtilsDate::getInstance()->getTime());
-            $sQ = 'update oxorder set oxpaid=\'' . $sDate . '\' where oxid=' . $oDb->quote($oOrder->getId());
-            $oOrder->oxorder__oxorderdate = new oxField($sDate, oxField::T_RAW);
-            $oDb->execute($sQ);
-        }
         
-        return $result === true;
+        return $modul->getInfo('version') . '_oxid_' . oxConfig::getInstance()->getVersion();
     }
+    
+    
+    
 
     /**
      * log the gien message
