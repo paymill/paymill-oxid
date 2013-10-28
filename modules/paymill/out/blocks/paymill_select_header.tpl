@@ -6,15 +6,17 @@
     var PAYMILL_PUBLIC_KEY = '[{$paymillPublicKey}]';
     var PAYMILL_AMOUNT = '[{$paymillAmount}]';
     var PAYMILL_CURRENCY = '[{$currency->name}]';
-    var PAYMILL_SHOWFORM_CC = '[{$paymillShowForm_cc}]';
-    var PAYMILL_SHOWFORM_ELV = '[{$paymillShowForm_elv}]';
+    var PAYMILL_FASTCHECKOUT_CC = [{$fastCheckoutCc}];
+    var PAYMILL_FASTCHECKOUT_ELV = [{$fastCheckoutElv}];
     var PAYMILL_DEBUG = '[{$oxConfig->getShopConfVar('PAYMILL_ACTIVATE_DEBUG')}]';
 </script>
 <script type="text/javascript" src="https://bridge.paymill.com/"></script>
 <script type="text/javascript">
 $.noConflict();
-jQuery(document).ready(function ($) {
-    $('#paymillCardNumber').keyup(function() {
+jQuery(document).ready(function ($) 
+{
+    $('#paymillCardNumber').keyup(function() 
+    {
         var brand = paymill.cardType($('#paymillCardNumber').val());
             brand = brand.toLowerCase();
             switch(brand){
@@ -55,11 +57,13 @@ jQuery(document).ready(function ($) {
                     $('.card-icon').hide();
                     break;
             }
+            
             $('.card-icon :first-child').css('position','absolute');
 
     });
 
-    function PaymillResponseHandler(error, result) {
+    function PaymillResponseHandler(error, result) 
+    {
         if (error) {
             paymillDebug('An API error occured:' + error.apierror);
             // Zeigt den Fehler überhalb des Formulars an
@@ -68,92 +72,110 @@ jQuery(document).ready(function ($) {
         } else {
             $(".payment-errors").css("display","none");
             $(".payment-errors").text("");
-            var form = $("#payment");
             // Token
-            var token = result.token;
-            paymillDebug('Received a token: ' + token);
+            paymillDebug('Received a token: ' + result.token);
             // Token in das Formular einfügen damit es an den Server übergeben wird
-            form.append("<input type='hidden' name='paymillToken' value='" + token + "'/>");
-            form.get(0).submit();
+            $("#payment").append("<input type='hidden' name='paymillToken' value='" + result.token + "'/>");
+            $("#payment").get(0).submit();
         }
+        
         $("#paymentNextStepBottom").removeAttr("disabled");
     }
 
-    function paymillDebug(message){
-        if(PAYMILL_DEBUG == "1"){
+    function paymillDebug(message)
+    {
+        if(PAYMILL_DEBUG === "1"){
             console.log(message);
         }
     }
 
-    $("#payment").submit(function (event) {
+    $("#payment").submit(function (event) 
+    {
         // Absenden Button deaktivieren um weitere Klicks zu vermeiden
         $('#paymentNextStepBottom').attr("disabled", "disabled");
         paymillDebug('Paymill: Start form validation');
-        paymenttype = $('#payment_paymill_cc').attr('checked') ? 'cc' : $('#payment_paymill_elv').attr('checked') ? 'elv': 'other';
-            if(paymenttype == "cc" && PAYMILL_SHOWFORM_CC){
-                if (false == paymill.validateCardNumber($('#paymillCardNumber').val())) {
+        if ($('#payment_paymill_cc').attr('checked')) {
+            if (!PAYMILL_FASTCHECKOUT_CC) {
+                if (!paymill.validateCardNumber($('#paymillCardNumber').val())) {
                     $(".payment-errors.cc").text('[{ oxmultilang ident="PAYMILL_VALIDATION_CARDNUMBER" }]');
                     $(".payment-errors.cc").css("display","inline-block");
                     $("#paymentNextStepBottom").removeAttr("disabled");
                     return false;
                 }
-                if (false == paymill.validateExpiry($('#paymillCardExpiryMonth').val(), $('#paymillCardExpiryYear').val())) {
+
+                if (!paymill.validateExpiry($('#paymillCardExpiryMonth').val(), $('#paymillCardExpiryYear').val())) {
                     $(".payment-errors.cc").text('[{ oxmultilang ident="PAYMILL_VALIDATION_EXP" }]');
                     $(".payment-errors.cc").css("display","inline-block");
                     $("#paymentNextStepBottom").removeAttr("disabled");
                     return false;
                 }
-                if (false == paymill.validateCvc($('#paymillCardCvc').val(), $('#paymillCardNumber').val())) {
+
+                if (!paymill.validateCvc($('#paymillCardCvc').val(), $('#paymillCardNumber').val())) {
                     $(".payment-errors.cc").text('[{ oxmultilang ident="PAYMILL_VALIDATION_CVC" }]');
                     $(".payment-errors.cc").css("display","inline-block");
                     $("#paymentNextStepBottom").removeAttr("disabled");
                     return false;
                 }
-                if ($('#paymillCardHolderName').val() == '') {
+
+                if (!paymill.validateHolder($('#paymillCardHolderName').val())) {
                     $(".payment-errors.cc").text('[{ oxmultilang ident="PAYMILL_VALIDATION_CARDHOLDER" }]');
                     $(".payment-errors.cc").css("display","inline-block");
                     $("#paymentNextStepBottom").removeAttr("disabled");
                     return false;
                 }
-                var params = {
-                    amount_int:     PAYMILL_AMOUNT,  // E.g. "15" for 0.15 Eur
-                    currency:       PAYMILL_CURRENCY,    // ISO 4217 e.g. "EUR"
-                    number:         $('#paymillCardNumber').val(),
-                    exp_month:      $('#paymillCardExpiryMonth').val(),
-                    exp_year:       $('#paymillCardExpiryYear').val(),
-                    cvc:            $('#paymillCardCvc').val(),
-                    cardholder:     $('#paymillCardHolderName').val()
-                };
-            }else if(paymenttype == "elv" && PAYMILL_SHOWFORM_ELV){
 
-                if (false == $('#paymillElvHolderName').val()) {
+                var params = {
+                    amount_int: PAYMILL_AMOUNT,  // E.g. "15" for 0.15 Eur
+                    currency: PAYMILL_CURRENCY,    // ISO 4217 e.g. "EUR"
+                    number: $('#paymillCardNumber').val(),
+                    exp_month: $('#paymillCardExpiryMonth').val(),
+                    exp_year: $('#paymillCardExpiryYear').val(),
+                    cvc: $('#paymillCardCvc').val(),
+                    cardholder: $('#paymillCardHolderName').val()
+                };
+                paymill.createToken(params, PaymillResponseHandler);
+            } else {
+                $("#payment").append("<input type='hidden' name='paymillToken' value='dummyToken'/>");
+                $("#payment").get(0).submit();
+            }
+        } else if($('#payment_paymill_elv').attr('checked')) {
+            if (!PAYMILL_FASTCHECKOUT_ELV) {
+                if (!$('#paymillElvHolderName').val()) {
                     $(".payment-errors.elv").text('[{ oxmultilang ident="PAYMILL_VALIDATION_ACCOUNTHOLDER" }]');
                     $(".payment-errors.elv").css("display","inline-block");
                     $("#paymentNextStepBottom").removeAttr("disabled");
                     return false;
                 }
-                if (false == paymill.validateAccountNumber($('#paymillElvAccount').val())) {
+
+                if (!paymill.validateAccountNumber($('#paymillElvAccount').val())) {
                     $(".payment-errors.elv").text('[{ oxmultilang ident="PAYMILL_VALIDATION_ACCOUNTNUMBER" }]');
                     $(".payment-errors.elv").css("display","inline-block");
                     $("#paymentNextStepBottom").removeAttr("disabled");
                     return false;
                 }
-                if (false == paymill.validateBankCode($('#paymillElvBankCode').val())) {
+
+                if (!paymill.validateBankCode($('#paymillElvBankCode').val())) {
                     $(".payment-errors.elv").text('[{ oxmultilang ident="PAYMILL_VALIDATION_BANKCODE" }]');
                     $(".payment-errors.elv").css("display","inline-block");
                     $("#paymentNextStepBottom").removeAttr("disabled");
                     return false;
                 }
+
                 var params = {
-                    number:         $('#paymillElvAccount').val(),
-                    bank:           $('#paymillElvBankCode').val(),
-                    accountholder:  $('#paymillElvHolderName').val()
+                    number: $('#paymillElvAccount').val(),
+                    bank: $('#paymillElvBankCode').val(),
+                    accountholder: $('#paymillElvHolderName').val()
                 };
-            }else{
-                $("#paymentNextStepBottom").removeAttr("disabled");
-                return true;
+                paymill.createToken(params, PaymillResponseHandler);
+            } else {
+                $("#payment").append("<input type='hidden' name='paymillToken' value='dummyToken'/>");
+                $("#payment").get(0).submit();
             }
-        paymill.createToken(params, PaymillResponseHandler);
+        } else{
+            $("#paymentNextStepBottom").removeAttr("disabled");
+            return true;
+        }
+        
         return false;
     });
 });

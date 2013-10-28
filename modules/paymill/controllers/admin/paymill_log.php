@@ -1,22 +1,25 @@
 <?php
+
 class paymill_log extends Shop_Config
 {
-  const PAYMILL_MODULE_NAME = 'paymill';
 
-  protected $_sThisTemplate = 'paymill_log.tpl';
+    const PAYMILL_MODULE_NAME = 'paymill';
 
-  public function render() {
+    protected $_sThisTemplate = 'paymill_log.tpl';
 
-    $myConfig  = $this->getConfig();
-    $aDbVariables = $this->_loadConfVars($myConfig->getShopId(), $moduleName = '');
-    $aConfVars = $aDbVariables['vars'];
+    public function render()
+    {
 
-    foreach ($this->_aConfParams as $sType => $sParam) {
-      $this->_aViewData[$sParam] = $aConfVars[$sType];
+        $myConfig = $this->getConfig();
+        $aDbVariables = $this->_loadConfVars($myConfig->getShopId(), '');
+        $aConfVars = $aDbVariables['vars'];
+
+        foreach ($this->_aConfParams as $sType => $sParam) {
+            $this->_aViewData[$sParam] = $aConfVars[$sType];
+        }
+
+        $this->addTplParam('content', file_get_contents('../modules/paymill/log.txt'));
+        return $this->_sThisTemplate;
     }
-
-    $this->addTplParam('content', file_get_contents('../modules/paymill/log.txt'));
-    return $this->_sThisTemplate;
-  }
 
 }

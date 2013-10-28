@@ -7,7 +7,11 @@
  */
 class paymill_payment extends paymill_payment_parent
 {
-
+    private $_fastCheckoutData;
+    
+    private $_payments;
+    
+    
     /**
      * Rewrite of oxid's getPaymentList method
      * adds some errors to the payment selection if necessary
@@ -16,34 +20,76 @@ class paymill_payment extends paymill_payment_parent
      */
     public function render()
     {
-        $fastCheckout = oxConfig::getInstance()->getShopConfVar('PAYMILL_ACTIVATE_FASTCHECKOUT');
-        $publicKey = trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PUBLICKEY'));
-
-        //clear values
-        oxSession::deleteVar('paymillShowForm_cc');
-        oxSession::deleteVar('paymillShowForm_elv');
-
         if ($this->getSession()->hasVar('paymill_error')) {
             $this->addTplParam('piPaymillError', $this->getSession()->getVar('paymill_error'));
             $this->getSession()->deleteVar('paymill_error');
         }
+        
+        if ($this->getUser()) {
+            $this->_payments = new Services_Paymill_Payments(
+                trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PRIVATEKEY')),
+                paymill_util::API_ENDPOINT
+            );
+            
 
-        $fastcheckout_cc = true;
-        $fastcheckout_elv = true;
-        if ($fastCheckout && $this->getUser()) {
-            $fastcheckoutData = oxNew('paymill_fastcheckout');
-            $fastcheckoutData->load($this->getUser()->getId());
-
-            $fastcheckout_cc = $fastcheckoutData->paymill_fastcheckout__paymentid_cc->rawValue == null;
-            $fastcheckout_elv = $fastcheckoutData->paymill_fastcheckout__paymentid_elv->rawValue == null;
-
-            oxSession::setVar('paymillShowForm_cc', $fastcheckout_cc);
-            oxSession::setVar('paymillShowForm_elv', $fastcheckout_elv);
+            
+            $this->_fastCheckoutData = oxNew('paymill_fastcheckout');
+            $this->_fastCheckoutData->load($this->getUser()->getId());
+            
+            if (empty($this->_fastCheckoutData->paymill_fastcheckout__paymentid_cc->rawValue)) {
+                $this->addTplParam('fastCheckoutCc', 'false');
+            } else {
+                $this->addTplParam('fastCheckoutCc', 'true');
+                $this->_setPaymillCcPaymentData();
+            }
+            
+            if (empty($this->_fastCheckoutData->paymill_fastcheckout__paymentid_elv->rawValue)) {
+                $this->addTplParam('fastCheckoutElv', 'false');
+            } else {
+                $this->addTplParam('fastCheckoutElv', 'true');
+                $this->_setPaymillElvPaymentData();
+            }
         }
-        $this->addTplParam('paymillShowForm_cc', $fastcheckout_cc);
-        $this->addTplParam('paymillShowForm_elv', $fastcheckout_elv);
-        $this->addTplParam('paymillPublicKey', $publicKey);
+        
+        $this->addTplParam(
+            'paymillPublicKey', 
+            trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PUBLICKEY'))
+        );
+        
         return parent::render();
+    }
+    
+    private function _setPaymillCcPaymentData()
+    {
+        $payment = $this->_payments->getOne(
+            $this->_fastCheckoutData->paymill_fastcheckout__paymentid_cc->rawValue
+        );
+        
+        $this->addTplParam('paymillCcLastFour', '************' . $this->_getEntry($payment, 'last4'));
+        $this->addTplParam('paymillCcCvc', '***');
+        $this->addTplParam('paymillCcCardHolder', $this->_getEntry($payment, 'card_holder'));
+        $this->addTplParam('paymillCcExpireMonth', $this->_getEntry($payment, 'expire_month'));
+        $this->addTplParam('paymillCcExpireYear', $this->_getEntry($payment, 'expire_year'));
+    }
+    
+    private function _setPaymillElvPaymentData()
+    {
+        $payment = $this->_payments->getOne(
+            $this->_fastCheckoutData->paymill_fastcheckout__paymentid_elv->rawValue
+        );
+        
+        $this->addTplParam('paymillElvCode', $this->_getEntry($payment, 'code'));
+        $this->addTplParam('paymillElvHolder', $this->_getEntry($payment, 'holder'));
+        $this->addTplParam('paymillElvAccount', $this->_getEntry($payment, 'account'));
+    }
+    
+    private function _getEntry($data, $key)
+    {
+        if (!is_array($data)) {
+            $data = array();
+        }
+        
+        return array_key_exists($key, $data) ? $data[$key] : null;
     }
 
     /**
@@ -55,11 +101,9 @@ class paymill_payment extends paymill_payment_parent
     {
         //clear values
         oxSession::deleteVar('paymill_authorized_amount');
-        $differentAmount = number_format(intval(oxConfig::getInstance()->getShopConfVar('PAYMILL_ACTIVATE_DIFFERENTAMOUNT')),2,'','');
+        $differentAmount = intval(oxConfig::getInstance()->getShopConfVar('PAYMILL_ACTIVATE_DIFFERENTAMOUNT'));
         //save authorized Amount for secure Paymentprocessing
-        $amount = oxSession::getInstance()->getBasket()->getPrice()->getBruttoPrice();
-        $amount = round($amount * 100);
-        $amount += $differentAmount;
+        $amount = round(oxSession::getInstance()->getBasket()->getPrice()->getBruttoPrice() * 100) + $differentAmount;
         oxSession::setVar('paymill_authorized_amount', $amount);
         $this->addTplParam('paymillAmount', $amount);
 
@@ -72,19 +116,15 @@ class paymill_payment extends paymill_payment_parent
      * @overload
      */
     public function validatePayment()
-    {
-        // payment selected by user
-        $paymentId = oxConfig::getParameter('paymentid');
-        oxSession::deleteVar('paymill_token');
-        oxSession::deleteVar('paymill_payment');
-        // handle paymill payment
-        if ($paymentId == "paymill_cc" || $paymentId == "paymill_elv") {
+    {   
+        if (oxConfig::getParameter('paymentid') === "paymill_cc" || oxConfig::getParameter('paymentid') === "paymill_elv") {
+            oxSession::deleteVar('paymill_token');
             // set paymill token to session to be available in next step
-            $paymill_token = isset($_POST['paymillToken']) ? $_POST['paymillToken'] : 'dummyToken';
-
-            oxSession::setVar('paymill_payment', $paymentId == "paymill_cc" ? 'cc' : 'elv');
-            oxSession::setVar('paymill_token', $paymill_token);
+            if (oxConfig::getParameter('paymillToken')) {
+                oxSession::setVar('paymill_token', oxConfig::getParameter('paymillToken'));
+            }
         }
+        
         return parent::validatePayment();
     }
 
