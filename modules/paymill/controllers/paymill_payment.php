@@ -24,14 +24,12 @@ class paymill_payment extends paymill_payment_parent
             $this->addTplParam('piPaymillError', $this->getSession()->getVar('paymill_error'));
             $this->getSession()->deleteVar('paymill_error');
         }
-        
+
         if ($this->getUser()) {
             $this->_payments = new Services_Paymill_Payments(
                 trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PRIVATEKEY')),
                 paymill_util::API_ENDPOINT
             );
-            
-
             
             $this->_fastCheckoutData = oxNew('paymill_fastcheckout');
             $this->_fastCheckoutData->load($this->getUser()->getId());
@@ -107,7 +105,17 @@ class paymill_payment extends paymill_payment_parent
         oxSession::setVar('paymill_authorized_amount', $amount);
         $this->addTplParam('paymillAmount', $amount);
 
-        return parent::getPaymentList();
+        $paymentList = parent::getPaymentList();
+        
+        $privateKey = oxConfig::getInstance()->getShopConfVar('PAYMILL_PRIVATEKEY');
+        $publicKey  = oxConfig::getInstance()->getShopConfVar('PAYMILL_PUBLICKEY');
+        
+        if (empty($privateKey) || empty($publicKey)) {
+            unset($paymentList['paymill_elv']);
+            unset($paymentList['paymill_cc']);
+        }
+        
+        return $paymentList;
     }
 
 
