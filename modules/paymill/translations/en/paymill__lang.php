@@ -1,6 +1,6 @@
 <?php
 
-$sLangName = "Deutsch";
+$sLangName = "English";
 $aLang = array(
     'charset' => 'UTF-8',
     'PAGE_CHECKOUT_PAYMENT_NUMBER' => 'Kreditkarte',
@@ -31,5 +31,43 @@ $aLang = array(
     'PAYMILL_VALIDATION_ACCOUNTHOLDER' => 'Bitte geben Sie den Kontoinhaber ein',
     'PAYMILL_CC_POWERED_TEXT' => 'Sichere Kreditkartenzahlung powered by',
     'PAYMILL_ELV_POWERED_TEXT' => 'ELV powered by',
-    'PAGE_CHECKOUT_PAYMENT_CC_TOOLTIP' => 'Hinter dem CVV-Code bzw. CVC verbirgt sich ein Sicherheitsmerkmal von Kreditkarten, üblicherweise handelt es sich dabei um eine drei- bis vierstelligen Nummer. Der CVV-Code befindet sich auf VISA-Kreditkarten. Der gleiche Code ist auch auf MasterCard-Kreditkarten zu finden, hier allerdings unter dem Namen CVC. Die Abkürzung CVC steht dabei für Card Validation Code. Bei VISA wird der Code als Card Verification Value-Code bezeichnet. Ähnlich wie bei Mastercard und VISA gibt es auch bei Diners Club, Discover und JCB eine dreistellige Nummer, die meist auf der Rückseite der Karte zu finden ist. Bei Maestro-Karten gibt es mit und ohne dreistelligen CVV. Wird eine Maestro-Karte ohne CVV verwendet kann einfach 000 eingetragen werden. American Express verwendet die CID (Card Identification Number). Dabei handelt es sich um eine vierstellige Nummer, die meist auf der Vorderseite der Karte, rechts oberhalb der Kartennummer zu finden ist.'
+    'PAGE_CHECKOUT_PAYMENT_CC_TOOLTIP' => 'Hinter dem CVV-Code bzw. CVC verbirgt sich ein Sicherheitsmerkmal von Kreditkarten, üblicherweise handelt es sich dabei um eine drei- bis vierstelligen Nummer. Der CVV-Code befindet sich auf VISA-Kreditkarten. Der gleiche Code ist auch auf MasterCard-Kreditkarten zu finden, hier allerdings unter dem Namen CVC. Die Abkürzung CVC steht dabei für Card Validation Code. Bei VISA wird der Code als Card Verification Value-Code bezeichnet. Ähnlich wie bei Mastercard und VISA gibt es auch bei Diners Club, Discover und JCB eine dreistellige Nummer, die meist auf der Rückseite der Karte zu finden ist. Bei Maestro-Karten gibt es mit und ohne dreistelligen CVV. Wird eine Maestro-Karte ohne CVV verwendet kann einfach 000 eingetragen werden. American Express verwendet die CID (Card Identification Number). Dabei handelt es sich um eine vierstellige Nummer, die meist auf der Vorderseite der Karte, rechts oberhalb der Kartennummer zu finden ist.',
+    'PAYMILL_10001' => 'General undefined response.',
+    'PAYMILL_10002' => 'Still waiting on something.',
+    'PAYMILL_20000' => 'General success response.',
+    'PAYMILL_40000' => 'General problem with data.',
+    'PAYMILL_40001' => 'General problem with payment data.',
+    'PAYMILL_40100' => 'Problem with credit card data.',
+    'PAYMILL_40101' => 'Problem with cvv.',
+    'PAYMILL_40102' => 'Card expired or not yet valid.',
+    'PAYMILL_40103' => 'Limit exceeded.',
+    'PAYMILL_40104' => 'Card invalid.',
+    'PAYMILL_40105' => 'Expiry date not valid.',
+    'PAYMILL_40106' => 'Credit card brand required.',
+    'PAYMILL_40200' => 'Problem with bank account data.',
+    'PAYMILL_40201' => 'Bank account data combination mismatch.',
+    'PAYMILL_40202' => 'User authentication failed.',
+    'PAYMILL_40300' => 'Problem with 3d secure data.',
+    'PAYMILL_40301' => 'Currency / amount mismatch',
+    'PAYMILL_40400' => 'Problem with input data.',
+    'PAYMILL_40401' => 'Amount too low or zero.',
+    'PAYMILL_40402' => 'Usage field too long.',
+    'PAYMILL_40403' => 'Currency not allowed.',
+    'PAYMILL_50000' => 'General problem with backend.',
+    'PAYMILL_50001' => 'Country blacklisted.',
+    'PAYMILL_50100' => 'Technical error with credit card.',
+    'PAYMILL_50101' => 'Error limit exceeded.',
+    'PAYMILL_50102' => 'Card declined by authorization system.',
+    'PAYMILL_50103' => 'Manipulation or stolen card.',
+    'PAYMILL_50104' => 'Card restricted.',
+    'PAYMILL_50105' => 'Invalid card configuration data.',
+    'PAYMILL_50200' => 'Technical error with bank account.',
+    'PAYMILL_50201' => 'Card blacklisted.',
+    'PAYMILL_50300' => 'Technical error with 3D secure.',
+    'PAYMILL_50400' => 'Decline because of risk issues.',
+    'PAYMILL_50500' => 'General timeout.',
+    'PAYMILL_50501' => 'Timeout on side of the acquirer.',
+    'PAYMILL_50502' => 'Risk management transaction timeout.',
+    'PAYMILL_50600' => 'Duplicate transaction.'
+    
 );

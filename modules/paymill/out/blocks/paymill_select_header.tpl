@@ -78,9 +78,9 @@ jQuery(document).ready(function ($)
             paymillDebug('An API error occured:' + error.apierror);
             // Zeigt den Fehler überhalb des Formulars an
             $(".payment-errors").text(error.apierror);
-            $(".payment-errors").css("display","inline-block");
+            $(".payment-errors").css("display", "inline-block");
         } else {
-            $(".payment-errors").css("display","none");
+            $(".payment-errors").css("display", "none");
             $(".payment-errors").text("");
             // Token
             paymillDebug('Received a token: ' + result.token);

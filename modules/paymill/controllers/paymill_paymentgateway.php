@@ -18,6 +18,63 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
     
     private $_token;
     
+    protected $_responseCodes = array(
+        '10001' => 'PAYMILL_10001',
+        '10002' => 'PAYMILL_10002',
+        '20000' => 'PAYMILL_20000',
+        '40000' => 'PAYMILL_40000',
+        '40001' => 'PAYMILL_40001',
+        '40100' => 'PAYMILL_40100',
+        '40101' => 'PAYMILL_40101',
+        '40102' => 'PAYMILL_40102',
+        '40103' => 'PAYMILL_40103',
+        '40104' => 'PAYMILL_40104',
+        '40105' => 'PAYMILL_40105',
+        '40106' => 'PAYMILL_40106',
+        '40200' => 'PAYMILL_40200',
+        '40201' => 'PAYMILL_40201',
+        '40202' => 'PAYMILL_40202',
+        '40300' => 'PAYMILL_40300',
+        '40301' => 'PAYMILL_40301',
+        '40400' => 'PAYMILL_40400',
+        '40401' => 'PAYMILL_40401',
+        '40402' => 'PAYMILL_40402',
+        '40403' => 'PAYMILL_40403',
+        '50000' => 'PAYMILL_50000',
+        '50001' => 'PAYMILL_50001',
+        '50100' => 'PAYMILL_50100',
+        '50101' => 'PAYMILL_50101',
+        '50102' => 'PAYMILL_50102',
+        '50103' => 'PAYMILL_50103',
+        '50104' => 'PAYMILL_50104',
+        '50105' => 'PAYMILL_50105',
+        '50200' => 'PAYMILL_50200',
+        '50201' => 'PAYMILL_50201',
+        '50300' => 'PAYMILL_50300',
+        '50400' => 'PAYMILL_50400',
+        '50500' => 'PAYMILL_50500',
+        '50501' => 'PAYMILL_50501',
+        '50502' => 'PAYMILL_50502',
+        '50600' => 'PAYMILL_50600'
+    );
+    
+    /**
+     * Return message for the given error code
+     * 
+     * @param string $code
+     * @return string
+     */
+    private function _getErrorMessage($code)
+    {
+        $message = 'PAYMILL_10001';
+        if (array_key_exists($code, $this->_responseCodes)) {
+            $message = $this->_responseCodes[$code];
+        }
+        
+        
+        return oxLang::getInstance()->translateString($message, oxLang::getInstance()->getBaseLanguage(), false);
+    }
+    
     /**
      * @overload
      */
@@ -39,9 +96,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         $this->_iLastErrorNo = null;
         $this->_sLastError = null;
         
-        if (!$this->_initializePaymentProcessor($dAmount, $oOrder)) {
-            return false;
-        }
+        $this->_initializePaymentProcessor($dAmount, $oOrder);
         
         if ($this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue) === 'cc') {
             $this->_paymentProcessor->setPreAuthAmount((int) oxSession::getVar('paymill_authorized_amount'));
@@ -60,6 +115,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         try {
             $result = $this->_paymentProcessor->processPayment();
         } catch (Exception $e) {
+            $oOrder->getSession()->setVar("paymill_error", $this->_getErrorMessage($e->getCode()));
             $result = false;
         }
         
@@ -136,8 +192,6 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         );
         
         $this->_paymentProcessor->setSource($this->_getSourceInfo());
-        
-        return true;
     }
     
     private function _loadFastCheckoutData()
