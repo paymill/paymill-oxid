@@ -47,18 +47,21 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
             $this->_paymentProcessor->setPreAuthAmount((int) oxSession::getVar('paymill_authorized_amount'));
         }
         
-        $prop = 'paymill_fastcheckout__paymentid_' + $this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue);
-        
         $this->_loadFastCheckoutData();
         $this->_existingClientHandling($oOrder);
         
         if ($this->_token === 'dummyToken') {
+            $prop = 'paymill_fastcheckout__paymentid_' . $this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue);
             $this->_paymentProcessor->setPaymentId(
                 $this->_fastCheckoutData->$prop->rawValue
             );
         }
         
-        $result = $this->_paymentProcessor->processPayment();
+        try {
+            $result = $this->_paymentProcessor->processPayment();
+        } catch (Exception $e) {
+            $result = false;
+        }
         
         $this->log($result ? 'Payment results in success' : 'Payment results in failure', null);
         
@@ -73,20 +76,23 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
                 $saveData[$paymentColumn] = $this->_paymentProcessor->getPaymentId();
             }
             
-            $this->_fastcheckoutData->assign($saveData);
-            $this->_fastcheckoutData->save();
-        }
+            $this->_fastCheckoutData->assign($saveData);
+            $this->_fastCheckoutData->save();
         
-        if (oxConfig::getInstance()->getShopConfVar('PAYMILL_SET_PAYMENTDATE')) {
-            $this->_setPaymentDate($oOrder);
+            if (oxConfig::getInstance()->getShopConfVar('PAYMILL_SET_PAYMENTDATE')) {
+                $this->_setPaymentDate($oOrder);
+            }
+        } else {
+            $oOrder->getSession()->setVar("paymill_error", "Unknown Error.");
         }
+
         
         return $result;
     }
     
     private function _existingClientHandling($oOrder)
     {
-        $clientId = $this->_fastcheckoutData->paymill_fastcheckout__clientid->rawValue;
+        $clientId = $this->_fastCheckoutData->paymill_fastcheckout__clientid->rawValue;
         if (!empty($clientId)) {
             $this->_clients = new Services_Paymill_Clients(
                 trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PRIVATEKEY')),
@@ -136,8 +142,8 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
     
     private function _loadFastCheckoutData()
     {        
-        $this->_fastcheckoutData = oxNew('paymill_fastcheckout');
-        $this->_fastcheckoutData->load($this->getUser()->getId());
+        $this->_fastCheckoutData = oxNew('paymill_fastcheckout');
+        $this->_fastCheckoutData->load($this->getUser()->getId());
     }
 
     private function _getPaymentShortCode($paymentCode)

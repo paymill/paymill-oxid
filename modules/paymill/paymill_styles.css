@@ -8,6 +8,7 @@
 .paymill_powered {
     border: 1px solid #ccc;
     width: 340px;
+    height: 32px;
     padding: 4px;
     background: white url('image/logo.png') no-repeat center right;
     -moz-border-radius: 3px;
