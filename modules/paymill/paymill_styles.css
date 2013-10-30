@@ -5,7 +5,8 @@
     Description: Purpose of the stylesheet follows.
 */
 
-.paymill_powered {
+.paymill_powered 
+{
     border: 1px solid #ccc;
     width: 340px;
     height: 32px;
@@ -16,25 +17,29 @@
     font-size: 10px;
 }
 
-.paymill_powered > .paymill_credits {
+.paymill_powered > .paymill_credits 
+{
     width: 160px;
     color: #666;
 }
 
-.paymill_powered > a {
+.paymill_powered > a 
+{
     color: #666;
     text-decoration: underline;
 }
 
-.payment-errors {
+.payment-errors 
+{
     color: red;
     font-weight: bold;
     border: 1px solid black;
     padding: 5px;
 }
 
-.card-number-label, .card-cvc-label, .card-expiry-label, .card-holdername-label{
-
+.span1 
+{
+    height: 18px !important;
 }
 
 .card-number-label,
@@ -46,20 +51,63 @@
 .elv-account,
 .elv-account-label,
 .elv-holdername,
-.elv-holdername-label{
+.elv-holdername-label {
     margin-bottom: 10px;
 }
 
-.card-expiry-month{
+.card-expiry-month 
+{
     margin-right: 6px;
 }
 
-.card-expiry-year{
+.card-expiry-year 
+{
     margin-left: 6px;
 }
 
-.card-expiry-month, .card-expiry-year{
+.card-expiry-month, .card-expiry-year 
+{
     width: 90px;
+}
+
+.paymill-card-number-visa
+{
+    background: url('image/32x20_visa.png') no-repeat center right !important;
+}
+
+.paymill-card-number-mastercard
+{
+    background: url('image/32x20_mastercard.png') no-repeat center right !important;
+}
+
+.paymill-card-number-amex
+{
+    background: url('image/32x20_amex.png') no-repeat center right !important;
+}
+
+.paymill-card-number-jcb
+{
+    background: url('image/32x20_jcb.png') no-repeat center right !important;
+}
+
+.paymill-card-number-maestro
+{
+    background: url('image/32x20_maestro.png') no-repeat center right !important;
+}
+
+.paymill-card-number-carte-bleue
+{
+    background: url('image/32x20_unionpay.png') no-repeat center right !important;
+}
+
+.paymill-card-number-diners
+{
+    background: url('image/32x20_dinersclub.png') no-repeat center right !important;
+}
+
+.paymill-card-number-discover
+{
+    background: url('image/32x20_discover.png') no-repeat center right !important;
 }
 
 .tooltip 

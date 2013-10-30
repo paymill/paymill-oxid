@@ -59,51 +59,17 @@ jQuery(document).ready(function ($)
         $('#paymillElvBankCode').val('');
     });
     
-    $('#paymillCardNumber').keyup(function() 
-    {
+    $('#paymillCardNumber').keyup(function() {
         var brand = paymill.cardType($('#paymillCardNumber').val());
-            brand = brand.toLowerCase();
-            switch(brand){
-                case 'visa':
-                    $('.card-icon').html('<img src="[{ $oViewConf->getBaseDir() }]modules/paymill/image/32x20_visa.png" >');
-                    $('.card-icon').show();
-                    break;
-                case 'mastercard':
-                    $('.card-icon').html('<img src="[{ $oViewConf->getBaseDir() }]modules/paymill/image/32x20_mastercard.png" >');
-                    $('.card-icon').show();
-                    break;
-                case 'american express':
-                    $('.card-icon').html('<img src="[{ $oViewConf->getBaseDir() }]modules/paymill/image/32x20_amex.png" >');
-                    $('.card-icon').show();
-                    break;
-                case 'jcb':
-                    $('.card-icon').html('<img src="[{ $oViewConf->getBaseDir() }]modules/paymill/image/32x20_jcb.png" >');
-                    $('.card-icon').show();
-                    break;
-                case 'maestro':
-                    $('.card-icon').html('<img src="[{ $oViewConf->getBaseDir() }]modules/paymill/image/32x20_maestro.png" >');
-                    $('.card-icon').show();
-                    break;
-                case 'diners club':
-                    $('.card-icon').html('<img src="[{ $oViewConf->getBaseDir() }]modules/paymill/image/32x20_dinersclub.png" >');
-                    $('.card-icon').show();
-                    break;
-                case 'discover':
-                    $('.card-icon').html('<img src="[{ $oViewConf->getBaseDir() }]modules/paymill/image/32x20_discover.png" >');
-                    $('.card-icon').show();
-                    break;
-                case 'unionpay':
-                    $('.card-icon').html('<img src="[{ $oViewConf->getBaseDir() }]modules/paymill/image/32x20_unionpay.png" >');
-                    $('.card-icon').show();
-                    break;
-                case 'unknown':
-                default:
-                    $('.card-icon').hide();
-                    break;
+        brand = brand.toLowerCase();
+        $("#paymillCardNumber")[0].className = $("#paymillCardNumber")[0].className.replace(/paymill-card-number-.*/g, '');
+        if (brand !== 'unknown') {
+            if (brand === 'american express') {
+                brand = 'amex';
             }
             
-            $('.card-icon :first-child').css('position','absolute');
-
+            $('#paymillCardNumber').addClass("paymill-card-number-" + brand);
+        }
     });
 
     function PaymillResponseHandler(error, result) 
