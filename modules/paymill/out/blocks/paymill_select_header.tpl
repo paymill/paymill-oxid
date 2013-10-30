@@ -15,6 +15,50 @@
 $.noConflict();
 jQuery(document).ready(function ($) 
 {
+    
+    //cc
+    $('#paymillCardNumber').live('focus', function() {
+        PAYMILL_FASTCHECKOUT_CC = false;
+        $('#paymillCardNumber').val('');
+    });
+
+    $('#paymillCardExpiryMonth').live('focus', function() {
+        PAYMILL_FASTCHECKOUT_CC = false;
+    });
+
+
+    $('#paymillCardExpiryYear').live('focus', function() {
+        PAYMILL_FASTCHECKOUT_CC = false;
+    });
+
+    $('#paymillCardHolderName').live('focus', function() {
+        PAYMILL_FASTCHECKOUT_CC = false;
+        $('#paymillCardHolderName').val('');
+    });
+
+    $('#paymillCardCvc').live('focus', function() {
+        PAYMILL_FASTCHECKOUT_CC = false;
+        $('#paymillCardCvc').val('');
+    });
+
+    //elv
+    $('#paymillElvHolderName').live('focus', function() {
+        PAYMILL_FASTCHECKOUT_ELV = false;
+        $('#paymillElvHolderName').val('');
+    });
+
+    $('#paymillElvAccount').live('change', function() {
+    
+        PAYMILL_FASTCHECKOUT_ELV = false;
+        $('#paymillElvAccount').val('');
+    });
+
+    $('#paymillElvBankCode').live('change', function() {
+    
+        PAYMILL_FASTCHECKOUT_ELV = false;
+        $('#paymillElvBankCode').val('');
+    });
+    
     $('#paymillCardNumber').keyup(function() 
     {
         var brand = paymill.cardType($('#paymillCardNumber').val());
@@ -111,10 +155,12 @@ jQuery(document).ready(function ($)
                 }
 
                 if (!paymill.validateCvc($('#paymillCardCvc').val(), $('#paymillCardNumber').val())) {
-                    $(".payment-errors.cc").text('[{ oxmultilang ident="PAYMILL_VALIDATION_CVC" }]');
-                    $(".payment-errors.cc").css("display","inline-block");
-                    $("#paymentNextStepBottom").removeAttr("disabled");
-                    return false;
+                    if (paymill.cardType($('#paymillCardNumber').val()).toLowerCase() !== 'maestro') {
+                        $(".payment-errors.cc").text('[{ oxmultilang ident="PAYMILL_VALIDATION_CVC" }]');
+                        $(".payment-errors.cc").css("display","inline-block");
+                        $("#paymentNextStepBottom").removeAttr("disabled");
+                        return false;
+                    }
                 }
 
                 if (!paymill.validateHolder($('#paymillCardHolderName').val())) {
@@ -123,6 +169,12 @@ jQuery(document).ready(function ($)
                     $("#paymentNextStepBottom").removeAttr("disabled");
                     return false;
                 }
+                            
+                var cvc = '000';
+
+                if (pmQuery('#paymillCardCvc').val() !== '') {
+                    cvc = pmQuery('#paymillCardCvc').val();
+                }
 
                 var params = {
                     amount_int: PAYMILL_AMOUNT,  // E.g. "15" for 0.15 Eur
@@ -130,7 +182,7 @@ jQuery(document).ready(function ($)
                     number: $('#paymillCardNumber').val(),
                     exp_month: $('#paymillCardExpiryMonth').val(),
                     exp_year: $('#paymillCardExpiryYear').val(),
-                    cvc: $('#paymillCardCvc').val(),
+                    cvc: cvc,
                     cardholder: $('#paymillCardHolderName').val()
                 };
                 paymill.createToken(params, PaymillResponseHandler);

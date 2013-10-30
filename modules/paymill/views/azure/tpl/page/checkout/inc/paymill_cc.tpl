@@ -17,7 +17,7 @@
                         <span class="span1 card-icon"></span>
                     </div>
                     <div class="controls controls-row">
-                        <label class="card-cvc-label">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_SECURITYCODE" }]:</label>
+                        <label class="card-cvc-label">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_SECURITYCODE" }]<span class="tooltip" title='[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_CC_TOOLTIP" }]'>?</span>:</label>
                         <input id="paymillCardCvc" class="card-cvc span1" type="text" size="4" value="[{$paymillCcCvc}]"/>
                     </div>
                     <div class="controls controls-row">
