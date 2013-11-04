@@ -1,4 +1,4 @@
-Paymill-Oxid 4.7
+PAYMILL - Oxid 4.7
 ==================
 
 Payment plugin for Oxid Version 4.7
@@ -7,12 +7,12 @@ Download the module here: https://github.com/Paymill/Paymill-Oxid-4.7/archive/ma
 
 - Merge the content with your Oxid installation.
 - Import the install.sql to your database.
-- In your administration backend activate the Paymill plugin.
-- Go to the configuration section where you can insert your private and public key (that you can find in your Paymill cockpit [https://app.paymill.de/](https://app.paymill.de/ "Paymill cockpit")).
+- In your administration backend activate the PAYMILL plugin.
+- Go to the configuration section where you can insert your private and public key (that you can find in your PAYMILL cockpit [https://app.paymill.de/](https://app.paymill.de/ "Paymill cockpit")).
 
-# Activate Paymill Payment
+# Activate PAYMILL Payment
 
-To activate Paymill payment follow these steps:
+To activate PAYMILL payment follow these steps:
 
 - In the main menu goto **Shopeinstellungen > Zahlungsarten**
 - Choose the payment method you want to activate
@@ -33,14 +33,16 @@ if you want to update from an version earlier than 2.1 you have to run the updat
 
 # Error handling
 
-In case of any errors turn on the debug mode in the Paymill payment method configuration.
+In case of any errors turn on the debug mode in the PAYMILL payment method configuration.
 Open the javascript console in your browser and check what's being logged during the checkout process.
 
 # Logging
 
 - If you enable logging in the plugin configuration make sure that log.txt inside the plugin directory is writable. Otherwise logging information will not be stored to the logfile.
-- You can access the Logging with your shop-backend under Paymill -> Log
+- You can access the Logging with your shop-backend under PAYMILL -> Log
 
 # Notes about the payment process
 
 The payment is processed when an order is placed in the shop frontend.
+
+Fast Checkout: Fast checkout can be enabled by selecting the option in the PAYMILL Basic Settings. If any customer completes a purchase while the option is active this customer will not be asked for data again. Instead a reference to the customer data will be saved allowing comfort during checkout.
