@@ -87,9 +87,11 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         if (oxSession::hasVar('paymill_token')) {
             $this->_token = oxSession::getVar('paymill_token');
         } else {
-            $oOrder->getSession()->setVar("paymill_error", "No Token was provided");
-            return false;
+            oxRegistry::get("oxUtilsView")->addErrorToDisplay("No Token was provided");
+            oxUtils::getInstance()->redirect($this->getConfig()->getSslShopUrl() . 'index.php?cl=payment', false);
         }
+        
+        $this->getSession()->setVar("paymill_identifier", time());
         
         $this->_apiUrl = paymill_util::API_ENDPOINT;
         
@@ -115,7 +117,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         try {
             $result = $this->_paymentProcessor->processPayment();
         } catch (Exception $e) {
-            $oOrder->getSession()->setVar("paymill_error", $this->_getErrorMessage($e->getCode()));
+            oxRegistry::get("oxUtilsView")->addErrorToDisplay($e->getCode());
             $result = false;
         }
         
@@ -139,7 +141,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
                 $this->_setPaymentDate($oOrder);
             }
         } else {
-            $oOrder->getSession()->setVar("paymill_error", "Unknown Error.");
+            oxUtils::getInstance()->redirect($this->getConfig()->getSslShopUrl() . 'index.php?cl=payment', false);
         }
 
         
@@ -231,11 +233,15 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
      */
     public function log($message, $debuginfo)
     {
-        $logfile = dirname(dirname(__FILE__)) . '/log.txt';
-        if (oxConfig::getInstance()->getShopConfVar('PAYMILL_ACTIVATE_LOGGING') == "1") {
-            $handle = fopen($logfile, 'a+');
-            fwrite($handle, "[" . date(DATE_RFC822) . "] " . $message . "\n");
-            fclose($handle);
+        if (oxConfig::getInstance()->getShopConfVar('PAYMILL_ACTIVATE_LOGGING')) {
+            $logging = oxNew('paymill_logging');
+            $logging->assign(array(
+                'identifier' => $this->getSession()->getVar('paymill_identifier'),
+                'debug' => $debuginfo,
+                'message' => $message
+            ));
+            
+            $logging->save();
         }
     }
 

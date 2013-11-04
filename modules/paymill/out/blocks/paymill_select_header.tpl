@@ -138,8 +138,8 @@ jQuery(document).ready(function ($)
                             
                 var cvc = '000';
 
-                if (pmQuery('#paymillCardCvc').val() !== '') {
-                    cvc = pmQuery('#paymillCardCvc').val();
+                if ($('#paymillCardCvc').val() !== '') {
+                    cvc = $('#paymillCardCvc').val();
                 }
 
                 var params = {

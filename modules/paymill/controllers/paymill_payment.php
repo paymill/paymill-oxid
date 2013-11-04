@@ -20,11 +20,6 @@ class paymill_payment extends paymill_payment_parent
      */
     public function render()
     {
-        if ($this->getSession()->hasVar('paymill_error')) {
-            $this->addTplParam('piPaymillError', $this->getSession()->getVar('paymill_error'));
-            $this->getSession()->deleteVar('paymill_error');
-        }
-
         if ($this->getUser()) {
             $this->_payments = new Services_Paymill_Payments(
                 trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PRIVATEKEY')),

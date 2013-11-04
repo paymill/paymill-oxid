@@ -20,13 +20,13 @@ $aModule = array(
         'Services_Paymill_Clients' => 'paymill/lib/Services/Paymill/Clients.php',
         'Services_Paymill_Payments' => 'paymill/lib/Services/Paymill/Payments.php',
         'paymill_fastcheckout' => 'paymill/core/paymill_fastcheckout.php',
+        'paymill_logging' => 'paymill/core/paymill_logging.php',
         'paymill_log' => 'paymill/controllers/admin/paymill_log.php',
         'paymill_util' => 'paymill/util/paymill_util.php'
     ),
     'blocks' => array(
         array('template' => 'page/checkout/payment.tpl', 'block' => 'select_payment', 'file' => 'paymill_select_payment.tpl'),
         array('template' => 'page/checkout/payment.tpl', 'block' => 'checkout_payment_main', 'file' => 'paymill_select_header.tpl'),
-        array('template' => 'page/checkout/payment.tpl', 'block' => 'checkout_payment_errors', 'file' => 'paymill_select_error.tpl')
     ),
     'templates' => array(
         'paymill_cc.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_cc.tpl',
