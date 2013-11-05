@@ -21,7 +21,11 @@ $aModule = array(
         'Services_Paymill_Payments' => 'paymill/lib/Services/Paymill/Payments.php',
         'paymill_fastcheckout' => 'paymill/core/paymill_fastcheckout.php',
         'paymill_logging' => 'paymill/core/paymill_logging.php',
+        'paymill_loglist' => 'paymill/core/paymill_loglist.php',
         'paymill_log' => 'paymill/controllers/admin/paymill_log.php',
+        'paymill_log_list' => 'paymill/controllers/admin/paymill_log_list.php',
+        'paymill_log_entry' => 'paymill/controllers/admin/paymill_log_entry.php',
+        'paymill_log_abstract' => 'paymill/controllers/admin/paymill_log_abstract.php',
         'paymill_util' => 'paymill/util/paymill_util.php'
     ),
     'blocks' => array(
@@ -31,7 +35,9 @@ $aModule = array(
     'templates' => array(
         'paymill_cc.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_cc.tpl',
         'paymill_elv.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_elv.tpl',
-        'paymill_log.tpl' => 'paymill/views/admin/tpl/paymill_log.tpl'
+        'paymill_log.tpl' => 'paymill/views/admin/tpl/paymill_log.tpl',
+        'paymill_log_list.tpl' => 'paymill/views/admin/tpl/paymill_log_list.tpl',
+        'paymill_log_entry.tpl' => 'paymill/views/admin/tpl/paymill_log_entry.tpl'
     ),
     'settings' => array(
         array('group' => 'main', 'name' => 'PAYMILL_PRIVATEKEY', 'type' => 'str', 'value' => ''),
