@@ -46,15 +46,13 @@ jQuery(document).ready(function ($)
         PAYMILL_FASTCHECKOUT_ELV = false;
         $('#paymillElvHolderName').val('');
     });
-
-    $('#paymillElvAccount').live('change', function() {
     
+    $('#paymillElvAccount').live('focus', function() {
         PAYMILL_FASTCHECKOUT_ELV = false;
         $('#paymillElvAccount').val('');
     });
-
-    $('#paymillElvBankCode').live('change', function() {
     
+    $('#paymillElvBankCode').live('focus', function() {
         PAYMILL_FASTCHECKOUT_ELV = false;
         $('#paymillElvBankCode').val('');
     });

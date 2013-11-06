@@ -117,7 +117,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         try {
             $result = $this->_paymentProcessor->processPayment();
         } catch (Exception $e) {
-            oxRegistry::get("oxUtilsView")->addErrorToDisplay($e->getCode());
+            oxRegistry::get("oxUtilsView")->addErrorToDisplay($this->_getErrorMessage($e->getCode()));
             $result = false;
         }
         
