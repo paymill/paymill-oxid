@@ -114,12 +114,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
             );
         }
         
-        try {
-            $result = $this->_paymentProcessor->processPayment();
-        } catch (Exception $e) {
-            oxRegistry::get("oxUtilsView")->addErrorToDisplay($this->_getErrorMessage($e->getCode()));
-            $result = false;
-        }
+        $result = $this->_paymentProcessor->processPayment();
         
         $this->log($result ? 'Payment results in success' : 'Payment results in failure', null);
         
@@ -141,8 +136,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
                 $this->_setPaymentDate($oOrder);
             }
         } else {
-            oxRegistry::get("oxUtilsView")->addErrorToDisplay($this->_getErrorMessage('10001'));
-            oxUtils::getInstance()->redirect($this->getConfig()->getSslShopUrl() . 'index.php?cl=payment', false);
+            oxRegistry::get("oxUtilsView")->addErrorToDisplay($this->_getErrorMessage($this->_paymentProcessor->getErrorCode()));
         }
 
         
