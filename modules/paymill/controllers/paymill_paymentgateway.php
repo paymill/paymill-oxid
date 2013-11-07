@@ -141,6 +141,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
                 $this->_setPaymentDate($oOrder);
             }
         } else {
+            oxRegistry::get("oxUtilsView")->addErrorToDisplay($this->_getErrorMessage('10001'));
             oxUtils::getInstance()->redirect($this->getConfig()->getSslShopUrl() . 'index.php?cl=payment', false);
         }
 
