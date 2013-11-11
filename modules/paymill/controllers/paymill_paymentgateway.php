@@ -72,7 +72,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         }
         
         
-        return oxLang::getInstance()->translateString($message, oxLang::getInstance()->getBaseLanguage(), false);
+        return $this->convertToUtf(oxLang::getInstance()->translateString($message, oxLang::getInstance()->getBaseLanguage(), false));
     }
     
     /**
@@ -169,8 +169,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
     private function _initializePaymentProcessor($dAmount, $oOrder)
     {   
         $utf8Name = $this->convertToUtf(
-            $oOrder->oxorder__oxbilllname->value . ', ' . $oOrder->oxorder__oxbillfname->value, 
-            oxConfig::getInstance()->isUtf()
+            $oOrder->oxorder__oxbilllname->value . ', ' . $oOrder->oxorder__oxbillfname->value
         );
         
         $this->_paymentProcessor = new Services_Paymill_PaymentProcessor(
@@ -241,13 +240,10 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         }
     }
 
-    public function convertToUtf($value, $utfMode)
+    public function convertToUtf($value)
     {
-        if (!$utfMode) {
-            $value = utf8_encode($value);
-        }
-
-        return $value;
+       $obj = oxNew('paymill_util');
+       return $obj->convertToUtf($value);
     }
 
 }

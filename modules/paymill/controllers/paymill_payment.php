@@ -49,6 +49,11 @@ class paymill_payment extends paymill_payment_parent
             trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PUBLICKEY'))
         );
         
+        $this->addTplParam(
+            'paymillUtil',
+            oxNew('paymill_util')
+        );
+        
         return parent::render();
     }
     
