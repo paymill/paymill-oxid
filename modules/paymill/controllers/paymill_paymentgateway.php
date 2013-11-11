@@ -233,7 +233,8 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
             $logging->assign(array(
                 'identifier' => $this->getSession()->getVar('paymill_identifier'),
                 'debug' => $debuginfo,
-                'message' => $message
+                'message' => $message,
+                'date' => date('Y-m-d H:i:s', oxUtilsDate::getInstance()->getTime())
             ));
             
             $logging->save();

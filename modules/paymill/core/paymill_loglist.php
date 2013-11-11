@@ -61,7 +61,11 @@ class paymill_loglist extends oxList
                     $addition = '';
                 $query .= $orderByItem['column'] . ' ' . $orderByItem['direction'] . $addition;
             }
+        } else {
+            $query .= ' order by date desc';
         }
+        
+        
         
         if ($this->_limit) {
             $query .= $this->_limit;

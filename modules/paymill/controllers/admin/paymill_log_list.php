@@ -6,7 +6,7 @@ class paymill_log_list extends paymill_log_abstract
     
     private $_page;
     
-    private $_recordLimit = 4;
+    private $_recordLimit = 8;
     
     private $_pageCount;
     
