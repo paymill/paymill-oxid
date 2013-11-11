@@ -65,8 +65,6 @@ class paymill_loglist extends oxList
             $query .= ' order by date desc';
         }
         
-        
-        
         if ($this->_limit) {
             $query .= $this->_limit;
         }
