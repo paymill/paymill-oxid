@@ -23,16 +23,6 @@
                     </div>
                 </div>
             </li>
-            [{if $oxConfig->getShopConfVar('PAYMILL_SHOW_LABEL')}]
-            <li>
-                <div class="paymill_powered">
-                    <div class="paymill_credits">
-                        [{ oxmultilang ident="PAYMILL_ELV_POWERED_TEXT" }]
-                        <a href="http://www.paymill.de" target="_blank">PAYMILL</a>
-                    </div>
-                </div>
-            </li>
-            [{/if}]
         </ul>
     </dd>
 </dl>
