@@ -42,7 +42,7 @@ class paymill_payment extends paymill_payment_parent
             $this->_setPayment(
                 $this->_fastCheckoutData->paymill_fastcheckout__paymentid_elv->rawValue
             );
-            if (!array_key_exists('account', $this->_payment)) {
+            if (!array_key_exists('holder', $this->_payment)) {
                 $this->addTplParam('fastCheckoutElv', 'false');
             } else {
                 $this->addTplParam('fastCheckoutElv', 'true');
@@ -96,6 +96,9 @@ class paymill_payment extends paymill_payment_parent
             $this->addTplParam('paymillElvCode', $this->_getEntry($this->_payment, 'code'));
             $this->addTplParam('paymillElvHolder', $this->_getEntry($this->_payment, 'holder'));
             $this->addTplParam('paymillElvAccount', $this->_getEntry($this->_payment, 'account'));
+            
+            $this->addTplParam('paymillElvBic', $this->_getEntry($this->_payment, 'bic'));
+            $this->addTplParam('paymillElvIban', $this->_getEntry($this->_payment, 'iban'));
         }
     }
     

@@ -35,6 +35,7 @@ $aModule = array(
     'templates' => array(
         'paymill_cc.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_cc.tpl',
         'paymill_elv.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_elv.tpl',
+        'paymill_sepa.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_sepa.tpl',
         'paymill_log.tpl' => 'paymill/views/admin/tpl/paymill_log.tpl',
         'paymill_log_list.tpl' => 'paymill/views/admin/tpl/paymill_log_list.tpl',
         'paymill_log_entry.tpl' => 'paymill/views/admin/tpl/paymill_log_entry.tpl'
@@ -46,6 +47,7 @@ $aModule = array(
         array('group' => 'main', 'name' => 'PAYMILL_ACTIVATE_LOGGING', 'type' => 'bool', 'value' => 'false'),
         array('group' => 'main', 'name' => 'PAYMILL_ACTIVATE_DIFFERENTAMOUNT', 'type' => 'str', 'value' => 0),
         array('group' => 'main', 'name' => 'PAYMILL_ACTIVATE_FASTCHECKOUT', 'type' => 'bool', 'value' => 'false'),
+        array('group' => 'main', 'name' => 'PAYMILL_ACTIVATE_SEPA', 'type' => 'bool', 'value' => 'false'),
         array('group' => 'main', 'name' => 'PAYMILL_SET_PAYMENTDATE', 'type' => 'bool', 'value' => 'true'),
     )
 );
