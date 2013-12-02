@@ -29,14 +29,20 @@ class paymill_payment extends paymill_payment_parent
             $this->_fastCheckoutData = oxNew('paymill_fastcheckout');
             $this->_fastCheckoutData->load($this->getUser()->getId());
             
-            if (empty($this->_fastCheckoutData->paymill_fastcheckout__paymentid_cc->rawValue)) {
+            $this->_setPayment(
+                $this->_fastCheckoutData->paymill_fastcheckout__paymentid_cc->rawValue
+            );
+            if (!array_key_exists('last4', $this->_payment)) {
                 $this->addTplParam('fastCheckoutCc', 'false');
             } else {
                 $this->addTplParam('fastCheckoutCc', 'true');
                 $this->_setPaymillCcPaymentData();
             }
             
-            if (empty($this->_fastCheckoutData->paymill_fastcheckout__paymentid_elv->rawValue)) {
+            $this->_setPayment(
+                $this->_fastCheckoutData->paymill_fastcheckout__paymentid_elv->rawValue
+            );
+            if (!array_key_exists('account', $this->_payment)) {
                 $this->addTplParam('fastCheckoutElv', 'false');
             } else {
                 $this->addTplParam('fastCheckoutElv', 'true');
@@ -55,30 +61,42 @@ class paymill_payment extends paymill_payment_parent
         );
         
         return parent::render();
+    }  
+    
+    private function _setPayment($paymentId)
+    {
+        $this->_payment = $this->_payments->getOne(
+            $paymentId
+        );
+        
+        if (is_null($this->_payment)) {
+            $this->_payment = array();
+        }
     }
     
     private function _setPaymillCcPaymentData()
     {
-        $payment = $this->_payments->getOne(
-            $this->_fastCheckoutData->paymill_fastcheckout__paymentid_cc->rawValue
-        );
-        
-        $this->addTplParam('paymillCcLastFour', '************' . $this->_getEntry($payment, 'last4'));
-        $this->addTplParam('paymillCcCvc', '***');
-        $this->addTplParam('paymillCcCardHolder', $this->_getEntry($payment, 'card_holder'));
-        $this->addTplParam('paymillCcExpireMonth', $this->_getEntry($payment, 'expire_month'));
-        $this->addTplParam('paymillCcExpireYear', $this->_getEntry($payment, 'expire_year'));
+        if (!array_key_exists('error', $this->_payment)) {
+            $this->addTplParam('paymillCcLastFour', '************' . $this->_getEntry($this->_payment, 'last4'));
+            $this->addTplParam('paymillCcCvc', '***');
+            $this->addTplParam('paymillCcCardHolder', $this->_getEntry($this->_payment, 'card_holder'));
+            $this->addTplParam('paymillCcExpireMonth', $this->_getEntry($this->_payment, 'expire_month'));
+            $this->addTplParam('paymillCcExpireYear', $this->_getEntry($this->_payment, 'expire_year'));
+            if ($this->_getEntry($this->_payment, 'card_type') === 'american express') {
+                $this->addTplParam('brand', 'amex');
+            } else {
+                $this->addTplParam('brand', $this->_getEntry($this->_payment, 'card_type'));
+            }
+        }
     }
     
     private function _setPaymillElvPaymentData()
     {
-        $payment = $this->_payments->getOne(
-            $this->_fastCheckoutData->paymill_fastcheckout__paymentid_elv->rawValue
-        );
-        
-        $this->addTplParam('paymillElvCode', $this->_getEntry($payment, 'code'));
-        $this->addTplParam('paymillElvHolder', $this->_getEntry($payment, 'holder'));
-        $this->addTplParam('paymillElvAccount', $this->_getEntry($payment, 'account'));
+        if (!array_key_exists('error', $this->_payment)) {
+            $this->addTplParam('paymillElvCode', $this->_getEntry($this->_payment, 'code'));
+            $this->addTplParam('paymillElvHolder', $this->_getEntry($this->_payment, 'holder'));
+            $this->addTplParam('paymillElvAccount', $this->_getEntry($this->_payment, 'account'));
+        }
     }
     
     private function _getEntry($data, $key)
