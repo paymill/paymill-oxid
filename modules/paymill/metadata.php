@@ -25,8 +25,10 @@ $aModule = array(
         'paymill_log' => 'paymill/controllers/admin/paymill_log.php',
         'paymill_log_list' => 'paymill/controllers/admin/paymill_log_list.php',
         'paymill_log_entry' => 'paymill/controllers/admin/paymill_log_entry.php',
+        'paymill_hooks' => 'paymill/controllers/paymill_hooks.php',
         'paymill_log_abstract' => 'paymill/controllers/admin/paymill_log_abstract.php',
-        'paymill_util' => 'paymill/util/paymill_util.php'
+        'paymill_util' => 'paymill/util/paymill_util.php',
+       
     ),
     'blocks' => array(
         array('template' => 'page/checkout/payment.tpl', 'block' => 'select_payment', 'file' => 'paymill_select_payment.tpl'),
