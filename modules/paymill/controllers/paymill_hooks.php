@@ -1,7 +1,5 @@
 <?php
 
-define( 'OX_IS_ADMIN', true );
-
 class paymill_hooks extends oxUBase
 {
     public function render()
