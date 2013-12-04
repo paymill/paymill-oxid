@@ -1,16 +1,43 @@
 <?php
 
+define( 'OX_IS_ADMIN', true );
+
 class paymill_hooks extends oxUBase
 {
     public function render()
     {       
-        $data = $this->getInput('php://input');
+        $data = json_decode($this->getInput('php://input'));
+        $this->log($data);
+        if (!is_null($data) && isset($data->event) && isset($data->event->event_resource)) {
+            $this->log($data);
+            if (isset($data->event->event_resource->transaction)) {
+                $description = array();
+                if (preg_match("/OrderID: (\S*)/", $data->event->event_resource->transaction->description, $description)) {
+                    $order = oxNew("oxorder");
+                    $order->load($description[1]);
+                    $status = '';
+                    if ($data->event->event_resource->amount == $order->getTotalOrderSum()) {
+                        $order->oxorder__oxstorno = oxNew('oxField', 1, oxField::T_RAW);
+                        $status = strtoupper($data->event->event_resource->status);
+                    } else {
+                        $status = 'PARTIAL - ' . strtoupper($data->event->event_resource->status);
+                    }
+                    
+                    $order->oxorder__oxtransstatus = oxNew('oxField', $status, oxField::T_RAW);
+                    
+                    $order->save();
+                }
+            }
+        }
+        
+        exit($this->setHeader("HTTP/1.1 200 OK"));
+    }
+    
+    private function log($data)
+    {
         $fh = fopen("paymill.log", 'w');
         fwrite($fh, print_r($data, true));
         fclose($fh);
-        
-        $this->setHeader("HTTP/1.1 200 OK");
-        exit();
     }
     
     /**
