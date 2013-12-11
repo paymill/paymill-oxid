@@ -5,9 +5,7 @@ class paymill_hooks extends oxUBase
     public function render()
     {       
         $data = json_decode($this->getInput('php://input'));
-        $this->log($data);
         if (!is_null($data) && isset($data->event) && isset($data->event->event_resource)) {
-            $this->log($data);
             if (isset($data->event->event_resource->transaction)) {
                 $description = array();
                 if (preg_match("/OrderID: (\S*)/", $data->event->event_resource->transaction->description, $description)) {
@@ -30,14 +28,7 @@ class paymill_hooks extends oxUBase
         
         exit($this->setHeader("HTTP/1.1 200 OK"));
     }
-    
-    private function log($data)
-    {
-        $fh = fopen("paymill.log", 'w');
-        fwrite($fh, print_r($data, true));
-        fclose($fh);
-    }
-    
+
     /**
      * Return the data from 
      * the given stream source
