@@ -1,3 +1,6 @@
+## v2.3.0
+ * webhook support
+
 ## v2.2.0
  * maestro handling
  * better logging view

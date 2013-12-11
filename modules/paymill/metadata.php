@@ -19,6 +19,7 @@ $aModule = array(
         'Services_Paymill_LoggingInterface' => 'paymill/lib/Services/Paymill/LoggingInterface.php',
         'Services_Paymill_Clients' => 'paymill/lib/Services/Paymill/Clients.php',
         'Services_Paymill_Payments' => 'paymill/lib/Services/Paymill/Payments.php',
+        'Services_Paymill_Webhooks' => 'paymill/lib/Services/Paymill/Webhooks.php',
         'paymill_fastcheckout' => 'paymill/core/paymill_fastcheckout.php',
         'paymill_logging' => 'paymill/core/paymill_logging.php',
         'paymill_loglist' => 'paymill/core/paymill_loglist.php',
@@ -27,6 +28,7 @@ $aModule = array(
         'paymill_log_entry' => 'paymill/controllers/admin/paymill_log_entry.php',
         'paymill_hooks' => 'paymill/controllers/paymill_hooks.php',
         'paymill_log_abstract' => 'paymill/controllers/admin/paymill_log_abstract.php',
+        'paymill_register_hook' => 'paymill/controllers/admin/paymill_register_hook.php',
         'paymill_util' => 'paymill/util/paymill_util.php',
        
     ),
@@ -40,7 +42,8 @@ $aModule = array(
         'paymill_sepa.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_sepa.tpl',
         'paymill_log.tpl' => 'paymill/views/admin/tpl/paymill_log.tpl',
         'paymill_log_list.tpl' => 'paymill/views/admin/tpl/paymill_log_list.tpl',
-        'paymill_log_entry.tpl' => 'paymill/views/admin/tpl/paymill_log_entry.tpl'
+        'paymill_log_entry.tpl' => 'paymill/views/admin/tpl/paymill_log_entry.tpl',
+        'paymill_register_hook.tpl' => 'paymill/views/admin/tpl/paymill_register_hook.tpl'
     ),
     'settings' => array(
         array('group' => 'main', 'name' => 'PAYMILL_PRIVATEKEY', 'type' => 'str', 'value' => ''),
