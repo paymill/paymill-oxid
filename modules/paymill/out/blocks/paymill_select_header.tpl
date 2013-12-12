@@ -32,10 +32,7 @@
 <script type="text/javascript">
 $.noConflict();
 jQuery(document).ready(function ($) 
-{
-    
-    paymill.config('3ds_cancel_label', PAYMILL_TRANSLATION.PAYMILL_3ds_cancelled);
-    
+{    
     //cc
     $('#paymillCardNumber').live('focus', function() {
         PAYMILL_FASTCHECKOUT_CC = false;
