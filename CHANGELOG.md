@@ -1,5 +1,7 @@
 ## v2.3.0
  * webhook support
+ * translate bridge erros
+ * elv sepa support
 
 ## v2.2.0
  * maestro handling
