@@ -153,6 +153,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
             );
             
             $client = $this->_clients->getOne($clientId);
+            
             if ($oOrder->oxorder__oxbillemail->value !== $client['email']) {
                 $this->_clients->update(
                     array(
@@ -162,7 +163,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
                 );
             }
             
-            if (array_key_exists($client['email'], $client)) {
+            if (array_key_exists('email', $client)) {
                 $this->_paymentProcessor->setClientId($clientId);
             }
         }
