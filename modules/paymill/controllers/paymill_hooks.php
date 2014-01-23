@@ -13,8 +13,6 @@ class paymill_hooks extends oxUBase
                     $order->load($description[1]);
                     $status = '';
                     
-                    $this->log((int) $data->event->event_resource->amount  . ' === ' . (int) round($order->getTotalOrderSum() * 100));
-                    
                     if ((int) $data->event->event_resource->amount === (int) round($order->getTotalOrderSum() * 100)) {
                         $order->oxorder__oxstorno = oxNew('oxField', 1, oxField::T_RAW);
                         $status = strtoupper($data->event->event_resource->status);
@@ -32,13 +30,6 @@ class paymill_hooks extends oxUBase
         exit($this->setHeader("HTTP/1.1 200 OK"));
     }
     
-    public function log($data)
-    {
-        $datei = fopen(dirname(__FILE__) . "/log.txt", "r+");
-        fwrite($datei, $data);
-        fclose($datei);
-    }
-
     /**
      * Return the data from 
      * the given stream source
