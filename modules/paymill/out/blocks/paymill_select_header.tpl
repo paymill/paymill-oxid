@@ -98,7 +98,7 @@ jQuery(document).ready(function ($)
         if (error) {
             paymillDebug('An API error occured:' + error.apierror);
             // Zeigt den Fehler überhalb des Formulars an
-            $(".payment-errors").text(PAYMILL_TRANSLATION["PAYMILL_" + error.apierror]);
+            $(".payment-errors").text($("<div/>").html(PAYMILL_TRANSLATION["PAYMILL_" + error.apierror]).text());
             $(".payment-errors").css("display", "inline-block");
         } else {
             $(".payment-errors").css("display", "none");
@@ -123,21 +123,21 @@ jQuery(document).ready(function ($)
     function paymillSepa()
     {
         if (!$('#paymillElvHolderName').val()) {
-            $(".payment-errors.elv").text('[{ oxmultilang ident="PAYMILL_VALIDATION_ACCOUNTHOLDER" }]');
+            $(".payment-errors.elv").text($("<div/>").html('[{ oxmultilang ident="PAYMILL_VALIDATION_ACCOUNTHOLDER" }]').text());
             $(".payment-errors.elv").css("display","inline-block");
             $("#paymentNextStepBottom").removeAttr("disabled");
             return false;
         }
         var iban = new Iban();
         if (!iban.validate($('#paymillIban').val())) {
-            $(".payment-errors.elv").text('[{ oxmultilang ident="PAYMILL_VALIDATION_IBAN" }]');
+            $(".payment-errors.elv").text($("<div/>").html('[{ oxmultilang ident="PAYMILL_VALIDATION_IBAN" }]').text());
             $(".payment-errors.elv").css("display","inline-block");
             $("#paymentNextStepBottom").removeAttr("disabled");
             return false;
         }
 
         if ($('#paymillBic').val() === "") {
-            $(".payment-errors.elv").text('[{ oxmultilang ident="PAYMILL_VALIDATION_BIC" }]');
+            $(".payment-errors.elv").text($("<div/>").html('[{ oxmultilang ident="PAYMILL_VALIDATION_BIC" }]').text());
             $(".payment-errors.elv").css("display","inline-block");
             $("#paymentNextStepBottom").removeAttr("disabled");
             return false;
@@ -155,21 +155,21 @@ jQuery(document).ready(function ($)
     function paymillElv()
     {
         if (!$('#paymillElvHolderName').val()) {
-            $(".payment-errors.elv").text('[{ oxmultilang ident="PAYMILL_VALIDATION_ACCOUNTHOLDER" }]');
+            $(".payment-errors.elv").text($("<div/>").html('[{ oxmultilang ident="PAYMILL_VALIDATION_ACCOUNTHOLDER" }]').text());
             $(".payment-errors.elv").css("display","inline-block");
             $("#paymentNextStepBottom").removeAttr("disabled");
             return false;
         }
 
         if (!paymill.validateAccountNumber($('#paymillElvAccount').val())) {
-            $(".payment-errors.elv").text('[{ oxmultilang ident="PAYMILL_VALIDATION_ACCOUNTNUMBER" }]');
+            $(".payment-errors.elv").text($("<div/>").html('[{ oxmultilang ident="PAYMILL_VALIDATION_ACCOUNTNUMBER" }]').text());
             $(".payment-errors.elv").css("display","inline-block");
             $("#paymentNextStepBottom").removeAttr("disabled");
             return false;
         }
 
         if (!paymill.validateBankCode($('#paymillElvBankCode').val())) {
-            $(".payment-errors.elv").text('[{ oxmultilang ident="PAYMILL_VALIDATION_BANKCODE" }]');
+            $(".payment-errors.elv").text($("<div/>").html('[{ oxmultilang ident="PAYMILL_VALIDATION_BANKCODE" }]').text());
             $(".payment-errors.elv").css("display","inline-block");
             $("#paymentNextStepBottom").removeAttr("disabled");
             return false;
@@ -192,14 +192,14 @@ jQuery(document).ready(function ($)
         if ($('#payment_paymill_cc').attr('checked')) {
             if (!PAYMILL_FASTCHECKOUT_CC) {
                 if (!paymill.validateCardNumber($('#paymillCardNumber').val())) {
-                    $(".payment-errors.cc").text('[{ oxmultilang ident="PAYMILL_VALIDATION_CARDNUMBER" }]');
+                    $(".payment-errors.cc").text($("<div/>").html('[{ oxmultilang ident="PAYMILL_VALIDATION_CARDNUMBER" }]').text());
                     $(".payment-errors.cc").css("display","inline-block");
                     $("#paymentNextStepBottom").removeAttr("disabled");
                     return false;
                 }
 
                 if (!paymill.validateExpiry($('#paymillCardExpiryMonth').val(), $('#paymillCardExpiryYear').val())) {
-                    $(".payment-errors.cc").text('[{ oxmultilang ident="PAYMILL_VALIDATION_EXP" }]');
+                    $(".payment-errors.cc").text($("<div/>").html('[{ oxmultilang ident="PAYMILL_VALIDATION_EXP" }]').text());
                     $(".payment-errors.cc").css("display","inline-block");
                     $("#paymentNextStepBottom").removeAttr("disabled");
                     return false;
@@ -207,7 +207,7 @@ jQuery(document).ready(function ($)
 
                 if (!paymill.validateCvc($('#paymillCardCvc').val(), $('#paymillCardNumber').val())) {
                     if (paymill.cardType($('#paymillCardNumber').val()).toLowerCase() !== 'maestro') {
-                        $(".payment-errors.cc").text('[{ oxmultilang ident="PAYMILL_VALIDATION_CVC" }]');
+                        $(".payment-errors.cc").text($("<div/>").html('[{ oxmultilang ident="PAYMILL_VALIDATION_CVC" }]').text());
                         $(".payment-errors.cc").css("display","inline-block");
                         $("#paymentNextStepBottom").removeAttr("disabled");
                         return false;
@@ -215,7 +215,7 @@ jQuery(document).ready(function ($)
                 }
 
                 if (!paymill.validateHolder($('#paymillCardHolderName').val())) {
-                    $(".payment-errors.cc").text('[{ oxmultilang ident="PAYMILL_VALIDATION_CARDHOLDER" }]');
+                    $(".payment-errors.cc").text($("<div/>").html('[{ oxmultilang ident="PAYMILL_VALIDATION_CARDHOLDER" }]').text());
                     $(".payment-errors.cc").css("display","inline-block");
                     $("#paymentNextStepBottom").removeAttr("disabled");
                     return false;
