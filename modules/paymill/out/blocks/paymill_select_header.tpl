@@ -32,6 +32,7 @@
 </script>
 <script type="text/javascript" src="https://bridge.paymill.com/"></script>
 <script type="text/javascript" src="[{ $oViewConf->getBaseDir() }]modules/paymill/javascript/Iban.js"></script>
+<script type="text/javascript" src="[{ $oViewConf->getBaseDir() }]modules/paymill/javascript/BrandDetection.js"></script>
 <script type="text/javascript">
 $.noConflict();
 jQuery(document).ready(function ($)
@@ -80,17 +81,17 @@ jQuery(document).ready(function ($)
     });
 
     $('#paymillCardNumber').keyup(function() {
-        var brand = paymill.cardType($('#paymillCardNumber').val());
-        brand = brand.toLowerCase();
-        $("#paymillCardNumber")[0].className = $("#paymillCardNumber")[0].className.replace(/paymill-card-number-.*/g, '');
-        if (brand !== 'unknown') {
-            if (brand === 'american express') {
-                brand = 'amex';
+            $("#paymillCardNumber")[0].className = $("#paymillCardNumber")[0].className.replace(/paymill-card-number-.*/g, '');
+            var cardnumber = $('#paymillCardNumber').val();
+            var detector = new BrandDetection();
+            var brand = detector.detect(cardnumber);
+            if (brand !== 'unknown') {
+                $('#paymillCardNumber').addClass("paymill-card-number-" + brand);
+                if (!detector.validate(cardnumber)) {
+                    $('#paymillCardNumber').addClass("paymill-card-number-grayscale");
+                }
             }
-
-            $('#paymillCardNumber').addClass("paymill-card-number-" + brand);
-        }
-    });
+        });
 
     function PaymillResponseHandler(error, result)
     {
