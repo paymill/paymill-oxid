@@ -6,7 +6,7 @@ $aModule = array(
     'title' => 'Paymill',
     'description' => 'Paymill Payment',
     'thumbnail' => 'image/logo.png',
-    'version' => '2.3.0',
+    'version' => '2.4.0',
     'author' => 'Paymill GmbH',
     'url' => 'http://www.paymill.de',
     'email' => 'support@paymill.de',
@@ -30,7 +30,7 @@ $aModule = array(
         'paymill_log_abstract' => 'paymill/controllers/admin/paymill_log_abstract.php',
         'paymill_register_hook' => 'paymill/controllers/admin/paymill_register_hook.php',
         'paymill_util' => 'paymill/util/paymill_util.php',
-       
+
     ),
     'blocks' => array(
         array('template' => 'page/checkout/payment.tpl', 'block' => 'select_payment', 'file' => 'paymill_select_payment.tpl'),
