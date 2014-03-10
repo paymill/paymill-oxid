@@ -24,17 +24,18 @@
         PAYMILL_field_invalid_card_holder : '[{ oxmultilang ident="PAYMILL_field_invalid_card_holder" }]',
         PAYMILL_field_invalid_amount_int : '[{ oxmultilang ident="PAYMILL_field_invalid_amount_int" }]',
         PAYMILL_field_invalid_amount : '[{ oxmultilang ident="PAYMILL_field_invalid_amount" }]',
-        PAYMILL_field_invalid_currency : '[{ oxmultilang ident="PAYMILL_field_invalid_currency" }]',     
-        PAYMILL_field_invalid_iban : '[{ oxmultilang ident="PAYMILL_field_invalid_iban" }]',   
-        PAYMILL_field_invalid_country : '[{ oxmultilang ident="PAYMILL_field_invalid_country" }]'        
+        PAYMILL_field_invalid_currency : '[{ oxmultilang ident="PAYMILL_field_invalid_currency" }]',
+        PAYMILL_field_invalid_iban : '[{ oxmultilang ident="PAYMILL_field_invalid_iban" }]',
+        PAYMILL_field_invalid_country : '[{ oxmultilang ident="PAYMILL_field_invalid_country" }]'
     };
-    
+
 </script>
 <script type="text/javascript" src="https://bridge.paymill.com/"></script>
+<script type="text/javascript" src="[{ $oViewConf->getBaseDir() }]modules/paymill/javascript/Iban.js"></script>
 <script type="text/javascript">
 $.noConflict();
-jQuery(document).ready(function ($) 
-{    
+jQuery(document).ready(function ($)
+{
     //cc
     $('#paymillCardNumber').live('focus', function() {
         PAYMILL_FASTCHECKOUT_CC = false;
@@ -61,23 +62,23 @@ jQuery(document).ready(function ($)
     $('#paymillElvHolderName').live('focus', function() {
         PAYMILL_FASTCHECKOUT_ELV = false;
     });
-    
+
     $('#paymillElvAccount').live('focus', function() {
         PAYMILL_FASTCHECKOUT_ELV = false;
     });
-    
+
     $('#paymillElvBankCode').live('focus', function() {
         PAYMILL_FASTCHECKOUT_ELV = false;
     });
-    
+
     $('#paymillIban').live('focus', function() {
         PAYMILL_FASTCHECKOUT_ELV = false;
     });
-    
+
     $('#paymillBic').live('focus', function() {
         PAYMILL_FASTCHECKOUT_ELV = false;
     });
-    
+
     $('#paymillCardNumber').keyup(function() {
         var brand = paymill.cardType($('#paymillCardNumber').val());
         brand = brand.toLowerCase();
@@ -86,12 +87,12 @@ jQuery(document).ready(function ($)
             if (brand === 'american express') {
                 brand = 'amex';
             }
-            
+
             $('#paymillCardNumber').addClass("paymill-card-number-" + brand);
         }
     });
 
-    function PaymillResponseHandler(error, result) 
+    function PaymillResponseHandler(error, result)
     {
         if (error) {
             paymillDebug('An API error occured:' + error.apierror);
@@ -107,7 +108,7 @@ jQuery(document).ready(function ($)
             $("#payment").append("<input type='hidden' name='paymillToken' value='" + result.token + "'/>");
             $("#payment").get(0).submit();
         }
-        
+
         $("#paymentNextStepBottom").removeAttr("disabled");
     }
 
@@ -126,8 +127,8 @@ jQuery(document).ready(function ($)
             $("#paymentNextStepBottom").removeAttr("disabled");
             return false;
         }
-
-        if ($('#paymillIban').val() === "") {
+        var iban = new Iban();
+        if (!iban.validate($('#paymillIban').val())) {
             $(".payment-errors.elv").text('[{ oxmultilang ident="PAYMILL_VALIDATION_IBAN" }]');
             $(".payment-errors.elv").css("display","inline-block");
             $("#paymentNextStepBottom").removeAttr("disabled");
@@ -140,7 +141,7 @@ jQuery(document).ready(function ($)
             $("#paymentNextStepBottom").removeAttr("disabled");
             return false;
         }
-        
+
         var params = {
             iban: $('#paymillIban').val(),
             bic: $('#paymillBic').val(),
@@ -182,7 +183,7 @@ jQuery(document).ready(function ($)
         paymill.createToken(params, PaymillResponseHandler);
     }
 
-    $("#payment").submit(function (event) 
+    $("#payment").submit(function (event)
     {
         // Absenden Button deaktivieren um weitere Klicks zu vermeiden
         $('#paymentNextStepBottom').attr("disabled", "disabled");
@@ -218,7 +219,7 @@ jQuery(document).ready(function ($)
                     $("#paymentNextStepBottom").removeAttr("disabled");
                     return false;
                 }
-                            
+
                 var cvc = '000';
 
                 if ($('#paymillCardCvc').val() !== '') {
@@ -254,7 +255,7 @@ jQuery(document).ready(function ($)
             $("#paymentNextStepBottom").removeAttr("disabled");
             return true;
         }
-        
+
         return false;
     });
 });
