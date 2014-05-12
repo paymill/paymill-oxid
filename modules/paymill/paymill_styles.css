@@ -40,6 +40,7 @@
 .span1
 {
     height: 18px !important;
+    width: 195px;
 }
 
 .card-number-label,
@@ -68,6 +69,12 @@
 .card-expiry-month, .card-expiry-year
 {
     width: 90px;
+}
+
+ul#paymill_brands li {
+    width: 32px;
+    height: 20px;
+    display: inline-block !important;
 }
 
 .paymill-card-number-visa

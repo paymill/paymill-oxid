@@ -185,8 +185,8 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
                 'currency' => strtoupper($oOrder->oxorder__oxcurrency->rawValue),
                 'name' => $utf8Name,
                 'email' => $oOrder->oxorder__oxbillemail->value,
-                'description' => 'OrderID: ' . $oOrder->oxorder__oxid . ' - ' . $utf8Name
-            ), 
+                'description' => 'OrderID: ' . $oOrder->oxorder__oxid . ' - OrderNumber: ' . $oOrder->oxorder__oxordernr . ' - ' . $utf8Name
+            ),
             $this
         );
         
