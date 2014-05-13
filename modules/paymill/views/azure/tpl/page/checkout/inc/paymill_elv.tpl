@@ -11,15 +11,15 @@
                 <div id="payment-form-elv">
                     <div class="controls controls-row">
                         <label class="elv-holdername-label">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_ACCOUNTHOLDER" }]:</label>
-                        <input id="paymillElvHolderName" class="elv-holdername span3" type="text" size="20" value="[{$paymillElvHolder}]"/>
+                        <input id="paymillElvHolderName" class="paymill_input elv-holdername span3" type="text" size="20" value="[{$paymillElvHolder}]"/>
                     </div>
                     <div class="controls controls-row">
                         <label class="elv-account-label">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_ACCOUNT" }] / [{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_IBAN" }]:</label>
-                        <input id="paymillElvAccount" class="elv-account span3" type="text" size="20" value="[{$paymillElvAccount}]"/>
+                        <input id="paymillElvAccount" class="paymill_input elv-account span3" type="text" size="20" value="[{$paymillElvAccount}]"/>
                     </div>
                     <div class="controls controls-row">
                         <label class="elv-bankcode-label">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_BANKCODE" }] / [{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_BIC" }]:</label>
-                        <input id="paymillElvBankCode" class="elv-bankcode span3" type="text" size="20" value="[{$paymillElvCode}]"/>
+                        <input id="paymillElvBankCode" class="paymill_input elv-bankcode span3" type="text" size="20" value="[{$paymillElvCode}]"/>
                     </div>
                 </div>
             </li>
