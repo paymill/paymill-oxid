@@ -15,6 +15,7 @@ $aLang = array(
 	"PAYMILL_HOOK_URL" => "URL-Webhook registado",
 	"PAYMILL_HOOK_URL_REGISTER" => "Criar Webhooks",
 	"SHOP_MODULE_GROUP_main" => "PAYMILL",
+	"SHOP_MODULE_GROUP_cc" => "Accepted Credit Card Brands",
 	"SHOP_MODULE_PAYMILL_PRIVATEKEY" => "Chave privada",
 	"SHOP_MODULE_PAYMILL_PUBLICKEY" => "Chave p&uacute;blica",
 	"SHOP_MODULE_PAYMILL_ACTIVATE_DEBUG" => "Ativar a depura&ccedil;&atilde;o",
