@@ -12,7 +12,8 @@ $aModule = array(
     'email' => 'support@paymill.de',
     'extend' => array(
         'payment' => 'paymill/controllers/paymill_payment',
-        'oxpaymentgateway' => 'paymill/controllers/paymill_paymentgateway'
+        'oxpaymentgateway' => 'paymill/controllers/paymill_paymentgateway',
+        'oxemail' => 'paymill/core/paymill_oxemail'
     ),
     'files' => array(
         'Services_Paymill_PaymentProcessor' => 'paymill/lib/Services/Paymill/PaymentProcessor.php',
@@ -36,6 +37,8 @@ $aModule = array(
     'blocks' => array(
         array('template' => 'page/checkout/payment.tpl', 'block' => 'select_payment', 'file' => 'paymill_select_payment.tpl'),
         array('template' => 'page/checkout/payment.tpl', 'block' => 'checkout_payment_main', 'file' => 'paymill_select_header.tpl'),
+        array('template' => 'email/html/order_cust.tpl', 'block' => 'email_html_order_cust_paymentinfo', 'file' => 'paymill_html_order_cust.tpl'),
+        array('template' => 'email/plain/order_cust.tpl', 'block' => 'email_plain_order_cust_paymentinfo', 'file' => 'paymill_plain_order_cust.tpl')
     ),
     'templates' => array(
         'paymill_cc.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_cc.tpl',
@@ -54,6 +57,7 @@ $aModule = array(
         array('group' => 'main', 'name' => 'PAYMILL_ACTIVATE_DIFFERENTAMOUNT', 'type' => 'str', 'value' => 0),
         array('group' => 'main', 'name' => 'PAYMILL_ACTIVATE_FASTCHECKOUT', 'type' => 'bool', 'value' => 'false'),
         array('group' => 'main', 'name' => 'PAYMILL_SET_PAYMENTDATE', 'type' => 'bool', 'value' => 'true'),
+        array('group' => 'main', 'name' => 'PAYMILL_PRENOTIFICATION', 'type' => 'str', 'value' => '7'),
         array('group' => 'cc', 'name' => 'PAYMILL_VISA', 'type' => 'bool', 'value' => 'true', 'position' => 1),
         array('group' => 'cc', 'name' => 'PAYMILL_MASTERCARD', 'type' => 'bool', 'value' => 'true', 'position' => 2),
         array('group' => 'cc', 'name' => 'PAYMILL_AMEX', 'type' => 'bool', 'value' => 'true', 'position' => 3),

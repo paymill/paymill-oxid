@@ -46,6 +46,18 @@
             </form>
             [{/if}]
         </div>
+        <div class="row [{if $paymillAreTplBlocksSet}]paymill_green[{else}]paymill_red[{/if}]">
+            [{if $paymillAreTplBlocksSet}]&#10003;[{else}]&#10007;[{/if}]
+            <label>[{ oxmultilang ident="PAYMILL_INSTALL_LABEL_BLOCKS }]</label>
+            [{if !$paymillAreTplBlocksSet}]
+            <form id="paymill_payments" action="[{$oViewConf->getSelfLink()}]" method="post">
+                <input type="hidden" name="cl" value="[{$oViewConf->getActiveClassName()}]">
+                [{$oViewConf->getHiddenSid()}]
+                <input type="submit" class="install_button" value='[{ oxmultilang ident="PAYMILL_INSTALL_BUTTON" }]'>
+                <input type="hidden" name="fnc" value="updateBlocks">
+            </form>
+            [{/if}]
+        </div>
         <div class="row [{if $paymillIsPrivateKeyValid}]paymill_green[{else}]paymill_red[{/if}]">
             [{if $paymillIsPrivateKeyValid}]&#10003;[{else}]&#10007;[{/if}]
             <label>[{ oxmultilang ident="PAYMILL_INSTALL_LABEL_PRIVATEKEY" }]</label>
@@ -73,6 +85,14 @@
         <div class="row [{if $paymillIsShippingConfigured}]paymill_green[{else}]paymill_red[{/if}]">
             [{if $paymillIsShippingConfigured}]&#10003;[{else}]&#10007;[{/if}]
             <label>[{ oxmultilang ident="PAYMILL_INSTALL_LABEL_SHIPPING_CONFIG" }]</label>
+        </div>
+        <div class="row [{if $paymillIsPrenotificationSet}]paymill_green[{else}]paymill_red[{/if}]">
+            [{if $paymillIsPrenotificationSet}]
+            &#10003;
+            <label>[{ oxmultilang ident="PAYMILL_INSTALL_LABEL_PRENOTIFICATION" }]</label>
+            [{else}]
+            X <label>[{ oxmultilang ident="PAYMILL_INSTALL_LABEL_PRENOTIFICATION_FAILED" }]</label>
+            [{/if}]
         </div>
     [{include file="pagetabsnippet.tpl"}]
 
