@@ -1,11 +1,11 @@
-PAYMILL - Oxid
+PAYMILL - OXID
 ==============
 
-Payment module for Oxid Version 4.7.x (ce, pe) and 4.8.x (ce, pe)
+Payment module for OXID Version 4.7.x (ce, pe) and 4.8.x (ce, pe)
 
 Download the module here: https://github.com/paymill/paymill-oxid/archive/master.zip
 
-- Merge the content of the PAYMILL-Oxid-Module directory with your OXID installation.
+- Merge the content of the PAYMILL-OXID-Module directory with your OXID installation.
 - Clear the OXID tmp folder.
 - In your administration backend activate the Paymill plugin.
 - Go to the configuration section where you can insert your private and public key (which you can find in your Paymill cockpit [https://app.paymill.de/](https://app.paymill.de/ "Paymill cockpit")).
