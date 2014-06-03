@@ -3,42 +3,43 @@ PAYMILL - Oxid
 
 Payment plugin for Oxid Version 4.7.x (ce, pe) and 4.8.x (ce, pe)
 
-Download the module here: https://github.com/Paymill/Paymill-Oxid-4.7/archive/master.zip
+Download the module here: https://github.com/paymill/paymill-oxid/archive/master.zip
 
-- Merge the content with your Oxid installation.
-- In your administration backend activate the PAYMILL plugin.
-- Go to the configuration section where you can insert your private and public key (that you can find in your PAYMILL cockpit [https://app.paymill.de/](https://app.paymill.de/ "Paymill cockpit")).
+- Merge the content of the PAYMILL-Oxid-Module directory with your OXID installation.
+- Clear the OXID tmp folder.
+- In your administration backend activate the Paymill plugin.
+- Go to the configuration section where you can insert your private and public key (which you can find in your Paymill cockpit [https://app.paymill.de/](https://app.paymill.de/ "Paymill cockpit")).
+- In the main menu goto **PAYMILL > Checklist**; The checklist allows you to verify that the module has been successfully configured. It also fixes missing tables, block etc.
 
 # Activate PAYMILL Payment
 
 To activate PAYMILL payment follow these steps:
 
-- In the main menu goto **Shopeinstellungen > Zahlungsarten**
+- In the main menu goto **Shop Settings > Payment Methods**
 - Choose the payment method you want to activate
-- Click on **Benutzergruppen zuordnen** and assign the right user groups
-- Go to tab **Länder**, click on **Länder zuordnen**, and assign the right countries
-- In the main menu goto **Shopeinstellungen > Versandarten**
-- Choose a shipping type (e.g. **Standard**) and go to tab **Zahlungsarten**
-- Click on **Zahlungsarten zuordnen** and assign the payment method
+- Click on **Assign User Groups** and assign the right user groups
+- Go to tab **Country**, click on **Assign Countries**, and assign the right countries
+- In the main menu goto **Shop Settings > Shipping Methods**
+- Choose a shipping type (e.g. **Standard**) and go to tab **Payment**
+- Click on **Assign Payment Methods** and assign the payment method
 - Repeat last 2 steps for other shipping types
 
 # Update
-If you want to update from an version earlier than 2.1 you have to run the update.sql first.
+If you want to update from an version earlier than 2.1 (starting from 2.0.0) you have to run the update.sql first.
 
 # Template-Support
 
 - Azure-template is supported by default.
-- To support a custom template adapt the template structure within the out/azure diretory to your custom theme.
+- To support a custom template based on Azure, adapt the template structure within the modules/paymill/out/blocks directory to your custom theme. The files most interesting for you are 'paymill_select_payment.tpl and 'paymill_select_header.tpl'.
 
 # Error handling
 
-In case of any errors turn on the debug mode in the PAYMILL payment method configuration.
-Open the javascript console in your browser and check what's being logged during the checkout process.
+In case of any errors turn on the debug mode in the PAYMILL module settings.
+Open the javascript console in your browser and check the debug messages during the checkout process.
 
 # Logging
 
-- If you enable logging in the plugin configuration make sure that log.txt inside the plugin directory is writable. Otherwise logging information will not be stored to the logfile.
-- You can access the Logging with your shop-backend under PAYMILL -> Log
+You can access the logging within your administration backend under **PAYMILL > PAYMILL log**
 
 # Notes about the payment process
 
@@ -62,7 +63,9 @@ protected function _setPayUntilInfo( &$iStartPos )
     $iStartPos += 4;
 }
 ```
+
 New:
+```php
 protected function _setPayUntilInfo( &$iStartPos )
 {
     // PAYMILL Start
