@@ -82,10 +82,22 @@
     width: 90px;
 }
 
+.card-expiry-month.pm-mobile, .card-expiry-year.pm-mobile
+{
+    display: inline-block;
+    width: 120px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
 ul#paymill_brands li {
     width: 32px;
     height: 20px;
     display: inline-block !important;
+}
+
+ul#paymill_brands.pm-mobile {
+    margin-left: 0;
 }
 
 .paymill-card-number-visa
