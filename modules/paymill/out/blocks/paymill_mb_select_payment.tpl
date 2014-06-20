@@ -1,0 +1,8 @@
+[{assign var="oxConfig" value=$oView->getConfig()}]
+[{if $sPaymentID == 'paymill_cc'}]
+    [{include file="paymill_mb_cc.tpl"}]
+[{elseif $sPaymentID == 'paymill_elv'}]
+    [{include file="paymill_mb_elv.tpl"}]
+[{else}]
+    [{$smarty.block.parent}]
+[{/if}]

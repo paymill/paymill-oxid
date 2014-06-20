@@ -36,6 +36,7 @@ $aModule = array(
     ),
     'blocks' => array(
         array('template' => 'page/checkout/payment.tpl', 'block' => 'select_payment', 'file' => 'paymill_select_payment.tpl'),
+        array('template' => 'page/checkout/payment.tpl', 'block' => 'mb_select_payment', 'file' => 'paymill_mb_select_payment.tpl'),
         array('template' => 'page/checkout/payment.tpl', 'block' => 'checkout_payment_main', 'file' => 'paymill_select_header.tpl'),
         array('template' => 'email/html/order_cust.tpl', 'block' => 'email_html_order_cust_paymentinfo', 'file' => 'paymill_html_order_cust.tpl'),
         array('template' => 'email/plain/order_cust.tpl', 'block' => 'email_plain_order_cust_paymentinfo', 'file' => 'paymill_plain_order_cust.tpl')
@@ -43,6 +44,8 @@ $aModule = array(
     'templates' => array(
         'paymill_cc.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_cc.tpl',
         'paymill_elv.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_elv.tpl',
+        'paymill_mb_cc.tpl' => 'paymill/views/mobile/tpl/page/checkout/inc/paymill_mb_cc.tpl',
+        'paymill_mb_elv.tpl' => 'paymill/views/mobile/tpl/page/checkout/inc/paymill_mb_elv.tpl',
         'paymill_install.tpl' => 'paymill/views/admin/tpl/paymill_install.tpl',
         'paymill_log.tpl' => 'paymill/views/admin/tpl/paymill_log.tpl',
         'paymill_log_list.tpl' => 'paymill/views/admin/tpl/paymill_log_list.tpl',
