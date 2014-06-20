@@ -147,7 +147,8 @@ class paymill_install extends oxAdminView
         $emailPlain = $this->queryForBlock(
             'email_plain_order_cust_paymentinfo'
         );
-        return $emailHtml && $emailPlain;
+        $mobileSelectPayment = $this->queryForBlock('mb_select_payment');
+        return $emailHtml && $emailPlain && $mobileSelectPayment;
     }
 
     /**
@@ -189,6 +190,14 @@ class paymill_install extends oxAdminView
                 'email_plain_order_cust_paymentinfo',
                 'email/plain/order_cust.tpl',
                 'paymill_plain_order_cust.tpl'
+            );
+        }
+
+        if (!$this->queryForBlock('mb_select_payment')) {
+            $this->insertBlock(
+                'mb_select_payment',
+                'page/checkout/payment.tpl',
+                'paymill_mb_select_payment.tpl'
             );
         }
     }
