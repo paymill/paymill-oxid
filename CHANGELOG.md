@@ -1,3 +1,6 @@
+## v2.6.0
+ * added OXID mobile theme support
+
 ## v2.5.0
  * united SEPA and regular ELV forms
  * added backend option to show credit card logos in frontend
