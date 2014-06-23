@@ -16,5 +16,15 @@
                 </div>
             </div>
         </li>
+
+        [{block name="checkout_payment_longdesc"}]
+            [{if $paymentmethod->oxpayments__oxlongdesc->value}]
+                <li>
+                    <div class="payment-desc">
+                        [{$paymentmethod->oxpayments__oxlongdesc->getRawValue()}]
+                    </div>
+                </li>
+            [{/if}]
+        [{/block}]
     </ul>
 </div>

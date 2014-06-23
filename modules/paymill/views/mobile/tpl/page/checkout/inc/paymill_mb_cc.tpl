@@ -49,5 +49,15 @@
             <input id="paymillCardCvc" class="paymill_input card-cvc span3" type="text" size="4" value="[{$paymillCcCvc}]" placeholder="[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_SECURITYCODE" }]" />
             <div class="note">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_CC_TOOLTIP" }]</div>
         </li>
+
+        [{block name="checkout_payment_longdesc"}]
+            [{if $paymentmethod->oxpayments__oxlongdesc->value}]
+                <li>
+                    <div class="payment-desc">
+                        [{$paymentmethod->oxpayments__oxlongdesc->getRawValue()}]
+                    </div>
+                </li>
+            [{/if}]
+        [{/block}]
     </ul>
 </div>
