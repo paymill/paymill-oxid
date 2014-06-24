@@ -52,7 +52,7 @@ class paymill_hooks extends oxUBase
         // check structure
         if (!is_null($data) && isset($data->event) && isset($data->event->event_resource) && isset($data->event->event_resource->transaction)) {
             $transactionObject = new Services_Paymill_Transactions(
-                trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PRIVATEKEY')), paymill_util::API_ENDPOINT
+                trim(oxRegistry::getConfig()->getShopConfVar('PAYMILL_PRIVATEKEY')), paymill_util::API_ENDPOINT
             );
             $transaction = $transactionObject->getOne($data->event->event_resource->transaction->id);
 
@@ -67,7 +67,7 @@ class paymill_hooks extends oxUBase
 
     private function log($message, $debuginfo)
     {
-        if (oxConfig::getInstance()->getShopConfVar('PAYMILL_ACTIVATE_LOGGING')) {
+        if (oxRegistry::getConfig()->getShopConfVar('PAYMILL_ACTIVATE_LOGGING')) {
             $logging = oxNew('paymill_logging');
             $logging->assign(array(
                 'identifier' => $this->getSession()->getVar('paymill_identifier'),

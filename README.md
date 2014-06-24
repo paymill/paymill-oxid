@@ -75,7 +75,7 @@ protected function _setPayUntilInfo( &$iStartPos )
     if ($oPayment->oxpayments__oxid->value == "paymill_elv") {
         $translatedText = $this->_oData->translate('PAYMILL_PRENOTIFICATION_TEXT');
 
-        $myConfig = oxConfig::getInstance();
+        $myConfig = oxRegistry::getConfig();
         $daysUntilWithdraw = $myConfig->getConfigParam('PAYMILL_PRENOTIFICATION');
         $orderDate = $this->_oData->oxorder__oxorderdate->value;
         $dateTime = new DateTime($orderDate);

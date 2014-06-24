@@ -80,6 +80,8 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
      */
     public function executePayment($dAmount, &$oOrder)
     {
+        $oxConfig = oxRegistry::getConfig();
+
         if (!in_array($oOrder->oxorder__oxpaymenttype->rawValue, array("paymill_cc", "paymill_elv"))) {
             return parent::executePayment($dAmount, $oOrder);
         }
@@ -124,7 +126,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
                 'clientid' => $this->_paymentProcessor->getClientId()
             );
 
-            if (oxConfig::getInstance()->getShopConfVar('PAYMILL_ACTIVATE_FASTCHECKOUT')) {
+            if ($oxConfig->getShopConfVar('PAYMILL_ACTIVATE_FASTCHECKOUT')) {
                 $paymentColumn = 'paymentID_' . strtoupper($this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue));
                 $saveData[$paymentColumn] = $this->_paymentProcessor->getPaymentId();
             }
@@ -132,7 +134,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
             $this->_fastCheckoutData->assign($saveData);
             $this->_fastCheckoutData->save();
 
-            if (oxConfig::getInstance()->getShopConfVar('PAYMILL_SET_PAYMENTDATE')) {
+            if ($oxConfig->getShopConfVar('PAYMILL_SET_PAYMENTDATE')) {
                 $this->_setPaymentDate($oOrder);
             }
         } else {
@@ -148,7 +150,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         $clientId = $this->_fastCheckoutData->paymill_fastcheckout__clientid->rawValue;
         if (!empty($clientId)) {
             $this->_clients = new Services_Paymill_Clients(
-                trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PRIVATEKEY')),
+                trim(oxRegistry::getConfig()->getShopConfVar('PAYMILL_PRIVATEKEY')),
                 $this->_apiUrl
             );
 
@@ -176,7 +178,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         );
 
         $this->_paymentProcessor = new Services_Paymill_PaymentProcessor(
-            trim(oxConfig::getInstance()->getShopConfVar('PAYMILL_PRIVATEKEY')),
+            trim(oxRegistry::getConfig()->getShopConfVar('PAYMILL_PRIVATEKEY')),
             $this->_apiUrl,
             null,
             array(
@@ -219,7 +221,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         $modul = oxNew('oxModule');
         $modul->load('paymill');
 
-        return $modul->getInfo('version') . '_oxid_' . oxConfig::getInstance()->getVersion();
+        return $modul->getInfo('version') . '_oxid_' . oxRegistry::getConfig()->getVersion();
     }
 
     /**
@@ -230,7 +232,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
      */
     public function log($message, $debuginfo)
     {
-        if (oxConfig::getInstance()->getShopConfVar('PAYMILL_ACTIVATE_LOGGING')) {
+        if (oxRegistry::getConfig()->getShopConfVar('PAYMILL_ACTIVATE_LOGGING')) {
             $logging = oxNew('paymill_logging');
             $logging->assign(array(
                 'identifier' => $this->getSession()->getVar('paymill_identifier'),
