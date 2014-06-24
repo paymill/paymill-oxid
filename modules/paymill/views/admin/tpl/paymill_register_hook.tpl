@@ -9,7 +9,7 @@
                     <label for="hook_url">[{ oxmultilang ident="PAYMILL_HOOK_URL" }]</label>
                     <input type="text" value="[{$hookUrl}]" name="hook_url"/>
                     <input type="submit" value='[{ oxmultilang ident="PAYMILL_HOOK_URL_REGISTER" }]'>
-                    <input type="hidden" name="cl" value="[{$oViewConf->getActiveClassName()}]">
+                    <input type="hidden" name="cl" value="[{$oViewConf->getTopActiveClassName()}]">
                     <input type="hidden" name="fnc" value="registerHookPoint">
                     [{$oViewConf->getHiddenSid()}]
                 </form>

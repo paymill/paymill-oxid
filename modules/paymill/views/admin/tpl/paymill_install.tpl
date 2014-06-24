@@ -39,7 +39,7 @@
             <label>[{ oxmultilang ident="PAYMILL_INSTALL_LABEL_DATABASE" }]</label>
             [{if !$paymillIsDatabaseInstalled}]
             <form id="paymill_payments" action="[{$oViewConf->getSelfLink()}]" method="post">
-                <input type="hidden" name="cl" value="[{$oViewConf->getActiveClassName()}]">
+                <input type="hidden" name="cl" value="[{$oViewConf->getTopActiveClassName()}]">
                 [{$oViewConf->getHiddenSid()}]
                 <input type="submit" class="install_button" value='[{ oxmultilang ident="PAYMILL_INSTALL_BUTTON" }]'>
                 <input type="hidden" name="fnc" value="installDatabase">
@@ -51,7 +51,7 @@
             <label>[{ oxmultilang ident="PAYMILL_INSTALL_LABEL_BLOCKS }]</label>
             [{if !$paymillAreTplBlocksSet}]
             <form id="paymill_payments" action="[{$oViewConf->getSelfLink()}]" method="post">
-                <input type="hidden" name="cl" value="[{$oViewConf->getActiveClassName()}]">
+                <input type="hidden" name="cl" value="[{$oViewConf->getTopActiveClassName()}]">
                 [{$oViewConf->getHiddenSid()}]
                 <input type="submit" class="install_button" value='[{ oxmultilang ident="PAYMILL_INSTALL_BUTTON" }]'>
                 <input type="hidden" name="fnc" value="updateBlocks">
@@ -71,7 +71,7 @@
             <label>[{ oxmultilang ident="PAYMILL_INSTALL_LABEL_PAYMENT" }]</label>
             [{if !$paymillIsPaymentInstalled}]
             <form id="paymill_payments" action="[{$oViewConf->getSelfLink()}]" method="post">
-                <input type="hidden" name="cl" value="[{$oViewConf->getActiveClassName()}]">
+                <input type="hidden" name="cl" value="[{$oViewConf->getTopActiveClassName()}]">
                 [{$oViewConf->getHiddenSid()}]
                 <input type="submit" class="install_button" value='[{ oxmultilang ident="PAYMILL_INSTALL_BUTTON" }]'>
                 <input type="hidden" name="fnc" value="installPayments">
@@ -101,4 +101,3 @@
     [{include file="bottomitem.tpl"}]
 </body>
 </html>
-
