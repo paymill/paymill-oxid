@@ -212,7 +212,7 @@ class paymill_install extends oxAdminView
     {
         $db = oxDb::getDb();
         $shopId = $this->getConfig()->getShopId();
-        $oxId = oxUtilsObject::getInstance()->generateUId();
+        $oxId = oxRegistry::get('oxUtilsObject')->generateUId();
         $sql = "INSERT INTO `oxtplblocks` (
                     `OXID`, `OXACTIVE`, `OXSHOPID`, `OXTEMPLATE`,
                     `OXBLOCKNAME`, `OXPOS`, `OXFILE`, `OXMODULE`

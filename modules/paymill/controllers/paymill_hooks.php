@@ -73,7 +73,7 @@ class paymill_hooks extends oxUBase
                 'identifier' => $this->getSession()->getVar('paymill_identifier'),
                 'debug' => $debuginfo,
                 'message' => $message,
-                'date' => date('Y-m-d H:i:s', oxUtilsDate::getInstance()->getTime())
+                'date' => date('Y-m-d H:i:s', oxRegistry::get("oxUtilsDate")->getTime())
             ));
 
             $logging->save();

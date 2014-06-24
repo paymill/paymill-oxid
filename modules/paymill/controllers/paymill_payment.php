@@ -136,12 +136,13 @@ class paymill_payment extends paymill_payment_parent
     public function getPaymentList()
     {
         $oxConfig = oxRegistry::getConfig();
+        $oxSession = oxRegistry::getSession();
         //clear values
-        oxSession::deleteVar('paymill_authorized_amount');
+        $oxSession->deleteVariable('paymill_authorized_amount');
         $differentAmount = intval(round($oxConfig->getShopConfVar('PAYMILL_ACTIVATE_DIFFERENTAMOUNT'), 2) * 100);
         //save authorized Amount for secure Paymentprocessing
-        $amount = intval(round(oxSession::getInstance()->getBasket()->getPrice()->getBruttoPrice() * 100) + $differentAmount);
-        oxSession::setVar('paymill_authorized_amount', $amount);
+        $amount = intval(round(oxRegistry::getSession()->getBasket()->getPrice()->getBruttoPrice() * 100) + $differentAmount);
+        $oxSession->setVariable('paymill_authorized_amount', $amount);
         $this->addTplParam('paymillAmount', $amount);
 
         $paymentList = parent::getPaymentList();
@@ -166,11 +167,13 @@ class paymill_payment extends paymill_payment_parent
     public function validatePayment()
     {
         $oxConfig = oxRegistry::getConfig();
+        $oxSession = oxRegistry::getSession();
+
         if ($oxConfig->getRequestParameter('paymentid') === "paymill_cc" || $oxConfig->getRequestParameter('paymentid') === "paymill_elv") {
-            oxSession::deleteVar('paymill_token');
+            $oxSession->deleteVariable('paymill_token');
             // set paymill token to session to be available in next step
             if ($oxConfig->getRequestParameter('paymillToken')) {
-                oxSession::setVar('paymill_token', $oxConfig->getRequestParameter('paymillToken'));
+                $oxSession->setVariable('paymill_token', $oxConfig->getRequestParameter('paymillToken'));
             }
         }
 

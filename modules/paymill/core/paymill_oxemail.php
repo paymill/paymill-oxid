@@ -13,7 +13,7 @@ class paymill_oxemail extends paymill_oxemail_parent
         $date = null;
 
         if ($oOrder->oxorder__oxpaymenttype->rawValue == "paymill_elv") {
-            $oLang = oxLang::getInstance();
+            $oLang = oxRegistry::getLang();
             $iLang = $oLang->getTplLanguage();
 
             $isPaymillElv = true;

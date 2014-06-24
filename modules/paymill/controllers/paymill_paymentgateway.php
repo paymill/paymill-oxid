@@ -71,8 +71,9 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
             $message = $this->_responseCodes[$code];
         }
 
-
-        return $this->convertToUtf(oxLang::getInstance()->translateString($message, oxLang::getInstance()->getBaseLanguage(), false));
+        $oxLang = oxRegistry::getLang();
+        $errorMessage = $oxLang->translateString($message, $oxLang->getBaseLanguage(), false);
+        return $this->convertToUtf($errorMessage);
     }
 
     /**
@@ -81,16 +82,17 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
     public function executePayment($dAmount, &$oOrder)
     {
         $oxConfig = oxRegistry::getConfig();
+        $oxSession = oxRegistry::getSession();
 
         if (!in_array($oOrder->oxorder__oxpaymenttype->rawValue, array("paymill_cc", "paymill_elv"))) {
             return parent::executePayment($dAmount, $oOrder);
         }
 
-        if (oxSession::hasVar('paymill_token')) {
-            $this->_token = oxSession::getVar('paymill_token');
+        if ($oxSession->hasVariable('paymill_token')) {
+            $this->_token = $oxSession->getVariable('paymill_token');
         } else {
             oxRegistry::get("oxUtilsView")->addErrorToDisplay("No Token was provided");
-            oxUtils::getInstance()->redirect($this->getConfig()->getSslShopUrl() . 'index.php?cl=payment', false);
+            oxRegistry::getUtils()->redirect($this->getConfig()->getSslShopUrl() . 'index.php?cl=payment', false);
         }
 
         $this->getSession()->setVar("paymill_identifier", time());
@@ -103,7 +105,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         $this->_initializePaymentProcessor($dAmount, $oOrder);
 
         if ($this->_getPaymentShortCode($oOrder->oxorder__oxpaymenttype->rawValue) === 'cc') {
-            $this->_paymentProcessor->setPreAuthAmount((int) oxSession::getVar('paymill_authorized_amount'));
+            $this->_paymentProcessor->setPreAuthAmount((int) $oxSession->getVariable('paymill_authorized_amount'));
         }
 
         $this->_loadFastCheckoutData();
@@ -210,7 +212,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
     private function _setPaymentDate($oOrder)
     {
         $oDb = oxDb::getDb();
-        $sDate = date('Y-m-d H:i:s', oxUtilsDate::getInstance()->getTime());
+        $sDate = date('Y-m-d H:i:s', oxRegistry::get("oxUtilsDate")->getTime());
         $sQ = 'update oxorder set oxpaid=\'' . $sDate . '\' where oxid=' . $oDb->quote($oOrder->getId());
         $oOrder->oxorder__oxorderdate = new oxField($sDate, oxField::T_RAW);
         $oDb->execute($sQ);
@@ -238,7 +240,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
                 'identifier' => $this->getSession()->getVar('paymill_identifier'),
                 'debug' => $debuginfo,
                 'message' => $message,
-                'date' => date('Y-m-d H:i:s', oxUtilsDate::getInstance()->getTime())
+                'date' => date('Y-m-d H:i:s', oxRegistry::get('oxUtilsDate')->getTime())
             ));
 
             $logging->save();
