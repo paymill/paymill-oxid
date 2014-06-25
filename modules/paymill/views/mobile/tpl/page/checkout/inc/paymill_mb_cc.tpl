@@ -46,7 +46,7 @@
             </select>
         </li>
         <li>
-            <input id="paymillCardCvc" class="paymill_input card-cvc span3" type="text" autocomplete="off" size="4" value="[{$paymillCcCvc}]" placeholder="[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_SECURITYCODE" }]" />
+            <input id="paymillCardCvc" class="paymill_input card-cvc span3" type="password" autocomplete="off" size="4" value="[{$paymillCcCvc}]" placeholder="[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_SECURITYCODE" }]" />
             <div class="note">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_CC_TOOLTIP" }]</div>
         </li>
 
