@@ -20,11 +20,11 @@
                 <div id="payment-form-cc">
                     <div class="controls controls-row">
                         <label class="card-number-label">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_NUMBER" }]:</label>
-                        <input id="paymillCardNumber" class="paymill_input card-number span1" type="text" size="20" value="[{$paymillCcLastFour}]"/>
+                        <input id="paymillCardNumber" class="paymill_input card-number span1" type="text" autocomplete="off" size="20" value="[{$paymillCcLastFour}]"/>
                     </div>
                     <div class="controls controls-row">
                         <label class="card-cvc-label">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_SECURITYCODE" }]<span class="tooltip" title='[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_CC_TOOLTIP" }]'>?</span>:</label>
-                        <input id="paymillCardCvc" class="paymill_input card-cvc span1" type="text" size="4" value="[{$paymillCcCvc}]"/>
+                        <input id="paymillCardCvc" class="paymill_input card-cvc span1" type="text" autocomplete="off" size="4" value="[{$paymillCcCvc}]"/>
                     </div>
                     <div class="controls controls-row">
                         <label class="card-holdername-label">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_HOLDERNAME" }]:</label>

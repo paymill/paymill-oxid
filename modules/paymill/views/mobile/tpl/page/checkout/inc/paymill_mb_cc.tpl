@@ -12,7 +12,7 @@
             </ul>
         </div>
         <li>
-            <input id="paymillCardNumber" class="paymill_input card-number span3" type="text" size="20" value="[{$paymillCcLastFour}]" placeholder="[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_NUMBER" }]" />
+            <input id="paymillCardNumber" class="paymill_input card-number span3" type="text" autocomplete="off" size="20" value="[{$paymillCcLastFour}]" placeholder="[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_NUMBER" }]" />
         </li>
         <li>
             <input id="paymillCardHolderName" class="paymill_input card-holdername span3" type="text" size="20" value="[{$paymillCcCardHolder}]" placeholder="[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_HOLDERNAME" }]" />
@@ -46,7 +46,7 @@
             </select>
         </li>
         <li>
-            <input id="paymillCardCvc" class="paymill_input card-cvc span3" type="text" size="4" value="[{$paymillCcCvc}]" placeholder="[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_SECURITYCODE" }]" />
+            <input id="paymillCardCvc" class="paymill_input card-cvc span3" type="text" autocomplete="off" size="4" value="[{$paymillCcCvc}]" placeholder="[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_SECURITYCODE" }]" />
             <div class="note">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_CC_TOOLTIP" }]</div>
         </li>
 

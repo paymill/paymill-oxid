@@ -1,5 +1,6 @@
 ## v2.6.0
  * added OXID mobile theme support
+ * added autocomplete="off" for input fields, browser shall not save sensitive data like credit card number and card verification value
  * ui change: added support for payment long description (configurable in the OXID backend payment methods settings)
  * ui change: credit card form - valid until months are shown in a new format instead of just having the name of the month it also shows the number, e.g. "1 - January"
  * refactoring: removed all deprecated calls, e.g. oxConfig::getInstance() etc
