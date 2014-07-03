@@ -7,6 +7,7 @@
  * ui change: hover tooltip for CVV input field, clickable tooltip for mobile template
  * refactoring: removed all deprecated calls, e.g. oxConfig::getInstance() etc
  * max length of transaction description set to 128 characters
+ * fixed: order number was not set correctly, is now updated after order execution
 
 ## v2.5.0
  * united SEPA and regular ELV forms

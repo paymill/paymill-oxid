@@ -73,7 +73,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
 
         $oxLang = oxRegistry::getLang();
         $errorMessage = $oxLang->translateString($message, $oxLang->getBaseLanguage(), false);
-        return $this->convertToUtf($errorMessage);
+        return $this->paymillConvertToUtf($errorMessage);
     }
 
     /**
@@ -95,7 +95,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
             oxRegistry::getUtils()->redirect($this->getConfig()->getSslShopUrl() . 'index.php?cl=payment', false);
         }
 
-        $this->getSession()->setVar("paymill_identifier", time());
+        $this->getSession()->setVariable("paymill_identifier", time());
 
         $this->_apiUrl = paymill_util::API_ENDPOINT;
 
@@ -139,10 +139,13 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
             if ($oxConfig->getShopConfVar('PAYMILL_SET_PAYMENTDATE')) {
                 $this->_setPaymentDate($oOrder);
             }
+
+            // set transactionId to session for updating the description after order execute
+            $transactionId = $this->_paymentProcessor->getTransactionId();
+            $this->getSession()->setVariable('paymillPgTransId', $transactionId);
         } else {
             oxRegistry::get("oxUtilsView")->addErrorToDisplay($this->_getErrorMessage($this->_paymentProcessor->getErrorCode()));
         }
-
 
         return $result;
     }
@@ -175,11 +178,11 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
 
     private function _initializePaymentProcessor($dAmount, $oOrder)
     {
-        $utf8Name = $this->convertToUtf(
+        $utf8Name = $this->paymillConvertToUtf(
             $oOrder->oxorder__oxbilllname->value . ', ' . $oOrder->oxorder__oxbillfname->value
         );
 
-        $description = 'OrderID: ' . $oOrder->oxorder__oxid . ' - OrderNumber: ' . $oOrder->oxorder__oxordernr . ' - ' . $utf8Name;
+        $description = 'OrderID: ' . $oOrder->oxorder__oxid . ' - ' . $utf8Name;
 
         $description = strlen($description) > 128? substr($description,0,128) : $description;
 
@@ -235,13 +238,15 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
      *
      * @param string $message
      * @param string $debuginfo
+     *
+     * @todo  remove this use paymill_logger instead
      */
     public function log($message, $debuginfo)
     {
         if (oxRegistry::getConfig()->getShopConfVar('PAYMILL_ACTIVATE_LOGGING')) {
             $logging = oxNew('paymill_logging');
             $logging->assign(array(
-                'identifier' => $this->getSession()->getVar('paymill_identifier'),
+                'identifier' => $this->getSession()->getVariable('paymill_identifier'),
                 'debug' => $debuginfo,
                 'message' => $message,
                 'date' => date('Y-m-d H:i:s', oxRegistry::get('oxUtilsDate')->getTime())
@@ -251,7 +256,7 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         }
     }
 
-    public function convertToUtf($value)
+    public function paymillConvertToUtf($value)
     {
        $obj = oxNew('paymill_util');
        return $obj->convertToUtf($value);

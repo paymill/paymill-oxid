@@ -12,6 +12,7 @@ $aModule = array(
     'email' => 'support@paymill.de',
     'extend' => array(
         'payment' => 'paymill/controllers/paymill_payment',
+        'order' => 'paymill/controllers/paymill_order',
         'oxpaymentgateway' => 'paymill/controllers/paymill_paymentgateway',
         'oxemail' => 'paymill/core/paymill_oxemail'
     ),
@@ -25,6 +26,7 @@ $aModule = array(
         'paymill_fastcheckout' => 'paymill/core/paymill_fastcheckout.php',
         'paymill_logging' => 'paymill/core/paymill_logging.php',
         'paymill_loglist' => 'paymill/core/paymill_loglist.php',
+        'paymill_logger' => 'paymill/core/paymill_logger.php',
         'paymill_install' => 'paymill/controllers/admin/paymill_install.php',
         'paymill_log' => 'paymill/controllers/admin/paymill_log.php',
         'paymill_log_list' => 'paymill/controllers/admin/paymill_log_list.php',
