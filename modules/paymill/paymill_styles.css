@@ -230,12 +230,12 @@ ul#paymill_brands.pm-mobile {
 /**
  * Tooltip
  */
-.pmTooltip, .pmTooltipClick {
+.pmTooltip {
     position: relative !important;
     display: inline-block;
 }
 
-.pmTooltipRight, .pmTooltipLeft {
+.pmTooltipRight {
     background: #333333; /* old browsers */
     background: rgba(0,0,0,0.85); /* For IE9 */
     background: -moz-linear-gradient(top, rgba(51,51,51,0.85) 0%, rgba(0,0,0,0.85) 100%); /* firefox */
@@ -260,34 +260,10 @@ ul#paymill_brands.pm-mobile {
     margin-top: -75px;
 }
 
-.pmTooltipLeft {
-    left: -330px;
-    margin-top: -42px;
-    right: 30px;
-}
-
-.pmTooltipClick > button {
-    border: 0;
-    background-color: #50a9be;
-    color: #ffffff;
-    text-transform: uppercase;
-    cursor: pointer;
-    width: 100%;
-    font-size: 1.111em;
-    font-weight: bold;
-}
-
-.pmTooltip > .pmTooltipRight,
-.pmTooltipClick > .pmTooltipLeft {
+.pmTooltip > .pmTooltipRight {
     display: none;
 }
 
 .pmTooltip:hover > .pmTooltipRight {
     display: block;
-}
-
-.pmTooltipClick > button:focus + .pmTooltipLeft {
-    display: block;
-    color: #fff;
-    text-decoration: none;
 }

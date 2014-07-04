@@ -18,13 +18,6 @@
             <input id="paymillCardHolderName" class="paymill_input card-holdername span3" type="text" size="20" value="[{$paymillCcCardHolder}]" placeholder="[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_HOLDERNAME" }]" />
         </li>
         <li>
-            <input id="paymillCardCvc" class="paymill_input card-cvc span3 pm-mobile" type="password" autocomplete="off" size="4" value="[{$paymillCcCvc}]" placeholder="[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_SECURITYCODE" }]" />
-            <span class="pmTooltipClick">
-                <button type='button' style="position: relative; top: -5px; width: 30px;"> ? </button>
-                <strong class="pmTooltipLeft">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_CC_TOOLTIP" }]</strong>
-            </span>
-        </li>
-        <li>
             <label class="card-expiry-label">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_VALIDUNTIL" }]:</label>
             <br>
             <select id="paymillCardExpiryMonth" class="paymill_input card-expiry-month pm-mobile">
@@ -51,6 +44,10 @@
                 [{/if}]
                 [{/foreach}]
             </select>
+        </li>
+        <li>
+            <input id="paymillCardCvc" class="paymill_input card-cvc span3 pm-mobile" type="password" autocomplete="off" size="4" value="[{$paymillCcCvc}]" placeholder="[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_SECURITYCODE" }]" />
+            <p>[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_CC_TOOLTIP" }]</p>
         </li>
 
         [{block name="checkout_payment_longdesc"}]

@@ -4,7 +4,7 @@
  * changed CVV input field type from "text" to "password"
  * ui change: added support for payment long description (configurable in the OXID backend payment methods settings)
  * ui change: credit card form - valid until months are shown in a new format instead of just having the name of the month it also shows the number, e.g. "1 - January"
- * ui change: hover tooltip for CVV input field, clickable tooltip for mobile template
+ * ui change: hover tooltip for CVV input field
  * refactoring: removed all deprecated calls, e.g. oxConfig::getInstance() etc
  * max length of transaction description set to 128 characters
  * fixed: order number was not set correctly, is now updated after order execution
