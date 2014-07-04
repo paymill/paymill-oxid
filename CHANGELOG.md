@@ -1,5 +1,5 @@
 ## v2.6.0
- * added OXID mobile theme support
+ * added OXID mobile theme support. Tested with Nexus 7 Chrome emulation and iOS simulator (iPhone 4-inch iOS 7.1).
  * added autocomplete="off" for input fields, browser shall not save sensitive data like credit card number and card verification value
  * changed CVV input field type from "text" to "password"
  * ui change: added support for payment long description (configurable in the OXID backend payment methods settings)
