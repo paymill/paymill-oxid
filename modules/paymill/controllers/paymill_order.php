@@ -48,7 +48,7 @@ class paymill_order extends paymill_order_parent
             if ($updateResponse['response_code'] === 20000) {
                 $logSuccess = 'Successfully updated the description of ';
             } else {
-                $logSuccess = 'There was an error updating the description of';
+                $logSuccess = 'There was an error updating the description of ';
             }
 
             $logger->log($logSuccess . $transactionId, $description);
