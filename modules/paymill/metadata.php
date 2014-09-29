@@ -34,7 +34,8 @@ $aModule = array(
         'paymill_hooks' => 'paymill/controllers/paymill_hooks.php',
         'paymill_log_abstract' => 'paymill/controllers/admin/paymill_log_abstract.php',
         'paymill_register_hook' => 'paymill/controllers/admin/paymill_register_hook.php',
-        'paymill_util' => 'paymill/util/paymill_util.php'
+        'paymill_util' => 'paymill/util/paymill_util.php',
+        'paymill_order_details' => 'paymill/controllers/admin/paymill_order_details.php'
     ),
     'blocks' => array(
         array('template' => 'page/checkout/payment.tpl', 'block' => 'select_payment', 'file' => 'paymill_select_payment.tpl'),
@@ -52,7 +53,9 @@ $aModule = array(
         'paymill_log.tpl' => 'paymill/views/admin/tpl/paymill_log.tpl',
         'paymill_log_list.tpl' => 'paymill/views/admin/tpl/paymill_log_list.tpl',
         'paymill_log_entry.tpl' => 'paymill/views/admin/tpl/paymill_log_entry.tpl',
-        'paymill_register_hook.tpl' => 'paymill/views/admin/tpl/paymill_register_hook.tpl'
+        'paymill_register_hook.tpl' => 'paymill/views/admin/tpl/paymill_register_hook.tpl',
+        'paymill_order_details.tpl' => 'paymill/views/admin/tpl/paymill_order_details.tpl',
+        'paymill_order_no_details.tpl' => 'paymill/views/admin/tpl/paymill_order_no_details.tpl',
     ),
     'settings' => array(
         array('group' => 'main', 'name' => 'PAYMILL_PRIVATEKEY', 'type' => 'str', 'value' => ''),
