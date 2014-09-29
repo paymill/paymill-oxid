@@ -44,5 +44,6 @@ $aLang = array(
     "PAYMILL_PRENOTIFICATION_TEXT" => "Die Lastschrift wird zu dem folgenden Termin eingezogen:",
     "PAYMILL_DATE_FORMAT" => "d.m.Y",
     "PAYMILL_NODETAILS" => 'Keine PAYMILL Bestellung.',
-    "PI_PAYMILL_DETAILS" => 'PAYMILL Bestelldetails'
+    "PI_PAYMILL_DETAILS" => 'PAYMILL Bestelldetails',
+    "PAYMILL_REFUND_ORDER" => 'Bestellung erstatten'
 );

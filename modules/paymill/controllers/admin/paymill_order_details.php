@@ -17,6 +17,14 @@ class paymill_order_details extends oxAdminDetails
 
         return 'paymill_order_no_details.tpl';
     }
+    
+    /**
+     * Refund the selected paymill transaction
+     */
+    public function refundTransaction()
+    {
+        
+    }
 
     /**
      * Return payment id

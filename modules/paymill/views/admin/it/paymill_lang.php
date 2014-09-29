@@ -43,5 +43,6 @@ $aLang = array(
     "PAYMILL_PRENOTIFICATION_TEXT" => "The direct debit is drawn to the following date:",
     "PAYMILL_DATE_FORMAT" => "Y-m-d",
     "PAYMILL_NODETAILS" => 'No PAYMILL order.',
-    "PI_PAYMILL_DETAILS" => 'PAYMILL order details'
+    "PI_PAYMILL_DETAILS" => 'PAYMILL order details',
+    "PAYMILL_REFUND_ORDER" => 'refund order'
 );
