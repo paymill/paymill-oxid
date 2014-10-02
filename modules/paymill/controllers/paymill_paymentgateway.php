@@ -123,6 +123,11 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
         $this->log($result ? 'Payment results in success' : 'Payment results in failure', null);
 
         if ($result) {
+            
+            $transaction = oxNew('paymill_transaction');
+            $transaction->assign(array('oxid' =>  $oOrder->oxorder__oxid, 'transaction_id' => $this->_paymentProcessor->getTransactionId()));
+            $transaction->save();
+            
             $saveData = array(
                 'oxid' => $oOrder->oxorder__oxuserid->rawValue,
                 'clientid' => $this->_paymentProcessor->getClientId()

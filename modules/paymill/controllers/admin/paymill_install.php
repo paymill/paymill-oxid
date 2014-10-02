@@ -33,6 +33,7 @@ class paymill_install extends oxAdminView
             "PRIMARY KEY (`oxid`) " .
             "); "
         );
+        
         oxDb::getDb()->Execute(
             "CREATE TABLE IF NOT EXISTS `paymill_logging` ( " .
             "`oxid` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL, " .
@@ -40,6 +41,15 @@ class paymill_install extends oxAdminView
             "`debug` text NOT NULL, " .
             "`message` text NOT NULL, " .
             "`date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, " .
+            "PRIMARY KEY (`oxid`) " .
+            ");"
+        );
+        
+        oxDb::getDb()->Execute(
+            "CREATE TABLE IF NOT EXISTS `paymill_transaction` ( " .
+            "`oxid` varchar(100) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL, " .
+            "`transaction_id` varchar(100), " .
+            "`preauth_id` varchar(100), " .
             "PRIMARY KEY (`oxid`) " .
             ");"
         );
@@ -73,7 +83,8 @@ class paymill_install extends oxAdminView
     {
         $fastCheckout = oxDb::getDb(oxDB::FETCH_MODE_ASSOC)->getRow('CHECK TABLE `paymill_fastcheckout`');
         $logging = oxDb::getDb(oxDB::FETCH_MODE_ASSOC)->getRow('CHECK TABLE `paymill_logging`');
-        return $fastCheckout['Msg_text'] === "OK" && $logging['Msg_text'] === "OK";
+        $transaction = oxDb::getDb(oxDB::FETCH_MODE_ASSOC)->getRow('CHECK TABLE `paymill_transaction`');
+        return $fastCheckout['Msg_text'] === "OK" && $logging['Msg_text'] === "OK" && $transaction['Msg_text'] === "OK";
     }
 
     private function isModulActive()
