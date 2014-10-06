@@ -117,8 +117,12 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
                 $this->_fastCheckoutData->$prop->rawValue
             );
         }
-
-        $result = $this->_paymentProcessor->processPayment(!$oxConfig->getShopConfVar('PAYMILL_PREAUTH'));
+        
+        if ($oOrder->oxorder__oxpaymenttype->rawValue === 'paymill_cc') {
+            $result = $this->_paymentProcessor->processPayment(!$oxConfig->getShopConfVar('PAYMILL_PREAUTH'));
+        } else {
+            $result = $this->_paymentProcessor->processPayment();
+        }
 
         $this->log($result ? 'Payment results in success' : 'Payment results in failure', null);
 
