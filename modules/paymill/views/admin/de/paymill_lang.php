@@ -45,5 +45,11 @@ $aLang = array(
     "PAYMILL_DATE_FORMAT" => "d.m.Y",
     "PAYMILL_NODETAILS" => 'Keine PAYMILL Bestellung.',
     "PI_PAYMILL_DETAILS" => 'PAYMILL Bestelldetails',
-    "PAYMILL_REFUND_ORDER" => 'Bestellung erstatten'
+    "SHOP_MODULE_PAYMILL_PREAUTH" => "Preauth/Capture",
+    "PAYMILL_REFUND_ORDER" => 'Bestellung erstatten',
+    "PAYMILL_REFUND_ERROR" => "Bei der erstattung ist ein Fehler aufgetreten!",
+    "PAYMILL_REFUND_SUCCESS" => "Erstattung erfolgreich!",
+    "PAYMILL_CAPTURE_ORDER" => "Bestellung einziehen",
+    "PAYMILL_CAPTURE_ERROR" => "Beim einziehen der Bestellung ist ein Fehler aufgetreten!",
+    "PAYMILL_CAPTURE_SUCCESS" => "Bestellung erfolgreich eingezogen!"
 );

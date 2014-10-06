@@ -88,5 +88,12 @@ $aLang = array(
 	"PAYMILL_field_invalid_amount" => "Missing amount for 3-D Secure",
 	"PAYMILL_field_invalid_currency" => "Invalid currency for 3-D Secure",
 	"PAYMILL_PRENOTIFICATION_TEXT" => "Die Lastschrift wird zu dem folgenden Termin eingezogen:",
-	"PAYMILL_DATE_FORMAT" => "d.m.Y"
+	"PAYMILL_DATE_FORMAT" => "d.m.Y",
+	"SHOP_MODULE_PAYMILL_PREAUTH" => "Preauth/Capture",
+        "PAYMILL_REFUND_ORDER" => 'Bestellung erstatten',
+        "PAYMILL_REFUND_ERROR" => "Bei der erstattung ist ein Fehler aufgetreten!",
+        "PAYMILL_REFUND_SUCCESS" => "Erstattung erfolgreich!",
+        "PAYMILL_CAPTURE_ORDER" => "Bestellung einziehen",
+        "PAYMILL_CAPTURE_ERROR" => "Beim einziehen der Bestellung ist ein Fehler aufgetreten!",
+        "PAYMILL_CAPTURE_SUCCESS" => "Bestellung erfolgreich eingezogen!"
 );

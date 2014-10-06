@@ -44,5 +44,11 @@ $aLang = array(
     "PAYMILL_DATE_FORMAT" => "Y-m-d",
     "PAYMILL_NODETAILS" => 'No PAYMILL order.',
     "PI_PAYMILL_DETAILS" => 'PAYMILL order details',
-    "PAYMILL_REFUND_ORDER" => 'refund order'
+    "SHOP_MODULE_PAYMILL_PREAUTH" => "preauth/capture",
+    "PAYMILL_REFUND_ORDER" => 'refund order',
+    "PAYMILL_REFUND_ERROR" => "Refund not successful!",
+    "PAYMILL_REFUND_SUCCESS" => "Refund successful!",
+    "PAYMILL_CAPTURE_ORDER" => "capture order",
+    "PAYMILL_CAPTURE_ERROR" => "Capture not successful!",
+    "PAYMILL_CAPTURE_SUCCESS" => "Capture successful!"
 );

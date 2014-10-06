@@ -1,6 +1,6 @@
 <?php
 
-class paymill_order_details extends oxAdminDetails
+class paymill_order_details extends oxAdminDetails implements Services_Paymill_LoggingInterface
 {
     
     /**
@@ -19,6 +19,19 @@ class paymill_order_details extends oxAdminDetails
     }
     
     /**
+     * Is capture possible
+     * 
+     * @return boolean
+     */
+    public function canCapture()
+    {
+        $transaction = oxNew('paymill_transaction');
+        $transaction->load($this->getEditObjectId());
+        
+        return is_null($transaction->paymill_transaction__transaction_id->rawValue) && !is_null($transaction->paymill_transaction__preauth_id->rawValue);
+    }
+    
+    /**
      * Is refund possible
      * 
      * @return boolean
@@ -29,6 +42,36 @@ class paymill_order_details extends oxAdminDetails
         $transaction->load($this->getEditObjectId());
         
         return $this->getEditObject()->getTotalOrderSum() > 0 &&  !is_null($transaction->paymill_transaction__transaction_id->rawValue);
+    }
+    
+    public function capturePreauth()
+    {
+        $transaction = oxNew('paymill_transaction');
+        $transaction->load($this->getEditObjectId());
+        
+        $params = array();
+        $params['amount'] = (int)  (int) ($this->_getRefundAmount() * 100);
+        $params['currency'] = strtoupper($this->getEditObject()->oxorder__oxcurrency->rawValue);
+
+        $paymentProcessor = new Services_Paymill_PaymentProcessor(
+            trim(oxRegistry::getConfig()->getShopConfVar('PAYMILL_PRIVATEKEY')),
+            paymill_util::API_ENDPOINT,
+            null, 
+            $params, 
+            $this
+        );
+        
+        oxRegistry::getSession()->setVariable('preauth', true);
+
+        $paymentProcessor->setPreauthId($transaction->paymill_transaction__preauth_id->rawValue);
+
+        if (!$paymentProcessor->capture()) {
+            oxRegistry::getSession()->setVariable('error', true);
+        } else {
+            $transaction->assign(array('transaction_id' => $paymentProcessor->getTransactionId()));
+            $transaction->save();
+            oxRegistry::getSession()->setVariable('success', true);
+        }
     }
     
     /**
@@ -53,14 +96,16 @@ class paymill_order_details extends oxAdminDetails
         
         //Create Refund
         $params = array(
-            'transactionId' => $transaction->transaction_id->rawValue,
-            'params' => array('amount' => $this->_getRefundAmount())
+            'transactionId' => $transaction->paymill_transaction__transaction_id->rawValue,
+            'params' => array('amount' => (int) ($this->_getRefundAmount() * 100))
         );
 
         $refundsObject = new Services_Paymill_Refunds(                
             trim(oxRegistry::getConfig()->getShopConfVar('PAYMILL_PRIVATEKEY')),
             paymill_util::API_ENDPOINT
         );
+        
+        oxRegistry::getSession()->setVariable('refund', true);
         
         try {
             $refund = $refundsObject->create($params);
@@ -83,12 +128,16 @@ class paymill_order_details extends oxAdminDetails
      * 
      * @return boolean
      */
-    public function hasError()
+    public function hasRefundError()
     {
         $flag = false;
-        if (oxRegistry::getSession()->hasVariable('error') && oxRegistry::getSession()->getVariable('error')) {
+        if (oxRegistry::getSession()->hasVariable('error') 
+                && oxRegistry::getSession()->getVariable('error')
+                && oxRegistry::getSession()->hasVariable('refund') 
+                && oxRegistry::getSession()->getVariable('refund')) {
             $flag = true;
             oxRegistry::getSession()->deleteVariable('error');
+            oxRegistry::getSession()->deleteVariable('refund');
         }
         
         return $flag;
@@ -99,12 +148,56 @@ class paymill_order_details extends oxAdminDetails
      * 
      * @return boolean
      */
-    public function hasSuccess()
+    public function hasRefundSuccess()
     {
         $flag = false;
-        if (oxRegistry::getSession()->hasVariable('success') && oxRegistry::getSession()->getVariable('success')) {
+        if (oxRegistry::getSession()->hasVariable('success') 
+                && oxRegistry::getSession()->getVariable('success')
+                && oxRegistry::getSession()->hasVariable('refund') 
+                && oxRegistry::getSession()->getVariable('refund')) {
             $flag = true;
             oxRegistry::getSession()->deleteVariable('success');
+            oxRegistry::getSession()->deleteVariable('refund');
+        }
+        
+        return $flag;
+    }
+    
+    /**
+     * Return error flag
+     * 
+     * @return boolean
+     */
+    public function hasCaptureError()
+    {
+        $flag = false;
+        if (oxRegistry::getSession()->hasVariable('error') 
+                && oxRegistry::getSession()->getVariable('error')
+                && oxRegistry::getSession()->hasVariable('preauth') 
+                && oxRegistry::getSession()->getVariable('preauth')) {
+            $flag = true;
+            oxRegistry::getSession()->deleteVariable('error');
+            oxRegistry::getSession()->deleteVariable('preauth');
+        }
+        
+        return $flag;
+    }
+    
+    /**
+     * Return error flag
+     * 
+     * @return boolean
+     */
+    public function hasCaptureSuccess()
+    {
+        $flag = false;
+        if (oxRegistry::getSession()->hasVariable('success') 
+                && oxRegistry::getSession()->getVariable('success') 
+                && oxRegistry::getSession()->hasVariable('preauth') 
+                && oxRegistry::getSession()->getVariable('preauth')) {
+            $flag = true;
+            oxRegistry::getSession()->deleteVariable('success');
+            oxRegistry::getSession()->deleteVariable('preauth');
         }
         
         return $flag;
@@ -157,5 +250,28 @@ class paymill_order_details extends oxAdminDetails
         }
 
         return $this->_oEditObject;
+    }
+    
+    /**
+     * log the given message
+     *
+     * @param string $message
+     * @param string $debuginfo
+     *
+     * @todo  remove this use paymill_logger instead
+     */
+    public function log($message, $debuginfo)
+    {
+        if (oxRegistry::getConfig()->getShopConfVar('PAYMILL_ACTIVATE_LOGGING')) {
+            $logging = oxNew('paymill_logging');
+            $logging->assign(array(
+                'identifier' => $this->getSession()->getVariable('paymill_identifier'),
+                'debug' => $debuginfo,
+                'message' => $message,
+                'date' => date('Y-m-d H:i:s', oxRegistry::get('oxUtilsDate')->getTime())
+            ));
+
+            $logging->save();
+        }
     }
 }
