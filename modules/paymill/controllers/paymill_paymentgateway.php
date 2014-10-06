@@ -117,12 +117,33 @@ class paymill_paymentgateway extends paymill_paymentgateway_parent implements Se
                 $this->_fastCheckoutData->$prop->rawValue
             );
         }
-
-        $result = $this->_paymentProcessor->processPayment();
+        
+        if ($oOrder->oxorder__oxpaymenttype->rawValue === 'paymill_cc') {
+            $result = $this->_paymentProcessor->processPayment(!$oxConfig->getShopConfVar('PAYMILL_PREAUTH'));
+        } else {
+            $result = $this->_paymentProcessor->processPayment();
+        }
 
         $this->log($result ? 'Payment results in success' : 'Payment results in failure', null);
 
         if ($result) {
+            
+            $transactionData = array(
+                'oxid' =>  $oOrder->oxorder__oxid
+            );
+            
+            $transaction = oxNew('paymill_transaction');
+            
+            if ($oxConfig->getShopConfVar('PAYMILL_PREAUTH') && $oOrder->oxorder__oxpaymenttype->rawValue !== 'paymill_elv') {
+                $transactionData['preauth_id'] = $this->_paymentProcessor->getPreauthId();
+            } else {
+                $transactionData['transaction_id'] = $this->_paymentProcessor->getTransactionId();
+            }
+            
+            $transaction->assign($transactionData);
+            
+            $transaction->save();
+            
             $saveData = array(
                 'oxid' => $oOrder->oxorder__oxuserid->rawValue,
                 'clientid' => $this->_paymentProcessor->getClientId()

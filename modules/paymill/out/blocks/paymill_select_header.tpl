@@ -1,7 +1,6 @@
 [{assign var="oxConfig" value=$oView->getConfig()}]
 [{assign var="currency" value=$oView->getActCurrency()}]
 <link rel="stylesheet" type="text/css" href="[{ $oViewConf->getBaseDir() }]modules/paymill/paymill_styles.css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript">
     var PAYMILL_PUBLIC_KEY = '[{$paymillPublicKey}]';
     var PAYMILL_AMOUNT = '[{$paymillAmount}]';

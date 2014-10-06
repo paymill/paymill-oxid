@@ -1,4 +1,5 @@
 <?php
+
 $aLang = array(
     "charset" => "UTF-8",
     "PAYMILL_TITLE" => "PAYMILL",
@@ -38,7 +39,16 @@ $aLang = array(
     "SHOP_MODULE_PAYMILL_UNIONPAY" => "Unionpay",
     "SHOP_MODULE_PAYMILL_DISCOVER" => "Discover",
     "SHOP_MODULE_PAYMILL_DANKORT" => "Dankort",
-    "SHOP_MODULE_PAYMILL_PRENOTIFICATION" =>"Days until the debit",
+    "SHOP_MODULE_PAYMILL_PRENOTIFICATION" => "Days until the debit",
     "PAYMILL_PRENOTIFICATION_TEXT" => "The direct debit is drawn to the following date:",
-    "PAYMILL_DATE_FORMAT" => "Y-m-d"
+    "PAYMILL_DATE_FORMAT" => "Y-m-d",
+    "PAYMILL_NODETAILS" => 'No PAYMILL order.',
+    "PI_PAYMILL_DETAILS" => 'PAYMILL order details',
+    "SHOP_MODULE_PAYMILL_PREAUTH" => "preauth/capture",
+    "PAYMILL_REFUND_ORDER" => 'refund order',
+    "PAYMILL_REFUND_ERROR" => "Refund not successful!",
+    "PAYMILL_REFUND_SUCCESS" => "Refund successful!",
+    "PAYMILL_CAPTURE_ORDER" => "capture order",
+    "PAYMILL_CAPTURE_ERROR" => "Capture not successful!",
+    "PAYMILL_CAPTURE_SUCCESS" => "Capture successful!"
 );

@@ -6,7 +6,7 @@ $aModule = array(
     'title' => 'Paymill',
     'description' => 'Paymill Payment',
     'thumbnail' => 'image/logo.png',
-    'version' => '2.6.0',
+    'version' => '2.7.0',
     'author' => 'Paymill GmbH',
     'url' => 'http://www.paymill.de',
     'email' => 'support@paymill.de',
@@ -23,10 +23,12 @@ $aModule = array(
         'Services_Paymill_Payments' => 'paymill/lib/Services/Paymill/Payments.php',
         'Services_Paymill_Transactions' => 'paymill/lib/Services/Paymill/Transactions.php',
         'Services_Paymill_Webhooks' => 'paymill/lib/Services/Paymill/Webhooks.php',
+        'Services_Paymill_Refunds' => 'paymill/lib/Services/Paymill/Refunds.php',
         'paymill_fastcheckout' => 'paymill/core/paymill_fastcheckout.php',
         'paymill_logging' => 'paymill/core/paymill_logging.php',
         'paymill_loglist' => 'paymill/core/paymill_loglist.php',
         'paymill_logger' => 'paymill/core/paymill_logger.php',
+        'paymill_transaction' => 'paymill/core/paymill_transaction.php',
         'paymill_install' => 'paymill/controllers/admin/paymill_install.php',
         'paymill_log' => 'paymill/controllers/admin/paymill_log.php',
         'paymill_log_list' => 'paymill/controllers/admin/paymill_log_list.php',
@@ -34,7 +36,8 @@ $aModule = array(
         'paymill_hooks' => 'paymill/controllers/paymill_hooks.php',
         'paymill_log_abstract' => 'paymill/controllers/admin/paymill_log_abstract.php',
         'paymill_register_hook' => 'paymill/controllers/admin/paymill_register_hook.php',
-        'paymill_util' => 'paymill/util/paymill_util.php'
+        'paymill_util' => 'paymill/util/paymill_util.php',
+        'paymill_order_details' => 'paymill/controllers/admin/paymill_order_details.php'
     ),
     'blocks' => array(
         array('template' => 'page/checkout/payment.tpl', 'block' => 'select_payment', 'file' => 'paymill_select_payment.tpl'),
@@ -52,7 +55,9 @@ $aModule = array(
         'paymill_log.tpl' => 'paymill/views/admin/tpl/paymill_log.tpl',
         'paymill_log_list.tpl' => 'paymill/views/admin/tpl/paymill_log_list.tpl',
         'paymill_log_entry.tpl' => 'paymill/views/admin/tpl/paymill_log_entry.tpl',
-        'paymill_register_hook.tpl' => 'paymill/views/admin/tpl/paymill_register_hook.tpl'
+        'paymill_register_hook.tpl' => 'paymill/views/admin/tpl/paymill_register_hook.tpl',
+        'paymill_order_details.tpl' => 'paymill/views/admin/tpl/paymill_order_details.tpl',
+        'paymill_order_no_details.tpl' => 'paymill/views/admin/tpl/paymill_order_no_details.tpl',
     ),
     'settings' => array(
         array('group' => 'main', 'name' => 'PAYMILL_PRIVATEKEY', 'type' => 'str', 'value' => ''),
@@ -63,6 +68,7 @@ $aModule = array(
         array('group' => 'main', 'name' => 'PAYMILL_ACTIVATE_FASTCHECKOUT', 'type' => 'bool', 'value' => 'false'),
         array('group' => 'main', 'name' => 'PAYMILL_SET_PAYMENTDATE', 'type' => 'bool', 'value' => 'true'),
         array('group' => 'main', 'name' => 'PAYMILL_PRENOTIFICATION', 'type' => 'str', 'value' => '7'),
+        array('group' => 'main', 'name' => 'PAYMILL_PREAUTH', 'type' => 'bool', 'value' => 'false'),
         array('group' => 'cc', 'name' => 'PAYMILL_VISA', 'type' => 'bool', 'value' => 'true', 'position' => 1),
         array('group' => 'cc', 'name' => 'PAYMILL_MASTERCARD', 'type' => 'bool', 'value' => 'true', 'position' => 2),
         array('group' => 'cc', 'name' => 'PAYMILL_AMEX', 'type' => 'bool', 'value' => 'true', 'position' => 3),

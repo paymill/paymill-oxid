@@ -1,3 +1,8 @@
+## v2.7.0
+ * remove jQuery import and use shops native jQuery
+ * allow preauth/capture workflow
+ * allow refund
+
 ## v2.6.0
  * added OXID mobile theme support. Tested with Nexus 7 Chrome emulation and iOS simulator (iPhone 4-inch iOS 7.1).
  * added autocomplete="off" for input fields, browser shall not save sensitive data like credit card number and card verification value
