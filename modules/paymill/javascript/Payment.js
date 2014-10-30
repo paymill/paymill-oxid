@@ -1,6 +1,6 @@
 var prefilledInputValues = [];
 
-window.onload = function() {
+var paymillInit = function() {
     prefilledInputValues = getFormData();
 
     /**
@@ -294,3 +294,10 @@ window.onload = function() {
     }
 
 };
+
+
+if (window.addEventListener){
+    window.addEventListener("load", paymillInit);
+} else if (window.attachEvent){
+    window.attachEvent("onload", paymillInit);
+} else window.onload = paymillInit;
