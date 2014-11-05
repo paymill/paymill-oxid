@@ -1,3 +1,6 @@
+## v2.7.1
+ * Using window.addEventListener
+
 ## v2.7.0
  * remove jQuery import and use shops native jQuery
  * allow preauth/capture workflow
