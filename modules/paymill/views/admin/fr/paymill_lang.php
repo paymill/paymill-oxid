@@ -50,5 +50,8 @@ $aLang = array(
     "PAYMILL_REFUND_SUCCESS" => "Refund successful!",
     "PAYMILL_CAPTURE_ORDER" => "capture order",
     "PAYMILL_CAPTURE_ERROR" => "Capture not successful!",
-    "PAYMILL_CAPTURE_SUCCESS" => "Capture successful!"
+    "PAYMILL_CAPTURE_SUCCESS" => "Capture successful!",
+    "SHOP_MODULE_PAYMILL_COMPLIANCE" => "PCI-DSS Compliance",
+    "SHOP_MODULE_PAYMILL_COMPLIANCE_0" => "Simple (SAQ-A)",
+    "SHOP_MODULE_PAYMILL_COMPLIANCE_1" => "Advanced (SAQ A-EP)"
 );
