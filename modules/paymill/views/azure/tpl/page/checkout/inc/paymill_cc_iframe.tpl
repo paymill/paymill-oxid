@@ -17,7 +17,8 @@
                         [{/foreach}]
                     </ul>
                 </div>
-                <div id="payment-form-cc">
+                <!-- @TODO remove inline style -->
+                <div id="payment-form-cc" style="height: 215px;">
                 </div>
             </li>
         </ul>

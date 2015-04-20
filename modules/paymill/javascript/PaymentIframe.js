@@ -28,6 +28,37 @@ var paymillInit = function() {
         }
     });
 
+    $('#payment').submit(function (event) {
+        var cc = $('#payment_paymill_cc').attr('checked');
+
+        if (cc && PAYMILL_COMPLIANCE) {
+            // prevent form submit
+            event.preventDefault();
+
+            // disable submit-button to prevent multiple clicks
+            $('#paymentNextStepBottom').attr("disabled", "disabled");
+
+            paymill.createTokenViaFrame({
+                amount_int: PAYMILL_AMOUNT,
+                currency: PAYMILL_CURRENCY
+            }, function(error, result) {
+                // Handle error or process result.
+                if (error && PAYMILL_DEBUG === "1") {
+                    // Token could not be created, check error.apierror for reason.
+                    console.log(error.apierror, error.message);
+                } else {
+                    // Token was created successfully and can be sent to backend.
+                    console.log(result.token);
+                                // add token into hidden input field for request to the server
+                    $("#payment").append("<input type='hidden' name='paymillToken' value='" + result.token + "'/>");
+                    $("#payment").get(0).submit();
+                }
+            });
+        }
+
+        return true;
+    });
+
     function paymillDebug(message)
     {
         if (PAYMILL_DEBUG === "1") {

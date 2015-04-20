@@ -7,7 +7,7 @@ var paymillInit = function() {
      * Get values of PAYMILL-Payment form-inputs
      * @return {[string]} array of PAYMILL form-input-values
      */
-    function getFormData() 
+    function getFormData()
     {
         var formData = [];
         $('.paymill_input').each(function () {
@@ -16,7 +16,7 @@ var paymillInit = function() {
         return formData;
     }
 
-    $('#paymillCardNumber').live('input keyup', function () 
+    $('#paymillCardNumber').live('input keyup', function ()
     {
         $("#paymillCardNumber")[0].className = $("#paymillCardNumber")[0].className.replace(/paymill-card-number-.*/g, '');
         var cardnumber = $('#paymillCardNumber').val();
@@ -46,7 +46,7 @@ var paymillInit = function() {
     $('#payment').submit(function (event) {
         var cc = $('#payment_paymill_cc').attr('checked');
         var elv = $('#payment_paymill_elv').attr('checked');
-        if (cc || elv) {
+        if ((cc && !PAYMILL_COMPLIANCE) || elv) {
             // prevent form submit
             event.preventDefault();
 
@@ -54,7 +54,6 @@ var paymillInit = function() {
             $('#paymentNextStepBottom').attr("disabled", "disabled");
 
             if (!isFastCheckout(cc, elv)) {
-                
                 generateToken(cc, elv);
             } else {
                 fastCheckout(cc, elv);
