@@ -65,6 +65,12 @@ class paymill_payment extends paymill_payment_parent
             oxNew('paymill_util')
         );
         $this->_addToTplWhichCreditCardsToShow();
+
+        $this->addTplParam(
+            'paymillCompliance',
+            $oxConfig->getShopConfVar('PAYMILL_COMPLIANCE')
+        );
+
         return parent::render();
     }
 

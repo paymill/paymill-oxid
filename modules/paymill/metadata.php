@@ -48,6 +48,7 @@ $aModule = array(
     ),
     'templates' => array(
         'paymill_cc.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_cc.tpl',
+        'paymill_cc_iframe.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_cc_iframe.tpl',
         'paymill_elv.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_elv.tpl',
         'paymill_mb_cc.tpl' => 'paymill/views/mobile/tpl/page/checkout/inc/paymill_mb_cc.tpl',
         'paymill_mb_elv.tpl' => 'paymill/views/mobile/tpl/page/checkout/inc/paymill_mb_elv.tpl',
