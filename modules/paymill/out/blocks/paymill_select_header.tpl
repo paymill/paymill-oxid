@@ -40,6 +40,7 @@
     var PAYMILL_CC_BRANDS = [{$paymillBrands|@json_encode}];
 
     var PAYMILL_COMPLIANCE = ('[{ $paymillCompliance }]' == '0');
+    var PAYMILL_COMPLIANCE_CSS = '[{ $paymillComplianceCss }]';
 </script>
 
 <script type="text/javascript" src="https://bridge.paymill.com/dss3"></script>

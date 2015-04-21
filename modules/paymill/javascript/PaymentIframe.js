@@ -20,6 +20,10 @@ var paymillInit = function() {
         }
     };
 
+    if (PAYMILL_COMPLIANCE_CSS) {
+        options.stylesheet = PAYMILL_COMPLIANCE_CSS;
+    }
+
     paymill.embedFrame('payment-form-cc', options, function(error) {
         if (error && PAYMILL_DEBUG === "1") {
             console.log(error.apierror, error.message);

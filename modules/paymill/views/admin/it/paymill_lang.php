@@ -14,6 +14,7 @@ $aLang = array(
     "PAYMILL_INSTALL_LABEL_SHIPPING_CONFIG" => "Shipping configured",
     "PAYMILL_INSTALL_LABEL_PRENOTIFICATION" => "Days until the debit configured",
     "PAYMILL_INSTALL_LABEL_PRENOTIFICATION_FAILED" => "Days until the debit not configured: Please set the field \"Days until the debit\" in the PAYMILL extention settings. (for example: 7)",
+    "PAYMILL_INSTALL_Label_CSS_URL" => "SAQ-A CSS URL valid",
     "LOG" => "Registro PAYMILL",
     "HOOKS" => "Hook di PAYMILL",
     "PAYMILL_HOOK_URL" => "URL webhook registrato",
@@ -53,5 +54,6 @@ $aLang = array(
     "PAYMILL_CAPTURE_SUCCESS" => "Capture successful!",
     "SHOP_MODULE_PAYMILL_COMPLIANCE" => "PCI-DSS Compliance",
     "SHOP_MODULE_PAYMILL_COMPLIANCE_0" => "Simple (SAQ-A)",
-    "SHOP_MODULE_PAYMILL_COMPLIANCE_1" => "Advanced (SAQ A-EP)"
+    "SHOP_MODULE_PAYMILL_COMPLIANCE_1" => "Advanced (SAQ A-EP)",
+    "SHOP_MODULE_PAYMILL_COMPLIANCE_CSS" => "SAQ-A CSS URL"
 );
