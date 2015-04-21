@@ -33,7 +33,7 @@
                     <tr>
                     <td></td>
                     <td>
-                    <button id="paymillFastCheckoutIframeChange" type="button">Change</button>
+                    <button id="paymillFastCheckoutIframeChange" type="button">[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_IFRAME_CHANGE }]</button>
                     </td>
                     </tr>
                 </table>

@@ -1,10 +1,10 @@
 var paymillInitCompliance = function() {
     var options = {
         labels: {
-            number: PAYMILL_TRANSLATION_LABELS.PAYMILL_card_number_label,
-            cvc: PAYMILL_TRANSLATION_LABELS.PAYMILL_card_cvc_label,
-            cardholder: PAYMILL_TRANSLATION_LABELS.PAYMILL_card_holdername_label,
-            exp: PAYMILL_TRANSLATION_LABELS.PAYMILL_card_expiry_label
+            number: decodeTranslations(PAYMILL_TRANSLATION_LABELS.PAYMILL_card_number_label),
+            cvc: decodeTranslations(PAYMILL_TRANSLATION_LABELS.PAYMILL_card_cvc_label),
+            cardholder: decodeTranslations(PAYMILL_TRANSLATION_LABELS.PAYMILL_card_holdername_label),
+            exp: decodeTranslations(PAYMILL_TRANSLATION_LABELS.PAYMILL_card_expiry_label)
         },
         placeholders: {
             number: 'XXXX XXXX XXXX XXXX',
@@ -14,9 +14,9 @@ var paymillInitCompliance = function() {
             exp_year: 'YYYY'
         },
         errors: {
-            number: PAYMILL_TRANSLATION.PAYMILL_VALIDATION_CARDNUMBER,
-            cvc: PAYMILL_TRANSLATION.PAYMILL_VALIDATION_CVC,
-            exp: PAYMILL_TRANSLATION.PAYMILL_VALIDATION_EXP
+            number: decodeTranslations(PAYMILL_TRANSLATION.PAYMILL_VALIDATION_CARDNUMBER),
+            cvc: decodeTranslations(PAYMILL_TRANSLATION.PAYMILL_VALIDATION_CVC),
+            exp: decodeTranslations(PAYMILL_TRANSLATION.PAYMILL_VALIDATION_EXP)
         }
     };
 
@@ -99,6 +99,17 @@ var paymillInitCompliance = function() {
         if (PAYMILL_DEBUG === "1") {
             console.log(message);
         }
+    }
+
+    /**
+     * Warning potentially harmful should only be used with date from trusted source.
+     * @param  {string} translation
+     * @return {string}
+     */
+    function decodeTranslations(translation) {
+        var textarea = document.createElement("textarea");
+        textarea.innerHTML = translation;
+        return textarea.value;
     }
 
 }
