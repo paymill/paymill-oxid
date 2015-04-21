@@ -12,7 +12,7 @@
             </ul>
         </div>
         <li>
-            [{if $fastCheckoutCc}]
+            [{if $fastCheckoutCc == 'true'}]
                 <table id="paymillFastCheckoutTable">
                     <tr>
                         <td>[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_NUMBER" }]: </td>
