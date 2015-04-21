@@ -51,6 +51,7 @@ $aModule = array(
         'paymill_cc_iframe.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_cc_iframe.tpl',
         'paymill_elv.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_elv.tpl',
         'paymill_mb_cc.tpl' => 'paymill/views/mobile/tpl/page/checkout/inc/paymill_mb_cc.tpl',
+        'paymill_mb_cc_iframe.tpl' => 'paymill/views/mobile/tpl/page/checkout/inc/paymill_mb_cc_iframe.tpl',
         'paymill_mb_elv.tpl' => 'paymill/views/mobile/tpl/page/checkout/inc/paymill_mb_elv.tpl',
         'paymill_install.tpl' => 'paymill/views/admin/tpl/paymill_install.tpl',
         'paymill_log.tpl' => 'paymill/views/admin/tpl/paymill_log.tpl',

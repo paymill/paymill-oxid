@@ -17,7 +17,6 @@
                         [{/foreach}]
                     </ul>
                 </div>
-                <!-- @TODO remove inline style -->
                 [{if $fastCheckoutCc}]
                     <table id="paymillFastCheckoutTable">
                         <tr>
