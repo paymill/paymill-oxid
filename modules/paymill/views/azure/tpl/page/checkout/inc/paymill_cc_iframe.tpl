@@ -18,8 +18,38 @@
                     </ul>
                 </div>
                 <!-- @TODO remove inline style -->
-                <div id="payment-form-cc" style="height: 215px;">
-                </div>
+                [{if $fastCheckoutCc}]
+                    <table id="paymillFastCheckoutTable">
+                        <tr>
+                            <td>[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_NUMBER" }]: </td>
+                            <td id="paymillFcCardNumber" class="paymill-card-number-[{$brand}]">[{$paymillCcLastFour}]</td>
+                        </tr>
+                        <tr>
+                            <td>[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_SECURITYCODE" }]: </td>
+                            <td>[{$paymillCcCvc}]</td>
+                        </tr>
+                        <tr>
+                            <td>[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_HOLDERNAME" }]: </td>
+                            <td>[{$paymillCcCardHolder}]</td>
+                        </tr>
+                        <tr>
+                            <td>[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_VALIDUNTIL" }]: </td>
+                            <td>[{$paymillCcExpireMonth}]/[{$paymillCcExpireYear}]</td>
+                        </tr>
+                        <tr>
+                        <td></td>
+                        <td>
+                        <button id="paymillFastCheckoutIframeChange" type="button">Change</button>
+                        </td>
+                        </tr>
+                    </table>
+
+                    <div id="payment-form-cc" style="display:none;">
+                    </div>
+                [{else}]
+                    <div id="payment-form-cc">
+                    </div>
+                [{/if}]
             </li>
         </ul>
         [{block name="checkout_payment_longdesc"}]

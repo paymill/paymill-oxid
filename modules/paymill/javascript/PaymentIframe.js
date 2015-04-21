@@ -1,4 +1,4 @@
-var paymillInit = function() {
+var paymillInitCompliance = function() {
     var options = {
         labels: {
             number: PAYMILL_TRANSLATION_LABELS.PAYMILL_card_number_label,
@@ -42,26 +42,57 @@ var paymillInit = function() {
             // disable submit-button to prevent multiple clicks
             $('#paymentNextStepBottom').attr("disabled", "disabled");
 
-            paymill.createTokenViaFrame({
-                amount_int: PAYMILL_AMOUNT,
-                currency: PAYMILL_CURRENCY
-            }, function(error, result) {
-                // Handle error or process result.
-                if (error && PAYMILL_DEBUG === "1") {
-                    // Token could not be created, check error.apierror for reason.
-                    console.log(error.apierror, error.message);
-                } else {
-                    // Token was created successfully and can be sent to backend.
-                    console.log(result.token);
-                                // add token into hidden input field for request to the server
-                    $("#payment").append("<input type='hidden' name='paymillToken' value='" + result.token + "'/>");
-                    $("#payment").get(0).submit();
-                }
-            });
+            if (PAYMILL_FASTCHECKOUT_CC && !PAYMILL_FASTCHECKOUT_CC_CHANGED) {
+                fastCheckout();
+            } else {
+                createToken();
+            }
         }
 
         return true;
     });
+
+    $('#paymillFastCheckoutIframeChange').click(function (event) {
+        $('#payment-form-cc').toggle();
+        PAYMILL_FASTCHECKOUT_CC_CHANGED = true;
+    });
+
+    function createToken()
+    {
+        paymill.createTokenViaFrame({
+            amount_int: PAYMILL_AMOUNT,
+            currency: PAYMILL_CURRENCY
+        }, paymillResponseHandler);
+    }
+
+    function fastCheckout()
+    {
+        $("#paymill_form").append("<input id='paymillFastcheckoutHidden' type='hidden' name='paymillFastcheckout' value='" + true + "'/>");
+        result = new Object();
+        result.token = 'dummyToken';
+        paymillResponseHandler(null, result);
+    }
+
+    function paymillResponseHandler(error, result)
+    {
+        // Handle error or process result.
+        if (error) {
+            paymillDebug('An API error occured:' + error.apierror);
+            // shows errors above the PAYMILL specific part of the form
+            $(".payment-errors").text($("<div/>").html(PAYMILL_TRANSLATION["PAYMILL_" + error.apierror]).text());
+            $(".payment-errors").css("display", "inline-block");
+        } else {
+            $(".payment-errors").css("display", "none");
+            $(".payment-errors").text("");
+            // Token
+            paymillDebug('Received a token: ' + result.token);
+            // add token into hidden input field for request to the server
+            $("#payment").append("<input type='hidden' name='paymillToken' value='" + result.token + "'/>");
+            $("#payment").get(0).submit();
+        }
+
+        $("#paymentNextStepBottom").removeAttr("disabled");
+    }
 
     function paymillDebug(message)
     {
@@ -69,10 +100,11 @@ var paymillInit = function() {
             console.log(message);
         }
     }
+
 }
 
 if (window.addEventListener){
-    window.addEventListener("load", paymillInit);
+    window.addEventListener("load", paymillInitCompliance);
 } else if (window.attachEvent){
-    window.attachEvent("onload", paymillInit);
-} else window.onload = paymillInit;
+    window.attachEvent("onload", paymillInitCompliance);
+} else window.onload = paymillInitCompliance;

@@ -56,6 +56,7 @@
             PAYMILL_card_holdername_label: '[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_HOLDERNAME" }]',
             PAYMILL_card_expiry_label: '[{ oxmultilang ident="PAGE_CHECKOUT_PAYMENT_VALIDUNTIL" }]'
         };
+        var PAYMILL_FASTCHECKOUT_CC_CHANGED = false;
     </script>
     <script type="text/javascript" src="[{ $oViewConf->getBaseDir() }]modules/paymill/javascript/PaymentIframe.js"></script>
 [{/if}]
