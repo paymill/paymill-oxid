@@ -20,7 +20,7 @@ var paymillInit = function() {
         }
     };
 
-    if (PAYMILL_COMPLIANCE_CSS) {
+    if (PAYMILL_COMPLIANCE_CSS && PAYMILL_COMPLIANCE_CSS.match("^https://.*$")) {
         options.stylesheet = PAYMILL_COMPLIANCE_CSS;
     }
 
