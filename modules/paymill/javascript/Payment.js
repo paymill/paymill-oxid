@@ -51,14 +51,13 @@ var paymillInit = function() {
             cc = $('#paymentOption_paymill_cc.active-payment').length > 0;
             elv = $('#paymentOption_paymill_elv.active-payment').length > 0;
         } else {
-            cc = $('#payment_paymill_cc').attr('checked').length > 0
-            elv = $('#payment_paymill_elv').attr('checked').length > 0;
+            cc = $('#payment_paymill_cc').attr('checked');
+            elv = $('#payment_paymill_elv').attr('checked');
         }
 
         if ((cc && !PAYMILL_COMPLIANCE) || elv) {
             // prevent form submit
             event.preventDefault();
-
             clearErrors();
 
             // disable submit-button to prevent multiple clicks

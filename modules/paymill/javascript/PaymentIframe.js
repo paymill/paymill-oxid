@@ -38,7 +38,7 @@ var paymillInitCompliance = function() {
         if (isMobileTheme()) {
             cc = $('#paymentOption_paymill_cc.active-payment').length > 0;
         } else {
-            cc = $('#payment_paymill_cc').attr('checked').length > 0
+            cc = $('#payment_paymill_cc').attr('checked');
         }
 
         if (cc && PAYMILL_COMPLIANCE) {
