@@ -39,6 +39,8 @@ var paymillInitCompliance = function() {
             // prevent form submit
             event.preventDefault();
 
+            clearErrors();
+
             // disable submit-button to prevent multiple clicks
             $('#paymentNextStepBottom').attr("disabled", "disabled");
 
@@ -51,6 +53,15 @@ var paymillInitCompliance = function() {
 
         return true;
     });
+
+    $('#payment_paymill_cc').click(clearErrors);
+    $('#payment_paymill_elv').click(clearErrors);
+
+    function clearErrors()
+    {
+        $(".payment-errors").css("display", "none");
+        $(".payment-errors").text("");
+    }
 
     $('#paymillFastCheckoutIframeChange').click(function (event) {
         $('#payment-form-cc').toggle();
@@ -82,8 +93,6 @@ var paymillInitCompliance = function() {
             $(".payment-errors").text($("<div/>").html(PAYMILL_TRANSLATION["PAYMILL_" + error.apierror]).text());
             $(".payment-errors").css("display", "inline-block");
         } else {
-            $(".payment-errors").css("display", "none");
-            $(".payment-errors").text("");
             // Token
             paymillDebug('Received a token: ' + result.token);
             // add token into hidden input field for request to the server

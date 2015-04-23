@@ -16,7 +16,7 @@ var paymillInit = function() {
         return formData;
     }
 
-    $('#paymillCardNumber').live('input keyup', function ()
+    $('#paymillCardNumber').on('input keyup', function ()
     {
         $("#paymillCardNumber")[0].className = $("#paymillCardNumber")[0].className.replace(/paymill-card-number-.*/g, '');
         var cardnumber = $('#paymillCardNumber').val();
@@ -50,6 +50,8 @@ var paymillInit = function() {
             // prevent form submit
             event.preventDefault();
 
+            clearErrors();
+
             // disable submit-button to prevent multiple clicks
             $('#paymentNextStepBottom').attr("disabled", "disabled");
 
@@ -62,6 +64,15 @@ var paymillInit = function() {
 
         return true;
     });
+
+    $('#payment_paymill_cc').click(clearErrors);
+    $('#payment_paymill_elv').click(clearErrors);
+
+    function clearErrors()
+    {
+        $(".payment-errors").css("display", "none");
+        $(".payment-errors").text("");
+    }
 
     function isFastCheckout(cc, elv)
     {
@@ -119,8 +130,6 @@ var paymillInit = function() {
             $(".payment-errors").text($("<div/>").html(PAYMILL_TRANSLATION["PAYMILL_" + error.apierror]).text());
             $(".payment-errors").css("display", "inline-block");
         } else {
-            $(".payment-errors").css("display", "none");
-            $(".payment-errors").text("");
             // Token
             paymillDebug('Received a token: ' + result.token);
             // add token into hidden input field for request to the server
