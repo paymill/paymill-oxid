@@ -44,8 +44,17 @@ var paymillInit = function() {
     }
 
     $('#payment').submit(function (event) {
-        var cc = $('#payment_paymill_cc').attr('checked');
-        var elv = $('#payment_paymill_elv').attr('checked');
+        var cc;
+        var elv
+
+        if (isMobileTheme()) {
+            cc = $('#paymentOption_paymill_cc.active-payment').length > 0;
+            elv = $('#paymentOption_paymill_elv.active-payment').length > 0;
+        } else {
+            cc = $('#payment_paymill_cc').attr('checked').length > 0
+            elv = $('#payment_paymill_elv').attr('checked').length > 0;
+        }
+
         if ((cc && !PAYMILL_COMPLIANCE) || elv) {
             // prevent form submit
             event.preventDefault();
@@ -65,8 +74,14 @@ var paymillInit = function() {
         return true;
     });
 
+    function isMobileTheme()
+    {
+        return $('#paymentMethods.dropdown').length > 0;
+    }
+
     $('#payment_paymill_cc').click(clearErrors);
     $('#payment_paymill_elv').click(clearErrors);
+    $('#paymentMethods.dropdown').click(clearErrors);
 
     function clearErrors()
     {

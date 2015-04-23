@@ -33,7 +33,13 @@ var paymillInitCompliance = function() {
     });
 
     $('#payment').submit(function (event) {
-        var cc = $('#payment_paymill_cc').attr('checked');
+        var cc;
+
+        if (isMobileTheme()) {
+            cc = $('#paymentOption_paymill_cc.active-payment').length > 0;
+        } else {
+            cc = $('#payment_paymill_cc').attr('checked').length > 0
+        }
 
         if (cc && PAYMILL_COMPLIANCE) {
             // prevent form submit
@@ -54,8 +60,14 @@ var paymillInitCompliance = function() {
         return true;
     });
 
+    function isMobileTheme()
+    {
+        return $('.active-payment').length > 0;
+    }
+
     $('#payment_paymill_cc').click(clearErrors);
     $('#payment_paymill_elv').click(clearErrors);
+    $('.payment-option').click(clearErrors);
 
     function clearErrors()
     {
