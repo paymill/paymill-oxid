@@ -43,7 +43,7 @@
     var PAYMILL_COMPLIANCE_CSS = '[{ $paymillComplianceCss }]';
 </script>
 
-<script type="text/javascript" src="https://bridge.paymill.com"></script>
+<script type="text/javascript" src="https://bridge.paymill.com/dss3"></script>
 <script type="text/javascript" src="[{ $oViewConf->getBaseDir() }]modules/paymill/javascript/Iban.js"></script>
 <script type="text/javascript" src="[{ $oViewConf->getBaseDir() }]modules/paymill/javascript/BrandDetection.js"></script>
 <script type="text/javascript" src="[{ $oViewConf->getBaseDir() }]modules/paymill/javascript/Payment.js"></script>
