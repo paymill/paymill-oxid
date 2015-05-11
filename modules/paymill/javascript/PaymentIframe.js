@@ -123,7 +123,7 @@ var paymillInitCompliance = function() {
     }
 
     /**
-     * Warning potentially harmful should only be used with date from trusted source.
+     * Warning potentially harmful should only be used with data from trusted source.
      * @param  {string} translation
      * @return {string}
      */
