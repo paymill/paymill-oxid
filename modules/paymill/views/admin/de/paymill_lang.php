@@ -53,7 +53,6 @@ $aLang = array(
     "PAYMILL_CAPTURE_ERROR" => "Beim einziehen der Bestellung ist ein Fehler aufgetreten!",
     "PAYMILL_CAPTURE_SUCCESS" => "Bestellung erfolgreich eingezogen!",
     "SHOP_MODULE_PAYMILL_COMPLIANCE" => "PCI-DSS Compliance",
-    "SHOP_MODULE_PAYMILL_COMPLIANCE_0" => "Einfach (SAQ-A)",
-    "SHOP_MODULE_PAYMILL_COMPLIANCE_1" => "Erweitert (SAQ A-EP)",
-    "SHOP_MODULE_PAYMILL_COMPLIANCE_CSS" => "SAQ-A CSS URL"
+    "SHOP_MODULE_PAYMILL_COMPLIANCE_0" => "Einfach (SAQ A)",
+    "SHOP_MODULE_PAYMILL_COMPLIANCE_1" => "Erweitert (SAQ A-EP)"
 );
