@@ -14,7 +14,6 @@ $aLang = array(
     "PAYMILL_INSTALL_LABEL_SHIPPING_CONFIG" => "Versandarten konfiguriert",
     "PAYMILL_INSTALL_LABEL_PRENOTIFICATION" => "Tage bis zum Einzug konfiguriert",
     "PAYMILL_INSTALL_LABEL_PRENOTIFICATION_FAILED" => "Tage bis zum Einzug nicht konfiguriert: Bitte tragen Sie in den Moduleinstellungen für das Feld \"Tage bis zum Einzug\" eine ganze Zahl, größer null ein. (z.B. 7)",
-    "PAYMILL_INSTALL_Label_CSS_URL" => "SAQ-A CSS URL valide",
     "LOG" => "PAYMILL Log",
     "HOOKS" => "PAYMILL Hooks",
     "PAYMILL_HOOK_URL" => "Registrierte Webhook-URL",

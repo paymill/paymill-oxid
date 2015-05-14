@@ -4,7 +4,8 @@
         <title>[{ oxmultilang ident="GENERAL_ADMIN_TITLE" }]</title>
         <link rel="stylesheet" type="text/css" href="[{ $oViewConf->getBaseDir() }]modules/paymill/paymill_styles.css" />
         <script type="text/javascript">
-            var PAYMILL_PUBLIC_KEY = '[{$paymillPublicKey}]';</script>
+            var PAYMILL_PUBLIC_KEY = '[{$paymillPublicKey}]';
+        </script>
         <script type="text/javascript" src="https://bridge.paymill.com/dss3"></script>
         <script type="text/javascript">
             var paymillInit = function() {
@@ -31,34 +32,6 @@
                     exp_year: 2020,
                     cvc: 123
                 }, PaymillResponseHandler);
-
-                var CssUrl = '[{$paymillCssUrl}]';
-                var CssUrlElement = document.getElementById('paymillCssUrl');
-                var newClass = ' paymill_green';
-                var icon = '&#10003';
-
-                if (CssUrl) {
-                    var options = {
-                        stylesheet: CssUrl
-                    };
-
-                    paymill.embedFrame('paymillIframePlaceholder', options, function(error) {
-                        var CssUrlElement = document.getElementById('paymillCssUrl');
-                        var newClass = ' paymill_green';
-                        var icon = '&#10003';
-
-                        if (error) {
-                            newClass = ' paymill_red';
-                            icon = '&#10007';
-                        }
-
-                        CssUrlElement.className = CssUrlElement.className + newClass;
-                        document.getElementById('paymillCssUrlIcon').innerHTML = icon;
-                    });
-                } else {
-                    CssUrlElement.className = CssUrlElement.className + newClass;
-                    document.getElementById('paymillCssUrlIcon').innerHTML = icon;
-                }
             }
 
             if (window.addEventListener){
@@ -129,11 +102,6 @@
             [{else}]
             X <label>[{ oxmultilang ident="PAYMILL_INSTALL_LABEL_PRENOTIFICATION_FAILED" }]</label>
             [{/if}]
-        </div>
-        <div id="paymillCssUrl" class="row">
-            <span id="paymillCssUrlIcon">&nbsp;</span>
-            <label>[{ oxmultilang ident="PAYMILL_INSTALL_Label_CSS_URL" }]</label>
-            <div id="paymillIframePlaceholder" style="visibility: hidden;"></div>
         </div>
     [{include file="pagetabsnippet.tpl"}]
 

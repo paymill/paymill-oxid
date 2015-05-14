@@ -77,7 +77,6 @@ class paymill_install extends oxAdminView
         $this->addTplParam('paymillIsPrenotificationSet', $this->isPrenotificationSet());
         $this->addTplParam('paymillPublicKey', $this->publicKey);
         $this->addTplParam('paymillAreTplBlocksSet', $this->areBlocksSet());
-        $this->addTplParam('paymillCssUrl', $this->getCssUrl());
     }
 
     private function isDatabaseInstalled()
@@ -241,16 +240,6 @@ class paymill_install extends oxAdminView
 
         // @TODO add exception handling
         $db->execute($sql);
-    }
-
-    /**
-     * Get SAQ-A CSS URL from config
-     * @return string
-     */
-    private function getCssUrl()
-    {
-        $result = $this->getConfig()->getConfigParam('PAYMILL_COMPLIANCE_CSS');
-        return $result;
     }
 
 }

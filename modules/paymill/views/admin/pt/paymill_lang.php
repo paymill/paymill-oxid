@@ -14,7 +14,6 @@ $aLang = array(
     "PAYMILL_INSTALL_LABEL_SHIPPING_CONFIG" => "Shipping configured",
     "PAYMILL_INSTALL_LABEL_PRENOTIFICATION" => "Days until the debit configured",
     "PAYMILL_INSTALL_LABEL_PRENOTIFICATION_FAILED" => "Days until the debit not configured: Please set the field \"Days until the debit\" in the PAYMILL extention settings. (for example: 7)",
-    "PAYMILL_INSTALL_Label_CSS_URL" => "SAQ-A CSS URL valid",
     "LOG" => "Registo PAYMILL",
     "HOOKS" => "Hooks do PAYMILL",
     "PAYMILL_HOOK_URL" => "URL-Webhook registado",
