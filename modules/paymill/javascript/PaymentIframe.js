@@ -6,7 +6,13 @@ var paymillInitCompliance = function() {
             $('#paymillFastCheckoutTable').remove();
         });
     } else {
-        embedIframe();
+        if($('#payment_paymill_cc').is(':checked')) {
+            embedIframe();
+        } else {
+            $('#payment_paymill_cc').click(function (event) {
+                embedIframe();
+            });
+        }
     }
 
     $('#payment').submit(function (event) {
