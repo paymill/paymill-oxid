@@ -6,10 +6,18 @@ var paymillInitCompliance = function() {
             $('#paymillFastCheckoutTable').remove();
         });
     } else {
-        if($('#payment_paymill_cc').is(':checked')) {
+        if (isMobileTheme()) {
+            cc = $('#paymentOption_paymill_cc');
+            ccIsChecked = $('#paymentOption_paymill_cc.active-payment').length > 0;
+        } else {
+            cc = $('#payment_paymill_cc');
+            ccIsChecked = cc.is(':checked');
+        }
+
+        if(ccIsChecked) {
             embedIframe();
         } else {
-            $('#payment_paymill_cc').click(function (event) {
+            cc.click(function (event) {
                 embedIframe();
             });
         }
