@@ -53,7 +53,7 @@ var paymillInitCompliance = function() {
 
     function embedIframe()
     {
-        paymill.embedFrame('payment-form-cc', function(error) {
+        paymill.embedFrame('payment-form-cc', { lang: PAYMILL_LANG_OPTION }, function(error) {
             if (error && PAYMILL_DEBUG === "1") {
                 console.log(error.apierror, error.message);
             } else {
