@@ -7,7 +7,7 @@ var paymillInitCompliance = function() {
         });
     } else {
         if (isMobileTheme()) {
-            cc = $('#paymentOption_paymill_cc');
+            cc = $("a[data-selection-id='paymill_cc']");
             ccIsChecked = $('#paymentOption_paymill_cc.active-payment').length > 0;
         } else {
             cc = $('#payment_paymill_cc');
