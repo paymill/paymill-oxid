@@ -51,7 +51,7 @@ $aLang = array(
     "PAYMILL_CAPTURE_ORDER" => "capture order",
     "PAYMILL_CAPTURE_ERROR" => "Capture not successful!",
     "PAYMILL_CAPTURE_SUCCESS" => "Capture successful!",
-    "SHOP_MODULE_PAYMILL_COMPLIANCE" => "PCI-DSS Compliance",
-    "SHOP_MODULE_PAYMILL_COMPLIANCE_0" => "Simple (SAQ A)",
-    "SHOP_MODULE_PAYMILL_COMPLIANCE_1" => "Advanced (SAQ A-EP)"
+    "SHOP_MODULE_PAYMILL_COMPLIANCE" => "Payment form",
+    "SHOP_MODULE_PAYMILL_COMPLIANCE_0" => "embedded PayFrame (requires PCI SAQ A)",
+    "SHOP_MODULE_PAYMILL_COMPLIANCE_1" => "direct integration (requires PCI SAQ A-EP)"
 );
