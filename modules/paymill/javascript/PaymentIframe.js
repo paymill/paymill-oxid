@@ -98,17 +98,10 @@ var paymillInitCompliance = function() {
         // Handle error or process result.
         if (error) {
             paymillDebug('An API error occured:' + error.apierror);
-            // shows errors above the PAYMILL specific part of the form
-            $(".payment-errors").text($("<div/>").html(PAYMILL_TRANSLATION["PAYMILL_" + error.apierror]).text());
-            $(".payment-errors").css("display", "inline-block");
         } else {
             // Token
             paymillDebug('Received a token: ' + result.token);
-            // add token into hidden input field for request to the server
-            $("#payment").append("<input type='hidden' name='paymillToken' value='" + result.token + "'/>");
-            $("#payment").get(0).submit();
         }
-
         $("#paymentNextStepBottom").removeAttr("disabled");
     }
 
