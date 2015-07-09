@@ -1,3 +1,6 @@
+## v2.8.0
+ * Integration of PayFrame to enable use of SAQ A for easier PCI DSS 3.0 compliance.
+
 ## v2.7.1
  * Using window.addEventListener
 
