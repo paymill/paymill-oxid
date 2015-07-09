@@ -101,6 +101,9 @@ var paymillInitCompliance = function() {
         } else {
             // Token
             paymillDebug('Received a token: ' + result.token);
+            // add token into hidden input field for request to the server
+            $("#payment").append("<input type='hidden' name='paymillToken' value='" + result.token + "'/>");
+            $("#payment").get(0).submit();
         }
         $("#paymentNextStepBottom").removeAttr("disabled");
     }
