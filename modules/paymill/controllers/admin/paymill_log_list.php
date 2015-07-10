@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * paymill_log_list
+ *
+ * @copyright  Copyright (c) 2015 PAYMILL GmbH (https://www.paymill.com)
+ */
 class paymill_log_list extends paymill_log_abstract
 {
     private $_searchKey;

@@ -3,11 +3,11 @@
 $sMetadataVersion = '1.1';
 $aModule = array(
     'id' => 'paymill',
-    'title' => 'Paymill',
-    'description' => 'Paymill Payment',
+    'title' => 'PAYMILL',
+    'description' => 'PAYMILL Payment',
     'thumbnail' => 'image/logo.png',
     'version' => '2.8.0',
-    'author' => 'Paymill GmbH',
+    'author' => 'PAYMILL GmbH',
     'url' => 'http://www.paymill.de',
     'email' => 'support@paymill.de',
     'extend' => array(

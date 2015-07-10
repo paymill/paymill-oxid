@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * paymill_register_hook
+ *
+ * @copyright  Copyright (c) 2015 PAYMILL GmbH (https://www.paymill.com)
+ */
 class paymill_register_hook extends paymill_log_abstract
 {
     public function render()
