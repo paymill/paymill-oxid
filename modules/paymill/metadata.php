@@ -3,11 +3,11 @@
 $sMetadataVersion = '1.1';
 $aModule = array(
     'id' => 'paymill',
-    'title' => 'Paymill',
-    'description' => 'Paymill Payment',
+    'title' => 'PAYMILL',
+    'description' => 'PAYMILL Payment',
     'thumbnail' => 'image/logo.png',
-    'version' => '2.7.1',
-    'author' => 'Paymill GmbH',
+    'version' => '2.8.0',
+    'author' => 'PAYMILL GmbH',
     'url' => 'http://www.paymill.de',
     'email' => 'support@paymill.de',
     'extend' => array(
@@ -48,8 +48,10 @@ $aModule = array(
     ),
     'templates' => array(
         'paymill_cc.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_cc.tpl',
+        'paymill_cc_iframe.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_cc_iframe.tpl',
         'paymill_elv.tpl' => 'paymill/views/azure/tpl/page/checkout/inc/paymill_elv.tpl',
         'paymill_mb_cc.tpl' => 'paymill/views/mobile/tpl/page/checkout/inc/paymill_mb_cc.tpl',
+        'paymill_mb_cc_iframe.tpl' => 'paymill/views/mobile/tpl/page/checkout/inc/paymill_mb_cc_iframe.tpl',
         'paymill_mb_elv.tpl' => 'paymill/views/mobile/tpl/page/checkout/inc/paymill_mb_elv.tpl',
         'paymill_install.tpl' => 'paymill/views/admin/tpl/paymill_install.tpl',
         'paymill_log.tpl' => 'paymill/views/admin/tpl/paymill_log.tpl',
@@ -62,6 +64,7 @@ $aModule = array(
     'settings' => array(
         array('group' => 'main', 'name' => 'PAYMILL_PRIVATEKEY', 'type' => 'str', 'value' => ''),
         array('group' => 'main', 'name' => 'PAYMILL_PUBLICKEY', 'type' => 'str', 'value' => ''),
+        array('group' => 'main', 'name' => 'PAYMILL_COMPLIANCE', 'type' => 'select', 'value' => '0', 'constraints' => '0|1'),
         array('group' => 'main', 'name' => 'PAYMILL_ACTIVATE_DEBUG', 'type' => 'bool', 'value' => 'false'),
         array('group' => 'main', 'name' => 'PAYMILL_ACTIVATE_LOGGING', 'type' => 'bool', 'value' => 'false'),
         array('group' => 'main', 'name' => 'PAYMILL_ACTIVATE_DIFFERENTAMOUNT', 'type' => 'str', 'value' => 0),

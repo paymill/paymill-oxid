@@ -2,8 +2,7 @@
 /**
  * paymill_payment
  *
- * @author     Copyright (c) 2013 PayIntelligent GmbH (http://www.payintelligent.de)
- * @copyright  Copyright (c) 2013 Paymill GmbH (https://www.paymill.com)
+ * @copyright  Copyright (c) 2015 PAYMILL GmbH (https://www.paymill.com)
  */
 class paymill_payment extends paymill_payment_parent
 {
@@ -65,6 +64,17 @@ class paymill_payment extends paymill_payment_parent
             oxNew('paymill_util')
         );
         $this->_addToTplWhichCreditCardsToShow();
+
+        $this->addTplParam(
+            'paymillCompliance',
+            $oxConfig->getShopConfVar('PAYMILL_COMPLIANCE')
+        );
+
+        $this->addTplParam(
+            'paymillComplianceCss',
+            $oxConfig->getShopConfVar('PAYMILL_COMPLIANCE_CSS')
+        );
+
         return parent::render();
     }
 

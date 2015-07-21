@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * paymill_log_abstract
+ *
+ * @copyright  Copyright (c) 2015 PAYMILL GmbH (https://www.paymill.com)
+ */
 abstract class paymill_log_abstract extends oxAdminView
 {
     public function render()

@@ -1,3 +1,9 @@
+/**
+ * Payment
+ *
+ * @copyright  Copyright (c) 2015 PAYMILL GmbH (https://www.paymill.com)
+ */
+
 var prefilledInputValues = [];
 
 var paymillInit = function() {
@@ -7,7 +13,7 @@ var paymillInit = function() {
      * Get values of PAYMILL-Payment form-inputs
      * @return {[string]} array of PAYMILL form-input-values
      */
-    function getFormData() 
+    function getFormData()
     {
         var formData = [];
         $('.paymill_input').each(function () {
@@ -16,7 +22,7 @@ var paymillInit = function() {
         return formData;
     }
 
-    $('#paymillCardNumber').live('input keyup', function () 
+    $('#paymillCardNumber').on('input keyup', function ()
     {
         $("#paymillCardNumber")[0].className = $("#paymillCardNumber")[0].className.replace(/paymill-card-number-.*/g, '');
         var cardnumber = $('#paymillCardNumber').val();
@@ -44,17 +50,26 @@ var paymillInit = function() {
     }
 
     $('#payment').submit(function (event) {
-        var cc = $('#payment_paymill_cc').attr('checked');
-        var elv = $('#payment_paymill_elv').attr('checked');
-        if (cc || elv) {
+        var cc;
+        var elv
+
+        if (isMobileTheme()) {
+            cc = $('#paymentOption_paymill_cc.active-payment').length > 0;
+            elv = $('#paymentOption_paymill_elv.active-payment').length > 0;
+        } else {
+            cc = $('#payment_paymill_cc').attr('checked');
+            elv = $('#payment_paymill_elv').attr('checked');
+        }
+
+        if ((cc && !PAYMILL_COMPLIANCE) || elv) {
             // prevent form submit
             event.preventDefault();
+            clearErrors();
 
             // disable submit-button to prevent multiple clicks
             $('#paymentNextStepBottom').attr("disabled", "disabled");
 
             if (!isFastCheckout(cc, elv)) {
-                
                 generateToken(cc, elv);
             } else {
                 fastCheckout(cc, elv);
@@ -63,6 +78,21 @@ var paymillInit = function() {
 
         return true;
     });
+
+    function isMobileTheme()
+    {
+        return $('#paymentMethods.dropdown').length > 0;
+    }
+
+    $('#payment_paymill_cc').click(clearErrors);
+    $('#payment_paymill_elv').click(clearErrors);
+    $('#paymentMethods.dropdown').click(clearErrors);
+
+    function clearErrors()
+    {
+        $(".payment-errors").css("display", "none");
+        $(".payment-errors").text("");
+    }
 
     function isFastCheckout(cc, elv)
     {
@@ -120,8 +150,6 @@ var paymillInit = function() {
             $(".payment-errors").text($("<div/>").html(PAYMILL_TRANSLATION["PAYMILL_" + error.apierror]).text());
             $(".payment-errors").css("display", "inline-block");
         } else {
-            $(".payment-errors").css("display", "none");
-            $(".payment-errors").text("");
             // Token
             paymillDebug('Received a token: ' + result.token);
             // add token into hidden input field for request to the server

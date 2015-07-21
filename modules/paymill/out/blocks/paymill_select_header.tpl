@@ -1,6 +1,7 @@
 [{assign var="oxConfig" value=$oView->getConfig()}]
 [{assign var="currency" value=$oView->getActCurrency()}]
 <link rel="stylesheet" type="text/css" href="[{ $oViewConf->getBaseDir() }]modules/paymill/paymill_styles.css" />
+
 <script type="text/javascript">
     var PAYMILL_PUBLIC_KEY = '[{$paymillPublicKey}]';
     var PAYMILL_AMOUNT = '[{$paymillAmount}]';
@@ -37,9 +38,19 @@
     };
 
     var PAYMILL_CC_BRANDS = [{$paymillBrands|@json_encode}];
+    var PAYMILL_COMPLIANCE = ('[{ $paymillCompliance }]' == '0');
 </script>
-<script type="text/javascript" src="https://bridge.paymill.com/"></script>
+
+<script type="text/javascript" src="https://bridge.paymill.com/dss3"></script>
 <script type="text/javascript" src="[{ $oViewConf->getBaseDir() }]modules/paymill/javascript/Iban.js"></script>
 <script type="text/javascript" src="[{ $oViewConf->getBaseDir() }]modules/paymill/javascript/BrandDetection.js"></script>
 <script type="text/javascript" src="[{ $oViewConf->getBaseDir() }]modules/paymill/javascript/Payment.js"></script>
+
+[{if $paymillCompliance == '0'}]
+    <script type="text/javascript">
+        var PAYMILL_FASTCHECKOUT_CC_CHANGED = false;
+        var PAYMILL_LANG_OPTION = '[{ oxmultilang ident="PAYMILL_IFRAME_OPTION_LANG" }]';
+    </script>
+    <script type="text/javascript" src="[{ $oViewConf->getBaseDir() }]modules/paymill/javascript/PaymentIframe.js"></script>
+[{/if}]
 [{$smarty.block.parent}]

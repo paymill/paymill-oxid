@@ -51,5 +51,8 @@ $aLang = array(
     "PAYMILL_REFUND_SUCCESS" => "Erstattung erfolgreich!",
     "PAYMILL_CAPTURE_ORDER" => "Bestellung einziehen",
     "PAYMILL_CAPTURE_ERROR" => "Beim einziehen der Bestellung ist ein Fehler aufgetreten!",
-    "PAYMILL_CAPTURE_SUCCESS" => "Bestellung erfolgreich eingezogen!"
+    "PAYMILL_CAPTURE_SUCCESS" => "Bestellung erfolgreich eingezogen!",
+    "SHOP_MODULE_PAYMILL_COMPLIANCE" => "Zahlungsformular",
+    "SHOP_MODULE_PAYMILL_COMPLIANCE_0" => "eingebettetes PayFrame (erfordert PCI SAQ A)",
+    "SHOP_MODULE_PAYMILL_COMPLIANCE_1" => "direkte Integration (erfordert PCI SAQ A-EP)"
 );
