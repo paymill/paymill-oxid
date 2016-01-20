@@ -5,7 +5,7 @@ Payment module for OXID Version 4.7.x (ce, pe), 4.8.x (ce, pe), and 4.9.x (ce, p
 
 # Your Advantages
  * PCI DSS compatibility
- * Payment means: Credit Card (Visa, Visa Electron, Mastercard, Maestro, Diners, Discover, JCB, AMEX, China Union Pay), Direct Debit (ELV)
+ * Payment means: Credit Card (Visa, Visa Electron, Mastercard, Maestro, Diners, Discover, JCB, AMEX), Direct Debit (ELV)
  * Optional fast checkout configuration allowing your customers not to enter their payment detail over and over during checkout
  * Improved payment form with visual feedback for your customers
  * Supported Languages: German, English, Spanish, French, Italian, Portuguese
